@@ -1,31 +1,15 @@
-import { Genre } from "./genre";
-import { ProductionCompany } from "./productionCompany";
-import { ProductionCountry } from "./productionCountory";
-import { SpokenLanguage } from "./spokenLanguage";
-
 export class Movie {
   constructor(
     private _adult: boolean,
     private _backdrop_path: string,
-    private _belongs_to_collection: null,
-    private _budget: number,
-    private _genres: Array<Genre>,
-    private _homepage: string,
+    private _genre_ids: Array<number>,
     private _id: number,
-    private _imdb_id: number,
     private _original_language: string,
     private _original_title: string,
     private _overview: string,
     private _popularity: number,
     private _poster_path: string,
-    private _production_companies: Array<ProductionCompany>,
-    private _production_countries: Array<ProductionCountry>,
     private _release_date: string,
-    private _revenue: number,
-    private _runtime: number,
-    private _spoken_languages: Array<SpokenLanguage>,
-    private _status: string,
-    private _tagline: string,
     private _title: string,
     private _video: boolean,
     private _vote_average: number,
@@ -48,36 +32,12 @@ export class Movie {
     this._backdrop_path = backdrop_path;
   }
 
-  public get belongs_to_collection(): null {
-    return this._belongs_to_collection;
+  public get genre_ids(): Array<number> {
+    return this._genre_ids;
   }
 
-  public set belongs_to_collection(belongs_to_collection: null) {
-    this._belongs_to_collection = belongs_to_collection;
-  }
-
-  public get budget(): number {
-    return this._budget;
-  }
-
-  public set budget(budget: number) {
-    this._budget = budget;
-  }
-
-  public get genres(): Array<Genre> {
-    return this._genres;
-  }
-
-  public set genres(genres: Array<Genre>) {
-    this._genres = genres;
-  }
-
-  public get homepage(): string {
-    return this._homepage;
-  }
-
-  public set homepage(homepage: string) {
-    this._homepage = homepage;
+  public set genre_ids(genre_ids: Array<number>) {
+    this._genre_ids = genre_ids;
   }
 
   public get id(): number {
@@ -86,14 +46,6 @@ export class Movie {
 
   public set id(id: number) {
     this._id = id;
-  }
-
-  public get imdb_id(): number {
-    return this._imdb_id;
-  }
-
-  public set imdb_id(imdb_id: number) {
-    this._imdb_id = imdb_id;
   }
 
   public get original_language(): string {
@@ -136,72 +88,12 @@ export class Movie {
     this._poster_path = poster_path;
   }
 
-  public get production_companies(): Array<ProductionCompany> {
-    return this._production_companies;
-  }
-
-  public set production_companies(
-    production_companies: Array<ProductionCompany>
-  ) {
-    this._production_companies = production_companies;
-  }
-
-  public get production_countries(): Array<ProductionCountry> {
-    return this._production_countries;
-  }
-
-  public set production_countries(
-    production_countries: Array<ProductionCountry>
-  ) {
-    this._production_countries = production_countries;
-  }
-
   public get release_date(): string {
     return this._release_date;
   }
 
   public set release_date(release_date: string) {
     this._release_date = release_date;
-  }
-
-  public get revenue(): number {
-    return this._revenue;
-  }
-
-  public set revenue(revenue: number) {
-    this._revenue = revenue;
-  }
-
-  public get runtime(): number {
-    return this._runtime;
-  }
-
-  public set runtime(runtime: number) {
-    this._runtime = runtime;
-  }
-
-  public get spoken_languages(): Array<SpokenLanguage> {
-    return this._spoken_languages;
-  }
-
-  public set spoken_languages(spoken_languages: Array<SpokenLanguage>) {
-    this._spoken_languages = spoken_languages;
-  }
-
-  public get status(): string {
-    return this._status;
-  }
-
-  public set status(status: string) {
-    this._status = status;
-  }
-
-  public get tagline(): string {
-    return this._tagline;
-  }
-
-  public set tagline(tagline: string) {
-    this._tagline = tagline;
   }
 
   public get title(): string {
