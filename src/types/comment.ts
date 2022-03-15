@@ -1,9 +1,18 @@
+
+/**
+ * レビュー記事に対するコメントを表すドメインクラス.
+ */
 export class Comment {
   constructor(
+    //コメントID
     private _id: number,
+    //ユーザーID
     private _userId: number,
+    //レビューID
     private _reviewId: number,
+    //投稿日時
     private _postDate: Date,
+    //内容
     private _content: string
   ) {}
 
