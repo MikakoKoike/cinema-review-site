@@ -6,16 +6,19 @@
       <router-link to="/about">About</router-link> -->
     </div>
     <router-view />
+    <CompFooter />
   </div>
 </template>
 <script>
 import { Component, Vue } from "vue-property-decorator";
 import M from "materialize-css/dist/js/materialize.min";
-import CompHeader from "@/components/CompHeader.vue"
+import CompHeader from "@/components/CompHeader.vue";
+import CompFooter from "@/components/CompFooter.vue";
 
 @Component({
   components: {
-    CompHeader
+    CompHeader,
+    CompFooter,
   },
 })
 export default class App extends Vue {
@@ -28,6 +31,4 @@ export default class App extends Vue {
   }
 }
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>
