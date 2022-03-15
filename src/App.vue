@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <h1>タイトル</h1>
+      <CompHeader />
       <!-- <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> -->
     </div>
@@ -11,9 +11,12 @@
 <script>
 import { Component, Vue } from "vue-property-decorator";
 import M from "materialize-css/dist/js/materialize.min";
+import CompHeader from "@/components/CompHeader.vue"
 
 @Component({
-  components: {},
+  components: {
+    CompHeader
+  },
 })
 export default class App extends Vue {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
