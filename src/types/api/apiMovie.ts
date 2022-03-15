@@ -1,7 +1,4 @@
-import { TimeList } from "@/types/timeList";
-import { Review } from "@/types/review";
-
-export class Movie {
+export class ApiMovie {
   constructor(
     private _adult: boolean,
     private _backdrop_path: string,
@@ -16,11 +13,7 @@ export class Movie {
     private _title: string,
     private _video: boolean,
     private _vote_average: number,
-    private _vote_count: number,
-    private _placeList: Array<string>,
-    private _timeList: Array<TimeList>,
-    private _reviewList: Array<Review>,
-    private _countLike: number
+    private _vote_count: number
   ) {}
 
   public get adult(): boolean {
@@ -133,37 +126,5 @@ export class Movie {
 
   public set vote_count(vote_count: number) {
     this._vote_count = vote_count;
-  }
-
-  public get placeList(): Array<string> {
-    return this._placeList;
-  }
-
-  public set placeList(placeList: Array<string>) {
-    this._placeList = placeList;
-  }
-
-  public get timeList(): Array<TimeList> {
-    return this._timeList;
-  }
-
-  public set timeList(timeList: Array<TimeList>) {
-    this._timeList = timeList;
-  }
-
-  public get reviewList(): Array<Review> {
-    return this._reviewList;
-  }
-
-  public set reviewList(reviewList: Array<Review>) {
-    this._reviewList = reviewList;
-  }
-
-  public get countLike(): number {
-    return this._countLike;
-  }
-
-  public set countLike(countLike: number) {
-    this._countLike = countLike;
   }
 }
