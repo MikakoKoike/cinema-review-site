@@ -10,13 +10,15 @@
           <div class="movie-card z-depth-3">
             <div class="row">
               <div class="col s4">
-                <img
-                  class="responsive-img movie-img"
-                  v-bind:src="
-                    'https://image.tmdb.org/t/p/w92' + movie.poster_path
-                  "
-                  alt=""
-                />
+                <router-link v-bind:to="'/movieDetail/' + movie.id">
+                  <img
+                    class="responsive-img movie-img"
+                    v-bind:src="
+                      'https://image.tmdb.org/t/p/w92' + movie.poster_path
+                    "
+                    alt=""
+                  />
+                </router-link>
               </div>
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>
@@ -32,12 +34,20 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Movie } from "@/types/movie";
+import axios from "axios";
+import { ApiMovie } from "@/types/api/apiMovie";
 @Component
 export default class MovieList extends Vue {
-  private currentMovieList = Array<Movie>();
+  private currentMovieList = Array<ApiMovie>();
 
   async created(): Promise<void> {
+    // let newArray = new Array<Movie>();
+    // for (let i = 1; i < 10; i++) {
+    //   const responce = await axios.get(
+    //     `https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${i}&with_original_language=en&with_watch_monetization_types=flatrate`
+    //   );
+    // }
+
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getMovieList;
   }
