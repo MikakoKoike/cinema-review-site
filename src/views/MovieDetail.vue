@@ -36,7 +36,11 @@
         </span>
       </div>
     </div>
-    <button type="button" v-on:click="CountUp">
+    <button
+      type="button"
+      v-on:click="CountUp"
+      v-bind:class="{ btn: isClicked }"
+    >
       <img v-bind:src="imgUrl" />{{ Count }}
     </button>
     <p>見たい!</p>
@@ -52,12 +56,16 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class MovieDetail extends Vue {
-  private imgUrl = "img/eye.png";
+  private imgUrl = "/img/eye.png";
+  private isClicked = false;
+
   get Count(): number {
     return this.$store.getters.getCount;
   }
   CountUp(): void {
     this.$store.commit("count");
+    console.log("clickされた");
+    this.isClicked = !this.isClicked;
   }
   /**
    * 表示している映画のジャンルIDと同じジャンルIDを持つ作品を表示させる.
@@ -85,6 +93,7 @@ export default class MovieDetail extends Vue {
     new Array<string>(),
     new Array<TimeList>(),
     new Array<Review>(),
+    0,
     0
   );
 
@@ -122,6 +131,7 @@ export default class MovieDetail extends Vue {
       new Array<string>(),
       new Array<TimeList>(),
       new Array<Review>(),
+      0,
       0
     );
     console.log(this.currentMovie);
@@ -130,6 +140,9 @@ export default class MovieDetail extends Vue {
 </script>
 
 <style scoped>
+.btn {
+  background-color: red;
+}
 .stars span {
   display: flex; /* 要素をフレックスボックスにする */
   flex-direction: row-reverse; /* 星を逆順に並べる */

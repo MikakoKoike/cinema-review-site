@@ -50,6 +50,7 @@ export default new Vuex.Store({
             [""],
             new Array<TimeList>(),
             new Array<Review>(),
+            0,
             0
           )
         );
