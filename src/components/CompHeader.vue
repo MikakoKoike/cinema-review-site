@@ -2,7 +2,7 @@
   <div class="header">
       <!-- この部分はヘッダー -->
       <nav>
-        <div class="nav-wrapper orange lighten-3">
+        <div class="nav-wrapper indigo lighten-4">
           <a href="#" class="brand-logo">Title</a>
           <!-- この部分がハンバーガーメニュー -->
           <a href="#mobile-menu" class="sidenav-trigger" data-activates="mobile-menu">
@@ -14,8 +14,8 @@
             <li><a href="#">Contact</a></li>
           </ul>
         </div>
-        <ul class="sidenav grey light-2" id="mobile-menu">
-           <router-link to="/mypage"><li>マイページ</li></router-link>
+        <ul class="sidenav grey lighten-4" id="mobile-menu">
+           <li><router-link to="/mypage">マイページ</router-link></li>
            <li><router-link to="/login">ログイン</router-link></li>
            <li><router-link to="/logout">ログアウト</router-link></li>
          </ul>
