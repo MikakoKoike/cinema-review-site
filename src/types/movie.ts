@@ -20,7 +20,8 @@ export class Movie {
     private _placeList: Array<string>,
     private _timeList: Array<TimeList>,
     private _reviewList: Array<Review>,
-    private _countLike: number
+    private _countLike: number,
+    private _countWatch: number
   ) {}
 
   public get adult(): boolean {
@@ -165,5 +166,13 @@ export class Movie {
 
   public set countLike(countLike: number) {
     this._countLike = countLike;
+  }
+
+  public get countWatch(): number {
+    return this._countWatch;
+  }
+
+  public set countWatch(countWatch: number) {
+    this._countWatch = countWatch;
   }
 }
