@@ -32,11 +32,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Movie } from "@/types/movie";
 import axios from "axios";
+import { ApiMovie } from "@/types/api/apiMovie";
 @Component
 export default class MovieList extends Vue {
-  private currentMovieList = Array<Movie>();
+  private currentMovieList = Array<ApiMovie>();
 
   async created(): Promise<void> {
     // let newArray = new Array<Movie>();
@@ -46,6 +46,7 @@ export default class MovieList extends Vue {
       );
       console.log(responce.data.results);
     }
+
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getMovieList;
   }

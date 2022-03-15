@@ -1,19 +1,26 @@
-import { Movie } from "@/types/movie";
-import axios from "axios";
 import createPersistedState from "vuex-persistedstate";
+import { ApiMovie } from "@/types/api/apiMovie";
+import { Review } from "@/types/review";
+import { TimeList } from "@/types/timeList";
+import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
+import { Movie } from "@/types/movie";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     movieList: Array<Movie>(),
+
     count: 0,
   },
   actions: {
     async asyncGetMovieList(context) {
-      const response = await axios.get<{ page: number; results: Array<Movie> }>(
+      const response = await axios.get<{
+        page: number;
+        results: Array<ApiMovie>;
+      }>(
         "https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_original_language=en&with_watch_monetization_types=flatrate"
       );
       const payload = response.data;
@@ -39,15 +46,21 @@ export default new Vuex.Store({
             movie.title,
             movie.video,
             movie.vote_average,
-            movie.vote_count
+            movie.vote_count,
+            [""],
+            new Array<TimeList>(),
+            new Array<Review>(),
+            0
           )
         );
       }
     },
+
     count(state) {
       state.count++;
     },
   }, //end of mutations
+
   modules: {},
   getters: {
     getMovieList(state) {
@@ -69,7 +82,7 @@ export default new Vuex.Store({
     getCount(state) {
       return state.count;
     },
-  }, //end of getters
+  },
   plugins: [
     createPersistedState({
       // ストレージのキーを指定

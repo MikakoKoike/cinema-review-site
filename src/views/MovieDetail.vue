@@ -45,6 +45,8 @@
 
 <script lang="ts">
 import { Movie } from "@/types/movie";
+import { Review } from "@/types/review";
+import { TimeList } from "@/types/timeList";
 import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
 
@@ -60,10 +62,10 @@ export default class MovieDetail extends Vue {
   /**
    * 表示している映画のジャンルIDと同じジャンルIDを持つ作品を表示させる.
    */
+
   getGenrebyId(genre_ids: Array<number>): any {
     return this.$store.getters.getGenreById(genre_ids);
   }
-
   private currentMovieList = Array<Movie>();
   private currentMovie = new Movie(
     false,
@@ -79,6 +81,10 @@ export default class MovieDetail extends Vue {
     "",
     false,
     0,
+    0,
+    new Array<string>(),
+    new Array<TimeList>(),
+    new Array<Review>(),
     0
   );
 
@@ -88,6 +94,7 @@ export default class MovieDetail extends Vue {
       "https://api.themoviedb.org/3/movie/634649?api_key=b5408f6aa5f27ebad281342354c0e1f9"
     );
     console.dir("responce:" + JSON.stringify(responce));
+
     let responceMovie = responce.data; //movie不要だった。
 
     console.log(responce.data.genres);
@@ -111,7 +118,11 @@ export default class MovieDetail extends Vue {
       responceMovie.title,
       responceMovie.video,
       responceMovie.vote_average,
-      responceMovie.vote_count
+      responceMovie.vote_count,
+      new Array<string>(),
+      new Array<TimeList>(),
+      new Array<Review>(),
+      0
     );
     console.log(this.currentMovie);
   }
