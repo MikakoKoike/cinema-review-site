@@ -32,9 +32,10 @@
           <p>{{ currentMovie.overview }}</p>
         </div>
         <!-- レビューボタン -->
-        <button type="button" class="reviewButton" @click="moveToEdit">
-          <span class="reviewBtnBox"></span> レビューする
-        </button>
+        <!-- ここで次の画面にIDを渡す -->
+        <router-link v-bind:to="'/reviewEdit/' + currentMovie.id">
+          <button type="button" class="reviewButton">レビューする</button>
+        </router-link>
       </div>
 
       <div class="review-card z-depth-3">
@@ -242,9 +243,6 @@ export default class MovieDetail extends Vue {
       0,
       0
     );
-  }
-  moveToEdit(): void {
-    this.$router.push("/reviewEdit");
   }
 }
 </script>
