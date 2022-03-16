@@ -31,6 +31,10 @@
           <h4>Sub Title</h4>
           <p>{{ currentMovie.overview }}</p>
         </div>
+        <!-- レビューボタン -->
+        <button type="button" class="reviewButton" @click="moveToEdit">
+          <span class="reviewBtnBox"></span> レビューする
+        </button>
       </div>
 
       <div class="review-card z-depth-3">
@@ -52,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="row ">
+      <div class="row">
         <div class="col s5 comment-card z-depth-3">
           <h5>User Name</h5>
           <p>contents/contents/contents/contents/</p>
@@ -93,7 +97,7 @@
           </div>
         </div>
       </div>
-      <div class="row ">
+      <div class="row">
         <div class="col s5 comment-card z-depth-3">
           <h5>User Name</h5>
           <p>contents/contents/contents/contents/</p>
@@ -121,7 +125,7 @@
       <p>レビュー</p>
       <div class="stars">
         <span>
-          <input id="review01" type="radio" name="review"/><label
+          <input id="review01" type="radio" name="review" /><label
             for="review01"
             >★</label
           >
@@ -207,37 +211,40 @@ export default class MovieDetail extends Vue {
 
   async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
-    const responce = await axios.get(
+    const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
     );
 
-    let responceMovie = responce.data;
+    let responseMovie = response.data;
     let initGenreIds = new Array<number>();
-    for (let obj of responceMovie.genres) {
+    for (let obj of responseMovie.genres) {
       initGenreIds.push(obj.id);
     }
 
     this.currentMovie = new Movie(
-      responceMovie.adult,
-      responceMovie.backdrop_path,
+      responseMovie.adult,
+      responseMovie.backdrop_path,
       initGenreIds,
-      responceMovie.id,
-      responceMovie.original_language,
-      responceMovie.original_title,
-      responceMovie.overview,
-      responceMovie.popularity,
-      responceMovie.poster_path,
-      responceMovie.release_date,
-      responceMovie.title,
-      responceMovie.video,
-      responceMovie.vote_average,
-      responceMovie.vote_count,
+      responseMovie.id,
+      responseMovie.original_language,
+      responseMovie.original_title,
+      responseMovie.overview,
+      responseMovie.popularity,
+      responseMovie.poster_path,
+      responseMovie.release_date,
+      responseMovie.title,
+      responseMovie.video,
+      responseMovie.vote_average,
+      responseMovie.vote_count,
       new Array<string>(),
       new Array<TimeList>(),
       new Array<Review>(),
       0,
       0
     );
+  }
+  moveToEdit(): void {
+    this.$router.push("/reviewEdit");
   }
 }
 </script>
@@ -311,5 +318,19 @@ export default class MovieDetail extends Vue {
   border-radius: 10px;
   border: 5px solid #f5f6fa;
   margin: 5px 20px;
+}
+
+/* レビューボタンのデザイン */
+.reviewButton {
+  padding: 10px 40px;
+  margin: 20px;
+  background-color: white;
+  border: solid 1px;
+  transition: all 0.3s;
+}
+.reviewButton:hover {
+  color: white;
+  font-weight: bold;
+  background-color: #c5cae9;
 }
 </style>
