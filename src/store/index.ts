@@ -6,6 +6,7 @@ import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
 import { Movie } from "@/types/movie";
+import { Comment } from "@/types/comment";
 
 Vue.use(Vuex);
 
@@ -53,6 +54,46 @@ export default new Vuex.Store({
           )
         );
       }
+    },
+
+    /**
+     * レビューの追加
+     * @param state ‐state
+     * @param payload -payload
+     */
+    addReview(state, payload) {
+      console.log(state.movieList);
+      console.log(payload);
+
+      const currentMovie = state.movieList.filter(
+        (movie) => movie.id === payload.movieId
+      )[0];
+      console.log(currentMovie);
+
+      // const newReview = {
+      //   review: new Review(
+      //     payload.review.id,
+      //     payload.review.userId,
+      //     payload.review.movieId,
+      //     payload.review.countLike,
+      //     payload.review.postDate,
+      //     payload.review.content,
+      //     []
+      //   ),
+      // };
+      // currentMovie.reviewList.unshift(payload.review);
+      currentMovie.reviewList.unshift(
+        new Review(
+          0,
+          0,
+          0,
+          0,
+          new Date(),
+          "",
+          new Array<Comment>(new Comment(0, 0, 0, new Date(), "test"))
+        )
+      );
+      console.log(currentMovie.reviewList);
     },
   }, //end of mutations
 

@@ -1,14 +1,9 @@
 <template>
-  <div class="movie-detail">
-    <!-- <div
-      v-for="(sameGenreMovieList, index) of this.$store.getters.getGenreById(
-        currentMovie.genre_ids
-      )"
-      v-bind:key="index"
-    >
-      {{ sameGenreMovieList[0] }}
-    </div> -->
-    <div class="container">
+  <div>
+    <div class="title">
+      <h3>レビューする</h3>
+    </div>
+    <div class="movieInfo">
       <div class="movie-card row z-depth-3">
         <div class="col s3 card-content movie-img">
           <img
@@ -31,50 +26,10 @@
           <h4>Sub Title</h4>
           <p>{{ currentMovie.overview }}</p>
         </div>
-        <!-- レビューボタン -->
-        <!-- ここで次の画面にIDを渡す -->
-        <router-link v-bind:to="'/reviewEdit/' + currentMovie.id">
-          <button type="button" class="reviewButton">レビューする</button>
-        </router-link>
-      </div>
-
-      <div class="review-card z-depth-3">
-        <div class="row">
-          <div class="col s2 review-header">
-            <img
-              src="https://joeschmoe.io/api/v1/random"
-              class="responsive-img profile-img"
-            />
-          </div>
-          <!-- レビュー表示 -->
-          <div
-            class="col s10 review-header"
-            v-for="movieReview of currentMovie.reviewList"
-            v-bind:key="movieReview.id"
-          >
-            <!-- <h4>{{ movie.User.name }}</h4>-->
-            <p>{{ movieReview.content }}</p>
-          </div>
-          <div class="col s12">
-            <!-- <p>{{ movieReview.content }}</p> -->
-            <button type="button" class="likeBtn">
-              いいね！<span class="likeHeart">♡</span>
-            </button>
-            <button type="button" class="commentBtn">コメントする</button>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
       </div>
     </div>
-
-    <div class="review">
-      <p>レビュー</p>
+    <div class="reviewBox">
+      <pre>ユーザー名：</pre>
       <div class="stars">
         <span>
           <input id="review01" type="radio" name="review" /><label
@@ -99,46 +54,36 @@
           >
         </span>
       </div>
+      <!-- レビュー入力欄 -->
+      <textarea
+        name="review"
+        id="review"
+        cols="30"
+        rows="10"
+        v-model="reviewContent"
+      ></textarea>
+      <router-link v-bind:to="'/movieDetail/' + currentMovie.id">
+        <button type="button" @click="addReview">投稿</button>
+      </router-link>
     </div>
-    <button
-      type="button"
-      v-on:click="CountUp"
-      v-bind:class="{ btn: isClicked }"
-    >
-      <img v-bind:src="imgUrl" />{{ Count }}
-    </button>
-    <p>見たい!</p>
+    <!-- end of remplate -->
   </div>
 </template>
 
 <script lang="ts">
-import { Movie } from "@/types/movie";
-import { Review } from "@/types/review";
-import { TimeList } from "@/types/timeList";
-import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
-
+import { Movie } from "@/types/movie";
+import { TimeList } from "@/types/timeList";
+import { Review } from "@/types/review";
+import { Comment } from "@/types/comment";
+import axios from "axios";
 @Component
-export default class MovieDetail extends Vue {
-  private imgUrl = "/img/eye.png";
-  private isClicked = false;
-
-  get Count(): number {
-    return this.$store.getters.getCount;
-  }
-  CountUp(): void {
-    this.$store.commit("count");
-    console.log("clickされた");
-    this.isClicked = !this.isClicked;
-  }
-  /**
-   * 表示している映画のジャンルIDと同じジャンルIDを持つ作品を表示させる.
-   */
-
-  getGenrebyId(genre_ids: Array<number>): any {
-    return this.$store.getters.getGenreById(genre_ids);
-  }
-  private currentMovieList = Array<Movie>();
+export default class XXXComponent extends Vue {
+  // レビュー内容
+  private reviewContent = "";
+  //  レビュー投稿日時
+  private postDate = new Date();
+  // 現在の映画情報
   private currentMovie = new Movie(
     false,
     "",
@@ -161,6 +106,11 @@ export default class MovieDetail extends Vue {
     0
   );
 
+  /**
+   * 渡されたIDをもとに情報を1件取得する
+   *
+   * @returns-Promise
+   */
   async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
     const response = await axios.get(
@@ -194,15 +144,44 @@ export default class MovieDetail extends Vue {
       0,
       0
     );
-    // console.log(this.$store.state.movieList);
+    console.log(this.$store.state.movieList);
+  }
+
+  /**
+   * レビューを追加する
+   */
+  addReview(): void {
+    this.$store.commit("addReview", {
+      movieId: this.currentMovie.id,
+      review: new Review(
+        0,
+        0,
+        this.currentMovie.id,
+        0,
+        this.postDate,
+        this.reviewContent,
+        new Array<Comment>()
+      ),
+    });
   }
 }
 </script>
 
 <style scoped>
-.btn {
-  background-color: red;
+.title {
+  text-align: center;
 }
+
+.movieInfo {
+  text-align: center;
+}
+
+.reviewBox {
+  text-align: center;
+  margin: 50px auto;
+  width: 500px;
+}
+
 .stars span {
   display: flex; /* 要素をフレックスボックスにする */
   flex-direction: row-reverse; /* 星を逆順に並べる */
@@ -228,82 +207,20 @@ export default class MovieDetail extends Vue {
 
 .movie-card {
   background-color: white;
-  width: 100%;
+  width: 80%;
   height: auto;
   border-radius: 10px;
-  margin: 10px;
+  margin: 10px auto;
   padding: 0 5px;
 }
 .card-content {
   height: 250px;
   border-radius: 10px;
-  margin: 5px 0;
+  margin: 10px auto;
 }
+
 .movie-img {
   margin-top: 5px;
   text-align: center;
-}
-.review-card {
-  background-color: white;
-  width: 100%;
-  height: 280px;
-  border-radius: 10px;
-  margin-left: 10px;
-}
-.review-header {
-  background-color: white;
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-.profile-img {
-  border-radius: 1000px;
-  width: 80px;
-}
-.comment-card {
-  background-color: white;
-  margin-left: 10px;
-  width: 100%;
-  height: 150px;
-  border-radius: 10px;
-  border: 5px solid #f5f6fa;
-  margin: 5px 20px;
-}
-
-/* レビューボタンのデザイン */
-.reviewButton {
-  padding: 10px 40px;
-  margin: 20px;
-  background-color: white;
-  border: solid 1px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.reviewButton:hover {
-  color: white;
-  font-weight: bold;
-  background-color: #c5cae9;
-}
-
-/* いいねボタン */
-.likeBtn {
-  background-color: white;
-  border: solid white 1px;
-}
-
-/* コメントボタン */
-.commentBtn {
-  padding: 10px 40px;
-  margin: 20px;
-  background-color: white;
-  border: solid 1px;
-  transition: all 0.3s;
-  cursor: pointer;
-}
-
-.commentBtn:hover {
-  color: white;
-  font-weight: bold;
-  background-color: #c5cae9;
 }
 </style>
