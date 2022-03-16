@@ -1,13 +1,22 @@
 import { Comment } from "./comment";
-
+/**
+ * レビューコメントを表すドメインクラス.
+ */
 export class Review {
   constructor(
+    //レビューID
     private _id: number,
+    //ユーザーID
     private _userId: number,
+    //映画ID
     private _movieId: number,
+    //いいね数
     private _countLike: number,
+    //投稿日時
     private _postDate: Date,
+    //投稿内容
     private _content: string,
+    //リプライコメントの配列
     private _replyCommentList: Array<Comment>
   ) {}
 

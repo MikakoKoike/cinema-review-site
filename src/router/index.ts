@@ -39,8 +39,7 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "about" */ "../views/Login.vue"),
   },
   {
-    //後日:idにしないといけない。
-    path: "/movieDetail/634649",
+    path: "/movieDetail/:id",
     name: "MovieDetail",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route

@@ -12,8 +12,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     movieList: Array<Movie>(),
-
-    count: 0,
   },
   actions: {
     async asyncGetMovieList(context) {
@@ -56,10 +54,6 @@ export default new Vuex.Store({
         );
       }
     },
-
-    count(state) {
-      state.count++;
-    },
   }, //end of mutations
 
   modules: {},
@@ -79,9 +73,6 @@ export default new Vuex.Store({
         console.log(sameGenreGroup);
         return sameGenreGroup;
       };
-    },
-    getCount(state) {
-      return state.count;
     },
   },
   plugins: [

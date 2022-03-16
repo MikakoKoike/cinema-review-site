@@ -1,3 +1,6 @@
+/**
+ * APIから情報を取得する際に使用するドメインクラス.
+ */
 export class ApiMovie {
   constructor(
     private _adult: boolean,

@@ -1,6 +1,9 @@
 import { TimeList } from "@/types/timeList";
 import { Review } from "@/types/review";
 
+/**
+ * 映画に紐づく情報を表すドメインクラス.
+ */
 export class Movie {
   constructor(
     private _adult: boolean,
