@@ -24,11 +24,11 @@
           <p>{{ currentMovie.overview }}</p>
         </div>
         <div class="col s6 card-content">
-          <h4>見出し1</h4>
+          <h4>Sub Title</h4>
           <p>{{ currentMovie.overview }}</p>
         </div>
         <div class="col s6 card-content">
-          <h4>見出し2</h4>
+          <h4>Sub Title</h4>
           <p>{{ currentMovie.overview }}</p>
         </div>
       </div>
