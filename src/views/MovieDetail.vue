@@ -46,74 +46,25 @@
               class="responsive-img profile-img"
             />
           </div>
-          <div class="col s10 review-header">
-            <h4>User Name</h4>
-            <p>Post Date</p>
+          <!-- レビュー表示 -->
+          <div
+            class="col s10 review-header"
+            v-for="movieReview of currentMovie.reviewList"
+            v-bind:key="movieReview.id"
+          >
+            <!-- <h4>{{ movie.User.name }}</h4>-->
+            <p>{{ movieReview.content }}</p>
           </div>
           <div class="col s12">
-            <p>contents/contents/contents/contents/contents/</p>
-            <p>contents/contents/contents/contents/contents/</p>
-            <p>contents/contents/contents/contents/contents/</p>
+            <!-- <p>{{ movieReview.content }}</p> -->
+            <button type="button" class="likeBtn">
+              いいね！<span class="likeHeart">♡</span>
+            </button>
+            <button type="button" class="commentBtn">コメントする</button>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-      </div>
-      <div class="review-card z-depth-3">
-        <div class="row">
-          <div class="col s2 review-header">
-            <img
-              src="https://joeschmoe.io/api/v1/jess"
-              class="responsive-img profile-img"
-            />
-          </div>
-          <div class="col s10 review-header">
-            <h4>User Name</h4>
-            <p>Post Date</p>
-          </div>
-          <div class="col s12">
-            <p>contents/contents/contents/contents/contents/</p>
-            <p>contents/contents/contents/contents/contents/</p>
-            <p>contents/contents/contents/contents/contents/</p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
         <div class="col s5 comment-card z-depth-3">
           <h5>User Name</h5>
           <p>contents/contents/contents/contents/</p>
@@ -243,6 +194,7 @@ export default class MovieDetail extends Vue {
       0,
       0
     );
+    // console.log(this.$store.state.movieList);
   }
 }
 </script>
@@ -301,7 +253,7 @@ export default class MovieDetail extends Vue {
 .review-header {
   background-color: white;
   width: 100%;
-  height: 100px;
+  height: auto;
   border-radius: 10px;
 }
 .profile-img {
@@ -324,9 +276,32 @@ export default class MovieDetail extends Vue {
   margin: 20px;
   background-color: white;
   border: solid 1px;
+  cursor: pointer;
   transition: all 0.3s;
 }
 .reviewButton:hover {
+  color: white;
+  font-weight: bold;
+  background-color: #c5cae9;
+}
+
+/* いいねボタン */
+.likeBtn {
+  background-color: white;
+  border: solid white 1px;
+}
+
+/* コメントボタン */
+.commentBtn {
+  padding: 10px 40px;
+  margin: 20px;
+  background-color: white;
+  border: solid 1px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.commentBtn:hover {
   color: white;
   font-weight: bold;
   background-color: #c5cae9;

@@ -29,6 +29,7 @@
       </div>
     </div>
     <div class="reviewBox">
+      <pre>ユーザー名：</pre>
       <div class="stars">
         <span>
           <input id="review01" type="radio" name="review" /><label
@@ -61,7 +62,9 @@
         rows="10"
         v-model="reviewContent"
       ></textarea>
-      <button type="button" @click="addReview">投稿</button>
+      <router-link v-bind:to="'/movieDetail/' + currentMovie.id">
+        <button type="button" @click="addReview">投稿</button>
+      </router-link>
     </div>
     <!-- end of remplate -->
   </div>
@@ -72,12 +75,15 @@ import { Component, Vue } from "vue-property-decorator";
 import { Movie } from "@/types/movie";
 import { TimeList } from "@/types/timeList";
 import { Review } from "@/types/review";
+import { Comment } from "@/types/comment";
 import axios from "axios";
 @Component
 export default class XXXComponent extends Vue {
   // レビュー内容
   private reviewContent = "";
-
+  //  レビュー投稿日時
+  private postDate = new Date();
+  // 現在の映画情報
   private currentMovie = new Movie(
     false,
     "",
@@ -100,6 +106,11 @@ export default class XXXComponent extends Vue {
     0
   );
 
+  /**
+   * 渡されたIDをもとに情報を1件取得する
+   *
+   * @returns-Promise
+   */
   async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
     const response = await axios.get(
@@ -133,15 +144,25 @@ export default class XXXComponent extends Vue {
       0,
       0
     );
+    console.log(this.$store.state.movieList);
   }
 
+  /**
+   * レビューを追加する
+   */
   addReview(): void {
-    console.log(this.reviewContent);
-    console.log(this.currentMovie);
-    for (let review of this.currentMovie.reviewList) {
-      const reviewContent = review.content;
-      console.log(reviewContent);
-    }
+    this.$store.commit("addReview", {
+      movieId: this.currentMovie.id,
+      review: new Review(
+        0,
+        0,
+        this.currentMovie.id,
+        0,
+        this.postDate,
+        this.reviewContent,
+        new Array<Comment>()
+      ),
+    });
   }
 }
 </script>
@@ -186,7 +207,7 @@ export default class XXXComponent extends Vue {
 
 .movie-card {
   background-color: white;
-  width: 800px;
+  width: 80%;
   height: auto;
   border-radius: 10px;
   margin: 10px auto;
