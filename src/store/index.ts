@@ -103,7 +103,14 @@ export default new Vuex.Store({
           )
         )
       }
-      console.log(state.userList);
+    },
+    /**
+     * ログイン時にユーザー情報をstateにセットする.
+     * @param state - ステイト
+     * @param payload - ユーザー情報
+     */
+    setCurrentUser(state, payload){
+      state.currentUser = payload.user;
     },
 
     setCurrentMovieId(state, payload) {
@@ -203,6 +210,14 @@ export default new Vuex.Store({
      */
     getUserList(state) {
       return state.userList;
+    },
+    /**
+     * 登録されたユーザーを取得する.
+     * @param state - ステイト
+     * @returns 登録されたユーザーの配列
+     */
+     getCurrentUser(state) {
+      return state.currentUser;
     },
   }, //end of getters
 
