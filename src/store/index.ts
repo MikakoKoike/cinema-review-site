@@ -82,25 +82,40 @@ export default new Vuex.Store({
      * @param payload -payload
      */
     addReview(state, payload) {
-      console.log(state.movieList);
-      console.log(payload);
-
       const currentMovie = state.movieList.filter(
         (movie) => movie.id === payload.movieId
       )[0];
-      console.log(currentMovie);
-      currentMovie.reviewList.unshift(
-        new Review(
-          0,
-          0,
-          0,
-          0,
-          new Date(),
-          "test",
-          new Array<Comment>(new Comment(0, 0, 0, new Date(), "test"))
-        )
-      );
-      console.log(currentMovie.reviewList);
+      const newReview = {
+        review: new Review(
+          payload.review.id,
+          payload.review.userId,
+          payload.review.movieId,
+          payload.review.countLike,
+          payload.review.postDate,
+          payload.review.content,
+          [],
+          0
+        ),
+      };
+      currentMovie.reviewList.unshift(newReview.review);
+    },
+
+    addComment(state, payload) {
+      const currentMovie = state.movieList.filter(
+        (movie) => movie.id === payload.movieId
+      )[0];
+      const newComment = {
+        review: new Review(
+          payload.review.id,
+          payload.review.userId,
+          payload.review.movieId,
+          payload.review.countLike,
+          payload.review.postDate,
+          payload.review.content,
+          [],
+          0
+        ),
+      };
     },
   }, //end of mutations
 
@@ -136,7 +151,13 @@ export default new Vuex.Store({
      */
     getcurrentMovie(state) {
       return (movieId: number) => {
-        state.movieList.filter((movie) => movie.id === movieId)[0];
+        const newArray = [];
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
+            newArray.push(movie);
+          }
+        }
+        return newArray[0];
       };
     },
   }, //end of getters
