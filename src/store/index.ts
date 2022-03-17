@@ -73,7 +73,8 @@ export default new Vuex.Store({
           payload.review.countLike,
           payload.review.postDate,
           payload.review.content,
-          []
+          [],
+          0
         ),
       };
       currentMovie.reviewList.unshift(newReview.review);
@@ -91,7 +92,8 @@ export default new Vuex.Store({
           payload.review.countLike,
           payload.review.postDate,
           payload.review.content,
-          []
+          [],
+          0
         ),
       };
     },

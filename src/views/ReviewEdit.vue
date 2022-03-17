@@ -58,8 +58,6 @@
             for="review05"
             >★</label
           >
-          <button type="button" @click="countStar">count</button>
-          <div>{{ starCount }}</div>
         </span>
       </div>
       <!-- レビュー入力欄 -->
@@ -160,10 +158,12 @@ export default class XXXComponent extends Vue {
    * レビューを追加する
    */
   addReview(): void {
+    let reviewId = 0;
+    reviewId++;
     this.$store.commit("addReview", {
       movieId: this.currentMovie.id,
       review: new Review(
-        0,
+        reviewId,
         0,
         this.currentMovie.id,
         0,

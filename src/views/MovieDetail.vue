@@ -79,7 +79,7 @@
               </div>
 
               <p>ユーザーID：{{ review.userId }}</p>
-              <p>ユーザーID：{{ review.formatDate }}</p>
+              <p>投稿日時：{{ review.formatDate }}</p>
             </div>
           </div>
           <div class="col s12">
@@ -152,6 +152,7 @@
 </template>
 
 <script lang="ts">
+import store from "@/store";
 import { Movie } from "@/types/movie";
 import { Review } from "@/types/review";
 import { TimeList } from "@/types/timeList";
@@ -288,8 +289,9 @@ export default class MovieDetail extends Vue {
 
   addLike(): void {
     let likeCounts = this.likeCount++;
+    // let reviewList = new Array<Review>();
     for (let storeReview of this.storeMovie.reviewList) {
-      storeReview.countLike = likeCounts + 1;
+      storeReview.countLike = likeCounts;
     }
   }
 }
