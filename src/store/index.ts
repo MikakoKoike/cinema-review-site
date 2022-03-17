@@ -69,19 +69,6 @@ export default new Vuex.Store({
         (movie) => movie.id === payload.movieId
       )[0];
       console.log(currentMovie);
-
-      // const newReview = {
-      //   review: new Review(
-      //     payload.review.id,
-      //     payload.review.userId,
-      //     payload.review.movieId,
-      //     payload.review.countLike,
-      //     payload.review.postDate,
-      //     payload.review.content,
-      //     []
-      //   ),
-      // };
-      // currentMovie.reviewList.unshift(payload.review);
       currentMovie.reviewList.unshift(
         new Review(
           0,
@@ -89,7 +76,7 @@ export default new Vuex.Store({
           0,
           0,
           new Date(),
-          "",
+          "test",
           new Array<Comment>(new Comment(0, 0, 0, new Date(), "test"))
         )
       );
@@ -113,6 +100,16 @@ export default new Vuex.Store({
         }
         console.log(sameGenreGroup);
         return sameGenreGroup;
+      };
+    },
+    /**
+     * detailに表示されている映画情報の取得
+     * @param state
+     * @returns movieId
+     */
+    getcurrentMovie(state) {
+      return (movieId: number) => {
+        state.movieList.filter((movie) => movie.id === movieId)[0];
       };
     },
   },
