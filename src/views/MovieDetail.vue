@@ -38,10 +38,7 @@
         </router-link>
       </div>
 
-      <div
-        v-for="review of getcurrentMovieReview.reviewList"
-        v-bind:key="review.id"
-      >
+      <div v-for="review of getcurrentMovieReview" v-bind:key="review.id">
         <div class="review-card z-depth-3">
           <div class="row">
             <div class="col s2 review-header">
@@ -53,14 +50,43 @@
             <!-- レビュー表示 -->
             <div class="col s10 review-header">
               <!-- ↓にレビューを表示させたい -->
+              <div class="review">
+                <p>レビュー</p>
+                <div class="stars">
+                  <span>
+                    <input id="review01" type="radio" name="review" /><label
+                      for="review01"
+                      >★</label
+                    >
+                    <input id="review02" type="radio" name="review" /><label
+                      for="review02"
+                      >★</label
+                    >
+                    <input id="review03" type="radio" name="review" /><label
+                      for="review03"
+                      >★</label
+                    >
+                    <input id="review04" type="radio" name="review" /><label
+                      for="review04"
+                      >★</label
+                    >
+                    <input id="review05" type="radio" name="review" /><label
+                      for="review05"
+                      >★</label
+                    >
+                  </span>
+                </div>
+              </div>
+
               <p>ユーザーID：{{ review.userId }}</p>
               <p>レビュー内容：{{ review.content }}</p>
             </div>
           </div>
           <div class="col s12">
             <!-- <p>{{ getcurrentMovieReview.content }}</p> -->
-            <button type="button" class="likeBtn">
-              いいね！<span class="likeHeart">♡</span>
+            <button type="button" class="likeBtn" @click="addLike">
+              いいね！<span class="likeHeart">♡</span
+              ><span>{{ likeCount }}</span>
             </button>
             <button type="button" class="commentBtn" @click="showComment">
               コメントする
@@ -141,6 +167,30 @@ export default class MovieDetail extends Vue {
   private commentFlag = false;
   // コメント
   private commentContent = "";
+  // storeの映画情報
+  private storeMovie = new Movie(
+    false,
+    "",
+    [0],
+    0,
+    "",
+    "",
+    "",
+    0,
+    "",
+    "",
+    "",
+    false,
+    0,
+    0,
+    new Array<string>(),
+    new Array<TimeList>(),
+    new Array<Review>(),
+    0,
+    0
+  );
+  // いいね数
+  private likeCount = 0;
 
   get Count(): number {
     return this.$store.getters.getCount;
@@ -213,12 +263,13 @@ export default class MovieDetail extends Vue {
       0,
       0
     );
+    this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
   }
   /**
    * レビューリストを取得する
    */
-  get getcurrentMovieReview(): Movie {
-    return this.$store.getters.getcurrentMovie(this.currentMovie.id);
+  get getcurrentMovieReview(): Array<Review> {
+    return this.storeMovie.reviewList;
   }
 
   /**
@@ -233,6 +284,10 @@ export default class MovieDetail extends Vue {
     this.$store.commit("addComment", {
       movieId: this.currentMovie.id,
     });
+  }
+
+  addLike(): void {
+    this.likeCount++;
   }
 }
 </script>
@@ -284,10 +339,11 @@ export default class MovieDetail extends Vue {
 .review-card {
   background-color: white;
   width: 100%;
-  height: 280px;
+  height: auto;
   border-radius: 10px;
   margin-left: 10px;
   margin-bottom: 10px;
+  padding: 10px;
 }
 .review-header {
   background-color: white;
@@ -327,7 +383,9 @@ export default class MovieDetail extends Vue {
 /* いいねボタン */
 .likeBtn {
   background-color: white;
-  border: solid white 1px;
+  border: solid black 1px;
+  cursor: pointer;
+  margin: 20px;
 }
 
 /* コメントボタン */

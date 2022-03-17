@@ -80,22 +80,20 @@ export default new Vuex.Store({
     },
 
     addComment(state, payload) {
-      console.log("store called");
-
       const currentMovie = state.movieList.filter(
         (movie) => movie.id === payload.movieId
       )[0];
-      currentMovie.reviewList.unshift(
-        new Review(
-          0,
-          0,
-          0,
-          0,
-          new Date(),
-          "test",
-          new Array<Comment>(new Comment(0, 0, 0, new Date(), "test"))
-        )
-      );
+      const newComment = {
+        review: new Review(
+          payload.review.id,
+          payload.review.userId,
+          payload.review.movieId,
+          payload.review.countLike,
+          payload.review.postDate,
+          payload.review.content,
+          []
+        ),
+      };
     },
   }, //end of mutations
 

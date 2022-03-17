@@ -105,6 +105,8 @@ export default class XXXComponent extends Vue {
     0,
     0
   );
+  // ★の数
+  private starCount = "";
 
   /**
    * 渡されたIDをもとに情報を1件取得する
@@ -144,7 +146,6 @@ export default class XXXComponent extends Vue {
       0,
       0
     );
-    console.log(this.$store.state.movieList);
   }
 
   /**
