@@ -48,6 +48,12 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "about" */ "../views/MovieDetail.vue"),
   },
   {
+    path: "/dummyPage",
+    name: "DummyPage",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/DummyPage.vue"),
+  },
+  {
     path: "/reviewEdit/:id",
     name: "ReviewEdit",
     // route level code-splitting

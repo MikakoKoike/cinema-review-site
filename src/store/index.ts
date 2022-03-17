@@ -13,7 +13,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     movieList: Array<Movie>(),
-  },
+    currentMovieId: 0,
+    count: 0,
+    watchCount: 0,
+  }, //end of state
   actions: {
     async asyncGetMovieList(context) {
       const response = await axios.get<{
@@ -56,6 +59,23 @@ export default new Vuex.Store({
       }
     },
 
+    setCurrentMovieId(state, payload) {
+      state.currentMovieId = payload.currentMovieId;
+    },
+    // countUp(state) {
+    //   state.count++;
+    // },
+    setCountWatch(state, payload) {
+      const newArray = [];
+      for (const movie of state.movieList) {
+        if (movie.id === payload.movieId) {
+          newArray.push(movie);
+        }
+      }
+      console.log(newArray[0].countWatch);
+      newArray[0].countWatch++;
+      console.log(newArray[0].countWatch);
+    },
     /**
      * レビューの追加
      * @param state ‐state
@@ -117,6 +137,13 @@ export default new Vuex.Store({
         return sameGenreGroup;
       };
     },
+
+    getCurrentMovieId(state) {
+      return state.currentMovieId;
+    },
+    getCount(state) {
+      return state.count;
+    },
     /**
      * detailに表示されている映画情報の取得
      * @param state
@@ -133,7 +160,8 @@ export default new Vuex.Store({
         return newArray[0];
       };
     },
-  },
+  }, //end of getters
+
   plugins: [
     createPersistedState({
       // ストレージのキーを指定
