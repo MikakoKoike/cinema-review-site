@@ -51,6 +51,13 @@
             <!-- <h4>{{ movie.User.name }}</h4>-->
             <!-- ↓にレビューを表示させたい -->
             <!-- <p>{{ getcurrentMovieReview() }}</p> -->
+            <div
+              v-for="(review, index) of currentReviewList"
+              v-bind:key="index"
+            >
+              {{ review.id }}
+              {{ review.content }}
+            </div>
           </div>
           <div class="col s12">
             <!-- <p>{{ movieReview.content }}</p> -->
@@ -120,6 +127,35 @@ import { Component, Vue } from "vue-property-decorator";
 export default class MovieDetail extends Vue {
   private imgUrl = "/img/eye.png";
   private isClicked = false;
+  private stateCurrentMovie = new Movie(
+    false,
+    "",
+    [0],
+    0,
+    "",
+    "",
+    "",
+    0,
+    "",
+    "",
+    "",
+    false,
+    0,
+    0,
+    new Array<string>(),
+    new Array<TimeList>(),
+    new Array<Review>(),
+    0,
+    0
+  );
+
+  get currentReviewList(): Array<Review> {
+    return this.stateCurrentMovie.reviewList;
+  }
+
+  // get getCurrentMovie(): Movie{
+  //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
+  // }
 
   get Count(): number {
     return this.$store.getters.getCount;
@@ -199,6 +235,9 @@ export default class MovieDetail extends Vue {
       // ],
       0,
       0
+    );
+    this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
+      this.currentMovie.id
     );
   }
   // get getcurrentMovieReview(): Movie {

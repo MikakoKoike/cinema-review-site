@@ -108,18 +108,25 @@ export default new Vuex.Store({
             state.movieList.filter((movie) => movie.genre_ids[0] === id)
           );
         }
-        console.log(sameGenreGroup);
         return sameGenreGroup;
       };
     },
     /**
-     * detailに表示されている映画情報の取得
+     * detailに表示されている映画情報の取得.
      * @param state
      * @returns movieId
      */
     getcurrentMovie(state) {
       return (movieId: number) => {
-        state.movieList.filter((movie) => movie.id === movieId)[0];
+        const newArray = [];
+        for(const movie of state.movieList){
+          if(movie.id === movieId){
+            newArray.push(movie);
+          }
+        }
+        console.log(newArray[0]);
+        return newArray[0];
+        // state.movieList.filter((movie) => movie.id === movieId)[0];
       };
     },
   },
