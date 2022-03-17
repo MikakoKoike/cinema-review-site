@@ -112,6 +112,16 @@ export default new Vuex.Store({
         return sameGenreGroup;
       };
     },
+    /**
+     * detailに表示されている映画情報の取得
+     * @param state
+     * @returns movieId
+     */
+    getcurrentMovie(state) {
+      return (movieId: number) => {
+        state.movieList.filter((movie) => movie.id === movieId)[0];
+      };
+    },
   },
   plugins: [
     createPersistedState({

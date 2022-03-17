@@ -47,13 +47,10 @@
             />
           </div>
           <!-- レビュー表示 -->
-          <div
-            class="col s10 review-header"
-            v-for="movieReview of currentMovie.reviewList"
-            v-bind:key="movieReview.id"
-          >
+          <div class="col s10 review-header">
             <!-- <h4>{{ movie.User.name }}</h4>-->
-            <p>{{ movieReview.content }}</p>
+            <!-- ↓にレビューを表示させたい -->
+            <!-- <p>{{ getcurrentMovieReview() }}</p> -->
           </div>
           <div class="col s12">
             <!-- <p>{{ movieReview.content }}</p> -->
@@ -203,8 +200,12 @@ export default class MovieDetail extends Vue {
       0,
       0
     );
-    // console.log(this.$store.state.movieList);
   }
+  // get getcurrentMovieReview(): Movie {
+  //   console.log(this.$store.getters.getcurrentMovie(this.currentMovie.id));
+  //   // ⇒undefined
+  //   return this.$store.getters.getcurrentMovie(this.currentMovie.id);
+  // }
 }
 </script>
 
