@@ -38,26 +38,43 @@
         </router-link>
       </div>
 
-      <div class="review-card z-depth-3">
-        <div class="row">
-          <div class="col s2 review-header">
-            <img
-              src="https://joeschmoe.io/api/v1/random"
-              class="responsive-img profile-img"
-            />
-          </div>
-          <!-- レビュー表示 -->
-          <div class="col s10 review-header">
-            <!-- <h4>{{ movie.User.name }}</h4>-->
-            <!-- ↓にレビューを表示させたい -->
-            <!-- <p>{{ getcurrentMovieReview() }}</p> -->
+      <div
+        v-for="review of getcurrentMovieReview.reviewList"
+        v-bind:key="review.id"
+      >
+        <div class="review-card z-depth-3">
+          <div class="row">
+            <div class="col s2 review-header">
+              <img
+                src="https://joeschmoe.io/api/v1/random"
+                class="responsive-img profile-img"
+              />
+            </div>
+            <!-- レビュー表示 -->
+            <div class="col s10 review-header">
+              <!-- ↓にレビューを表示させたい -->
+              <p>ユーザーID：{{ review.userId }}</p>
+              <p>レビュー内容：{{ review.content }}</p>
+            </div>
           </div>
           <div class="col s12">
-            <!-- <p>{{ movieReview.content }}</p> -->
+            <!-- <p>{{ getcurrentMovieReview.content }}</p> -->
             <button type="button" class="likeBtn">
               いいね！<span class="likeHeart">♡</span>
             </button>
-            <button type="button" class="commentBtn">コメントする</button>
+            <button type="button" class="commentBtn" @click="showComment">
+              コメントする
+            </button>
+            <div class="commentBox" v-if="commentFlag">
+              <textarea
+                name="comment"
+                id="comment"
+                cols="30"
+                rows="10"
+                v-model="commentContent"
+              ></textarea>
+              <button type="button" @click="addComment">投稿</button>
+            </div>
           </div>
         </div>
       </div>
@@ -119,6 +136,11 @@ import { Component, Vue } from "vue-property-decorator";
 export default class MovieDetail extends Vue {
   private imgUrl = "/img/eye.png";
   private isClicked = false;
+
+  // コメントボタン
+  private commentFlag = false;
+  // コメント
+  private commentContent = "";
 
   get Count(): number {
     return this.$store.getters.getCount;
@@ -192,11 +214,26 @@ export default class MovieDetail extends Vue {
       0
     );
   }
-  // get getcurrentMovieReview(): Movie {
-  //   console.log(this.$store.getters.getcurrentMovie(this.currentMovie.id));
-  //   // ⇒undefined
-  //   return this.$store.getters.getcurrentMovie(this.currentMovie.id);
-  // }
+  /**
+   * レビューリストを取得する
+   */
+  get getcurrentMovieReview(): Movie {
+    return this.$store.getters.getcurrentMovie(this.currentMovie.id);
+  }
+
+  /**
+   * コメント入力欄を表示する
+   */
+  showComment(): void {
+    this.commentFlag = true;
+  }
+
+  addComment(): void {
+    console.log("called");
+    this.$store.commit("addComment", {
+      movieId: this.currentMovie.id,
+    });
+  }
 }
 </script>
 
@@ -250,6 +287,7 @@ export default class MovieDetail extends Vue {
   height: 280px;
   border-radius: 10px;
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 .review-header {
   background-color: white;
