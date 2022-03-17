@@ -32,26 +32,34 @@
       <pre>ユーザー名：</pre>
       <div class="stars">
         <span>
-          <input id="review01" type="radio" name="review" /><label
-            for="review01"
-            >★</label
-          >
-          <input id="review02" type="radio" name="review" /><label
+          <input
+            id="size-m"
+            name="size"
+            type="radio"
+            value="M"
+            v-model="starCount"
+          />
+          <!-- id="review01" type="radio" name="review" value="star"
+          v-model="starCount" /> -->
+          <label for="review01"> ★ </label>
+          <input id="review02" type="radio" name="review" value="2" /><label
             for="review02"
             >★</label
           >
-          <input id="review03" type="radio" name="review" /><label
+          <input id="review03" type="radio" name="review" value="3" /><label
             for="review03"
             >★</label
           >
-          <input id="review04" type="radio" name="review" /><label
+          <input id="review04" type="radio" name="review" value="4" /><label
             for="review04"
             >★</label
           >
-          <input id="review05" type="radio" name="review" /><label
+          <input id="review05" type="radio" name="review" value="5" /><label
             for="review05"
             >★</label
           >
+          <button type="button" @click="countStar">count</button>
+          <div>{{ starCount }}</div>
         </span>
       </div>
       <!-- レビュー入力欄 -->
@@ -161,9 +169,14 @@ export default class XXXComponent extends Vue {
         0,
         this.postDate,
         this.reviewContent,
-        new Array<Comment>()
+        new Array<Comment>(),
+        0
       ),
     });
+  }
+
+  countStar(): void {
+    console.log(this.starCount);
   }
 }
 </script>

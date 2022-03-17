@@ -1,4 +1,6 @@
 import { Comment } from "./comment";
+import { format } from "date-fns";
+import ja from "date-fns/locale/ja";
 /**
  * レビューコメントを表すドメインクラス.
  */
@@ -17,8 +19,28 @@ export class Review {
     //投稿内容
     private _content: string,
     //リプライコメントの配列
-    private _replyCommentList: Array<Comment>
+    private _replyCommentList: Array<Comment>,
+    // レビューの星の数
+    private _countStar: number
   ) {}
+
+  /**
+   * 日付のフォーマット
+   */
+  get formatDate(): string {
+    const formatDate = format(this.postDate, "yyyy年MM月dd日 （EEE）", {
+      locale: ja,
+    });
+    return formatDate;
+  }
+
+  public get countStar(): number {
+    return this._countStar;
+  }
+
+  public set countStar(countStar: number) {
+    this._countStar = countStar;
+  }
 
   public get id(): number {
     return this._id;

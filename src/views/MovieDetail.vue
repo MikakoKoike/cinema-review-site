@@ -79,13 +79,14 @@
               </div>
 
               <p>ユーザーID：{{ review.userId }}</p>
+              <p>ユーザーID：{{ review.formatDate }}</p>
             </div>
           </div>
           <div class="col s12">
             <p>レビュー内容：{{ review.content }}</p>
             <button type="button" class="likeBtn" @click="addLike">
               いいね！<span class="likeHeart">♡</span
-              ><span>{{ likeCount }}</span>
+              ><span>{{ review.countLike }}</span>
             </button>
             <button type="button" class="commentBtn" @click="showComment">
               コメントする
