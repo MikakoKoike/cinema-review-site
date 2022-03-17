@@ -18,7 +18,7 @@
 
           <button class="btn-small" v-on:click="addCountWatch">
             <i class="material-icons left">favorite</i>見たい！
-            {{ currentMovie.countWatch }}
+            {{ stateCurrentMovie.countWatch }}
           </button>
 
           <p></p>
@@ -100,12 +100,9 @@
                   'https://image.tmdb.org/t/p/w154' + movie.poster_path
                 "
               />
-              <router-link
-                v-bind:to="'/movieDetail/' + movie.id"
-                v-on:click="onClick"
-              >
-                <div>{{ movie.title }}</div>
-              </router-link>
+              <!-- <router-link v-bind:to="'/movieDetail/' + movie.id"> -->
+                <div  v-on:click="onClick(movie.id)">{{ movie.title }}</div>
+              <!-- </router-link> -->
               <div class="star">
                 ★
                 {{ movie.vote_average }}
@@ -299,7 +296,7 @@ export default class MovieDetail extends Vue {
     0,
     0
   );
-
+  
   async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
     const response = await axios.get(
@@ -345,15 +342,16 @@ export default class MovieDetail extends Vue {
     );
     this.currentMovieId = MovieId;
   }
-  onClick(): void {
+  onClick(targetId: number): void {
     setTimeout(() => {
-      let targetId = this.$route.params.id;
-      this.$store.commit("setCurrentMovieId", {
-        currentMovieId: targetId,
-      });
-      this.$router.push("/dummyPage");
-    }, 1000);
+    this.$store.commit("setCurrentMovieId", {
+      currentMovieId: targetId,
+    });
+    this.$router.push(`/movieDetail/${targetId}`);
+    }, 10);
+    this.$router.push("/dummyPage");
   }
+
   addCountWatch(): void {
     this.$store.commit("setCountWatch", {
       countWatch: this.currentMovie.countWatch,
