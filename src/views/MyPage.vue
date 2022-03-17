@@ -4,30 +4,28 @@
       <div class="movie-card row z-depth-3">
         <div class="col s3 card-content movie-img"></div>
         <div class="col s9 card-content"></div>
-        <div class="col s6 card-content">
-          <h4>Sub Title</h4>
-        </div>
-        <div class="col s6 card-content">
-          <h4>Sub Title</h4>
-        </div>
-      </div>
-
-      <div class="review-card z-depth-3">
         <div class="row">
-          <div class="col s2 review-header">
-            <img
-              src="https://joeschmoe.io/api/v1/random"
-              class="responsive-img profile-img"
-            />
-          </div>
+        <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s6">
+            <a href="#eatin" class="indigo-text text-darken4">eat in</a>
+          </li>
+          <li class="tab col s6">
+            <a href="#takeout" class="indigo-text text-darken4">take out</a>
+          </li>
+        </ul>
+        <div class="col s12" id="eatin">
+            <p class="flow-text indigo-text text-darken4" id="eatin">EAT IN</p>
+            <p>ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</p>
+            <p>ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</p>
+        </div>
+        <div class="col s12" id="takeout">
+            <p class="flow-text indigo-text text-darken4 offset-s12" id="takeout">TAKE OUT</p>
+            <p>ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</p>
+            <p>ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</p>
         </div>
       </div>
-      <div class="row">
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
+      </div>
       </div>
     </div>
   </div>
