@@ -115,6 +115,7 @@
 import { Movie } from "@/types/movie";
 import { Review } from "@/types/review";
 import { TimeList } from "@/types/timeList";
+import { Comment } from "@/types/comment";
 import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
 
@@ -126,6 +127,7 @@ export default class MovieDetail extends Vue {
   get Count(): number {
     return this.$store.getters.getCount;
   }
+
   CountUp(): void {
     this.$store.commit("count");
     console.log("clickされた");
@@ -166,7 +168,6 @@ export default class MovieDetail extends Vue {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
     );
-
     let responseMovie = response.data;
     let initGenreIds = new Array<number>();
     for (let obj of responseMovie.genres) {
@@ -191,6 +192,14 @@ export default class MovieDetail extends Vue {
       new Array<string>(),
       new Array<TimeList>(),
       new Array<Review>(),
+      // [
+      //   new Review(0, 0, 634649, 30, new Date(), "サイコー！！", [
+      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
+      //   ]),
+      //   new Review(1, 0, 634649, 40, new Date(), "最高の仕上がり!!", [
+      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
+      //   ]),
+      // ],
       0,
       0
     );

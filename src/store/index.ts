@@ -48,7 +48,14 @@ export default new Vuex.Store({
             movie.vote_count,
             [""],
             new Array<TimeList>(),
-            new Array<Review>(),
+            [
+              new Review(0, 0, 634649, 30, new Date(), "サイコー！！", [
+                new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
+              ]),
+              new Review(1, 0, 634649,40, new Date(), "最高の仕上がり!!", [
+                new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
+              ]),
+            ],
             0,
             0
           )
@@ -82,17 +89,7 @@ export default new Vuex.Store({
       //   ),
       // };
       // currentMovie.reviewList.unshift(payload.review);
-      currentMovie.reviewList.unshift(
-        new Review(
-          0,
-          0,
-          0,
-          0,
-          new Date(),
-          "",
-          new Array<Comment>(new Comment(0, 0, 0, new Date(), "test"))
-        )
-      );
+      currentMovie.reviewList.unshift(payload.review);
       console.log(currentMovie.reviewList);
     },
   }, //end of mutations
