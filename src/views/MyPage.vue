@@ -2,30 +2,53 @@
   <div class="mypage">
     <div class="container">
       <div class="movie-card row z-depth-3">
-        <div class="col s3 card-content movie-img"></div>
-        <div class="col s9 card-content"></div>
         <div class="row">
-        <div class="col s12">
-        <ul class="tabs">
-          <li class="tab col s6">
-            <a href="#eatin" class="indigo-text text-darken4">eat in</a>
-          </li>
-          <li class="tab col s6">
-            <a href="#takeout" class="indigo-text text-darken4">take out</a>
-          </li>
-        </ul>
-        <div class="col s12" id="eatin">
-            <p class="flow-text indigo-text text-darken4" id="eatin">EAT IN</p>
-            <p>ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</p>
-            <p>ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</p>
+          <div class="col s12 card-content">
+            <h4>My Page</h4>
+            <p>ここにテキストが入ります。</p>
+          </div>
         </div>
-        <div class="col s12" id="takeout">
-            <p class="flow-text indigo-text text-darken4 offset-s12" id="takeout">TAKE OUT</p>
-            <p>ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</p>
-            <p>ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。</p>
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s6">
+                <a href="#myMovieList" class="indigo-text text-darken4"
+                  >Movie</a
+                >
+              </li>
+              <li class="tab col s6">
+                <a href="#myReviewList" class="indigo-text text-darken4"
+                  >Review</a
+                >
+              </li>
+            </ul>
+            <div class="col s12" id="myMovieList">
+              <p class="flow-text indigo-text text-darken4" id="eatin">
+                My Movie List
+              </p>
+              <p>
+                ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
+              </p>
+              <p>
+                ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
+              </p>
+            </div>
+            <div class="col s12" id="myReviewList">
+              <p
+                class="flow-text indigo-text text-darken4 offset-s12"
+                id="takeout"
+              >
+                My Leview List
+              </p>
+              <p>
+                ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
+              </p>
+              <p>
+                ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
       </div>
     </div>
   </div>
@@ -33,8 +56,23 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import M from "materialize-css";
+import { User } from "@/types/user";
+
 @Component
-export default class MyPage extends Vue {}
+export default class MyPage extends Vue {
+  private currentUserList = new Array<User>();
+  created(): void{
+    this.$store.dispatch("asyncGetUserList");
+    this.currentUserList = this.$store.getters.getUserList;
+  }
+  mounted(): void {
+    //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。
+    setTimeout(() => {
+      M.AutoInit();
+    }, 200);
+  }
+}
 </script>
 
 <style scoped>

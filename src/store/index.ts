@@ -7,6 +7,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { Movie } from "@/types/movie";
 import { Comment } from "@/types/comment";
+import { User } from "@/types/user";
 
 Vue.use(Vuex);
 
@@ -16,6 +17,16 @@ export default new Vuex.Store({
     currentMovieId: 0,
     count: 0,
     watchCount: 0,
+    userList: new Array<User>(),
+    currentUser: new User(
+      0,
+      "",
+      "",
+      "",
+      new Array<Movie>(),
+      new Array<Review>(),
+      new Array<Comment>()
+    ),
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -27,6 +38,13 @@ export default new Vuex.Store({
       );
       const payload = response.data;
       context.commit("showItemList", payload);
+    },
+    async asyncGetUserList(context) {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      const payload = response.data;
+      context.commit("setUserList", payload);
     },
   },
   mutations: {
@@ -55,7 +73,7 @@ export default new Vuex.Store({
               new Review(0, 0, 634649, 30, new Date(), "サイコー！！", [
                 new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
               ]),
-              new Review(1, 0, 634649,40, new Date(), "最高の仕上がり!!", [
+              new Review(1, 0, 634649, 40, new Date(), "最高の仕上がり!!", [
                 new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
               ]),
             ],
@@ -64,6 +82,28 @@ export default new Vuex.Store({
           )
         );
       }
+    },
+    /**
+     * 登録されたユーザーを情報をセットする.
+     * @param state - ステイト
+     * @param payload 非同期で取得するJSONデータ
+     */
+    setUserList(state, payload){
+      state.userList = new Array<User>();
+      for(const user of payload){
+        state.userList.push(
+          new User(
+            user.id,
+            user.username,
+            user.email,
+            "",
+            new Array<Movie>(),
+            new Array<Review>(),
+            new Array<Comment>()
+          )
+        )
+      }
+      console.log(state.userList);
     },
 
     setCurrentMovieId(state, payload) {
@@ -146,8 +186,8 @@ export default new Vuex.Store({
     getcurrentMovie(state) {
       return (movieId: number) => {
         const newArray = [];
-        for(const movie of state.movieList){
-          if(movie.id === movieId){
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
             newArray.push(movie);
           }
         }
@@ -155,6 +195,14 @@ export default new Vuex.Store({
         return newArray[0];
         // state.movieList.filter((movie) => movie.id === movieId)[0];
       };
+    },
+    /**
+     * 登録されたユーザーを取得する.
+     * @param state - ステイト
+     * @returns 登録されたユーザーの配列
+     */
+    getUserList(state) {
+      return state.userList;
     },
   }, //end of getters
 
