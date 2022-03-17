@@ -31,6 +31,11 @@
           <h4>Sub Title</h4>
           <p>{{ currentMovie.overview }}</p>
         </div>
+        <!-- レビューボタン -->
+        <!-- ここで次の画面にIDを渡す -->
+        <router-link v-bind:to="'/reviewEdit/' + currentMovie.id">
+          <button type="button" class="reviewButton">レビューする</button>
+        </router-link>
       </div>
 
       <div class="review-card z-depth-3">
@@ -41,75 +46,23 @@
               class="responsive-img profile-img"
             />
           </div>
+          <!-- レビュー表示 -->
           <div class="col s10 review-header">
-            <h4>User Name</h4>
-            <p>Post Date</p>
+            <!-- <h4>{{ movie.User.name }}</h4>-->
+            <!-- ↓にレビューを表示させたい -->
+            <!-- <p>{{ getcurrentMovieReview() }}</p> -->
           </div>
           <div class="col s12">
-            <p>contents/contents/contents/contents/contents/</p>
-            <p>contents/contents/contents/contents/contents/</p>
-            <p>contents/contents/contents/contents/contents/</p>
+            <!-- <p>{{ movieReview.content }}</p> -->
+            <button type="button" class="likeBtn">
+              いいね！<span class="likeHeart">♡</span>
+            </button>
+            <button type="button" class="commentBtn">コメントする</button>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-      </div>
-      <div class="review-card z-depth-3">
-        <div class="row">
-          <div class="col s2 review-header">
-            <img
-              src="https://joeschmoe.io/api/v1/jess"
-              class="responsive-img profile-img"
-            />
-          </div>
-          <div class="col s10 review-header">
-            <h4>User Name</h4>
-            <p>Post Date</p>
-          </div>
-          <div class="col s12">
-            <p>contents/contents/contents/contents/contents/</p>
-            <p>contents/contents/contents/contents/contents/</p>
-            <p>contents/contents/contents/contents/contents/</p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
-        </div>
         <div class="col s5 comment-card z-depth-3">
           <h5>User Name</h5>
           <p>contents/contents/contents/contents/</p>
@@ -156,13 +109,41 @@
       </div>
     </div>
 
-    <!-- <button
+    <div class="review">
+      <p>レビュー</p>
+      <div class="stars">
+        <span>
+          <input id="review01" type="radio" name="review" /><label
+            for="review01"
+            >★</label
+          >
+          <input id="review02" type="radio" name="review" /><label
+            for="review02"
+            >★</label
+          >
+          <input id="review03" type="radio" name="review" /><label
+            for="review03"
+            >★</label
+          >
+          <input id="review04" type="radio" name="review" /><label
+            for="review04"
+            >★</label
+          >
+          <input id="review05" type="radio" name="review" /><label
+            for="review05"
+            >★</label
+          >
+        </span>
+      </div>
+    </div>
+    <button
       type="button"
       v-on:click="CountUp"
       v-bind:class="{ btn: isClicked }"
     >
       <img v-bind:src="imgUrl" />{{ Count }}
-    </button> -->
+    </button>
+    -->
   </div>
 </template>
 
@@ -282,32 +263,32 @@ export default class MovieDetail extends Vue {
   );
 
   async created(): Promise<void> {
-    let MovieId = Number(this.$route.params.id);
-    const responce = await axios.get(
+    const MovieId = Number(this.$route.params.id);
+    const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
     );
 
-    let responceMovie = responce.data;
+    let responseMovie = response.data;
     let initGenreIds = new Array<number>();
-    for (let obj of responceMovie.genres) {
+    for (let obj of responseMovie.genres) {
       initGenreIds.push(obj.id);
     }
 
     this.currentMovie = new Movie(
-      responceMovie.adult,
-      responceMovie.backdrop_path,
+      responseMovie.adult,
+      responseMovie.backdrop_path,
       initGenreIds,
-      responceMovie.id,
-      responceMovie.original_language,
-      responceMovie.original_title,
-      responceMovie.overview,
-      responceMovie.popularity,
-      responceMovie.poster_path,
-      responceMovie.release_date,
-      responceMovie.title,
-      responceMovie.video,
-      responceMovie.vote_average,
-      responceMovie.vote_count,
+      responseMovie.id,
+      responseMovie.original_language,
+      responseMovie.original_title,
+      responseMovie.overview,
+      responseMovie.popularity,
+      responseMovie.poster_path,
+      responseMovie.release_date,
+      responseMovie.title,
+      responseMovie.video,
+      responseMovie.vote_average,
+      responseMovie.vote_count,
       new Array<string>(),
       new Array<TimeList>(),
       new Array<Review>(),
@@ -331,6 +312,11 @@ export default class MovieDetail extends Vue {
       movieId: this.currentMovie.id,
     });
   }
+  // get getcurrentMovieReview(): Movie {
+  //   console.log(this.$store.getters.getcurrentMovie(this.currentMovie.id));
+  //   // ⇒undefined
+  //   return this.$store.getters.getcurrentMovie(this.currentMovie.id);
+  // }
 }
 </script>
 
@@ -385,7 +371,7 @@ export default class MovieDetail extends Vue {
 .review-header {
   background-color: white;
   width: 100%;
-  height: 100px;
+  height: auto;
   border-radius: 10px;
 }
 .profile-img {
@@ -401,6 +387,7 @@ export default class MovieDetail extends Vue {
   border: 5px solid #f5f6fa;
   margin: 5px 20px;
 }
+
 .similar-movie {
   background-color: white;
   width: 100%;
@@ -429,5 +416,42 @@ h5 {
 }
 .btn-small {
   background-color: rgb(230, 70, 123);
+}
+
+/* レビューボタンのデザイン */
+.reviewButton {
+  padding: 10px 40px;
+  margin: 20px;
+  background-color: white;
+  border: solid 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.reviewButton:hover {
+  color: white;
+  font-weight: bold;
+  background-color: #c5cae9;
+}
+
+/* いいねボタン */
+.likeBtn {
+  background-color: white;
+  border: solid white 1px;
+}
+
+/* コメントボタン */
+.commentBtn {
+  padding: 10px 40px;
+  margin: 20px;
+  background-color: white;
+  border: solid 1px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.commentBtn:hover {
+  color: white;
+  font-weight: bold;
+  background-color: #c5cae9;
 }
 </style>

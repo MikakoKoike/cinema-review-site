@@ -6,6 +6,7 @@ import axios from "axios";
 import Vue from "vue";
 import Vuex from "vuex";
 import { Movie } from "@/types/movie";
+import { Comment } from "@/types/comment";
 
 Vue.use(Vuex);
 
@@ -57,6 +58,7 @@ export default new Vuex.Store({
         );
       }
     },
+
     setCurrentMovieId(state, payload) {
       state.currentMovieId = payload.currentMovieId;
     },
@@ -73,6 +75,32 @@ export default new Vuex.Store({
       console.log(newArray[0].countWatch);
       newArray[0].countWatch++;
       console.log(newArray[0].countWatch);
+    },
+    /**
+     * レビューの追加
+     * @param state ‐state
+     * @param payload -payload
+     */
+    addReview(state, payload) {
+      console.log(state.movieList);
+      console.log(payload);
+
+      const currentMovie = state.movieList.filter(
+        (movie) => movie.id === payload.movieId
+      )[0];
+      console.log(currentMovie);
+      currentMovie.reviewList.unshift(
+        new Review(
+          0,
+          0,
+          0,
+          0,
+          new Date(),
+          "test",
+          new Array<Comment>(new Comment(0, 0, 0, new Date(), "test"))
+        )
+      );
+      console.log(currentMovie.reviewList);
     },
   }, //end of mutations
 
@@ -94,13 +122,25 @@ export default new Vuex.Store({
         return sameGenreGroup;
       };
     },
+
     getCurrentMovieId(state) {
       return state.currentMovieId;
     },
     getCount(state) {
       return state.count;
     },
+    /**
+     * detailに表示されている映画情報の取得
+     * @param state
+     * @returns movieId
+     */
+    getcurrentMovie(state) {
+      return (movieId: number) => {
+        state.movieList.filter((movie) => movie.id === movieId)[0];
+      };
+    },
   }, //end of getters
+
   plugins: [
     createPersistedState({
       // ストレージのキーを指定
