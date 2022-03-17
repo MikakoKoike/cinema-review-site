@@ -79,11 +79,10 @@
               </div>
 
               <p>ユーザーID：{{ review.userId }}</p>
-              <p>レビュー内容：{{ review.content }}</p>
             </div>
           </div>
           <div class="col s12">
-            <!-- <p>{{ getcurrentMovieReview.content }}</p> -->
+            <p>レビュー内容：{{ review.content }}</p>
             <button type="button" class="likeBtn" @click="addLike">
               いいね！<span class="likeHeart">♡</span
               ><span>{{ likeCount }}</span>
@@ -287,7 +286,10 @@ export default class MovieDetail extends Vue {
   }
 
   addLike(): void {
-    this.likeCount++;
+    let likeCounts = this.likeCount++;
+    for (let storeReview of this.storeMovie.reviewList) {
+      storeReview.countLike = likeCounts + 1;
+    }
   }
 }
 </script>
