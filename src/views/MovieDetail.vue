@@ -36,8 +36,18 @@
         <router-link v-bind:to="'/reviewEdit/' + currentMovie.id">
           <button type="button" class="reviewButton">レビューする</button>
         </router-link>
-      </div>
 
+        <div class="recommendation">
+          <button
+            class="btn-small"
+            type="button"
+            v-on:click="moveTosimilarMovie(currentMovieId)"
+          >
+            <i class="material-icons left"></i>
+            あなたにおすすめの作品はこちら
+          </button>
+        </div>
+      </div>
       <div class="review-card z-depth-3">
         <div class="row">
           <div class="col s2 review-header">
@@ -70,80 +80,6 @@
         </div>
       </div>
     </div>
-    <!-- 同じジャンルの映画をおすすめとして表示させる -->
-    <div class="similar-movie">
-      <div class="row">
-        <h5>あなたにおすすめの作品</h5>
-        <div
-          class="item"
-          v-for="(
-            sameGenreMovieList, index
-          ) of this.$store.getters.getGenreById(currentMovie.genre_ids)"
-          v-bind:key="index"
-        >
-          <div
-            class="item"
-            v-for="movie of sameGenreMovieList"
-            v-bind:key="movie.id"
-          >
-            <div class="col s6 m3 movie-genre">
-              <img
-                class="responsive-img movie-genre"
-                v-bind:src="
-                  'https://image.tmdb.org/t/p/w154' + movie.poster_path
-                "
-              />
-              <router-link
-                v-bind:to="'/movieDetail/' + movie.id"
-                v-on:click="onClick"
-              >
-                <div>{{ movie.title }}</div>
-              </router-link>
-              <div class="star">
-                ★
-                {{ movie.vote_average }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="review">
-      <p>レビュー</p>
-      <div class="stars">
-        <span>
-          <input id="review01" type="radio" name="review" /><label
-            for="review01"
-            >★</label
-          >
-          <input id="review02" type="radio" name="review" /><label
-            for="review02"
-            >★</label
-          >
-          <input id="review03" type="radio" name="review" /><label
-            for="review03"
-            >★</label
-          >
-          <input id="review04" type="radio" name="review" /><label
-            for="review04"
-            >★</label
-          >
-          <input id="review05" type="radio" name="review" /><label
-            for="review05"
-            >★</label
-          >
-        </span>
-      </div>
-    </div>
-    <button
-      type="button"
-      v-on:click="CountUp"
-      v-bind:class="{ btn: isClicked }"
-    >
-      <img v-bind:src="imgUrl" />{{ Count }}
-    </button>
-    -->
   </div>
 </template>
 
@@ -156,7 +92,6 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class MovieDetail extends Vue {
-  private imgUrl = "/img/eye.png";
   private isClicked = false;
   private watchCount = 0;
 
@@ -235,9 +170,9 @@ export default class MovieDetail extends Vue {
   /**
    * 表示している映画のジャンルIDと同じジャンルIDを持つ作品を表示させる.
    */
-  getGenrebyId(genre_ids: Array<number>): any {
-    return this.$store.getters.getGenreById(genre_ids);
-  }
+  // getGenrebyId(genre_ids: Array<number>): any {
+  //   return this.$store.getters.getGenreById(genre_ids);
+  // }
   private currentMovieId = 0;
   private currentMovieList = Array<Movie>();
   private currentMovie = new Movie(
@@ -311,6 +246,9 @@ export default class MovieDetail extends Vue {
       countWatch: this.currentMovie.countWatch,
       movieId: this.currentMovie.id,
     });
+  }
+  moveTosimilarMovie(currentMovieId: number): void {
+    this.$router.push(`/similarMovie/${currentMovieId}`);
   }
   // get getcurrentMovieReview(): Movie {
   //   console.log(this.$store.getters.getcurrentMovie(this.currentMovie.id));
@@ -392,6 +330,7 @@ export default class MovieDetail extends Vue {
   background-color: white;
   width: 100%;
   border-radius: 10px;
+
   margin: 10px;
   padding: 0 5px;
 }
@@ -411,6 +350,10 @@ export default class MovieDetail extends Vue {
   text-align: center;
   border-radius: 10px;
 }
+.movie-poster {
+  border-radius: 10px;
+}
+
 h5 {
   text-align: center;
 }
@@ -453,5 +396,8 @@ h5 {
   color: white;
   font-weight: bold;
   background-color: #c5cae9;
+}
+.recommendation button {
+  background-color: rgb(30, 190, 116);
 }
 </style>
