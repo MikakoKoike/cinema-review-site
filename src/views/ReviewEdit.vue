@@ -32,23 +32,29 @@
       <pre>ユーザー名：</pre>
       <div class="stars">
         <span>
-          <input id="review01" type="radio" name="review" /><label
-            for="review01"
-            >★</label
-          >
-          <input id="review02" type="radio" name="review" /><label
+          <input
+            id="size-m"
+            name="size"
+            type="radio"
+            value="M"
+            v-model="starCount"
+          />
+          <!-- id="review01" type="radio" name="review" value="star"
+          v-model="starCount" /> -->
+          <label for="review01"> ★ </label>
+          <input id="review02" type="radio" name="review" value="2" /><label
             for="review02"
             >★</label
           >
-          <input id="review03" type="radio" name="review" /><label
+          <input id="review03" type="radio" name="review" value="3" /><label
             for="review03"
             >★</label
           >
-          <input id="review04" type="radio" name="review" /><label
+          <input id="review04" type="radio" name="review" value="4" /><label
             for="review04"
             >★</label
           >
-          <input id="review05" type="radio" name="review" /><label
+          <input id="review05" type="radio" name="review" value="5" /><label
             for="review05"
             >★</label
           >
@@ -105,6 +111,8 @@ export default class XXXComponent extends Vue {
     0,
     0
   );
+  // ★の数
+  private starCount = "";
 
   /**
    * 渡されたIDをもとに情報を1件取得する
@@ -144,25 +152,31 @@ export default class XXXComponent extends Vue {
       0,
       0
     );
-    console.log(this.$store.state.movieList);
   }
 
   /**
    * レビューを追加する
    */
   addReview(): void {
+    let reviewId = 0;
+    reviewId++;
     this.$store.commit("addReview", {
       movieId: this.currentMovie.id,
       review: new Review(
-        0,
+        reviewId,
         0,
         this.currentMovie.id,
         0,
         this.postDate,
         this.reviewContent,
-        new Array<Comment>()
+        new Array<Comment>(),
+        0
       ),
     });
+  }
+
+  countStar(): void {
+    console.log(this.starCount);
   }
 }
 </script>

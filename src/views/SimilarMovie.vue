@@ -81,6 +81,7 @@ export default class XXXComponent extends Vue {
 
   async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
+    console.log(MovieId);
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
     );
