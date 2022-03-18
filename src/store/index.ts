@@ -100,6 +100,11 @@ export default new Vuex.Store({
       currentMovie.reviewList.unshift(newReview.review);
     },
 
+    /**
+     * コメントの追加
+     * @param state
+     * @param payload
+     */
     addComment(state, payload) {
       const currentMovie = state.movieList.filter(
         (movie) => movie.id === payload.movieId
@@ -133,11 +138,15 @@ export default new Vuex.Store({
             state.movieList.filter((movie) => movie.genre_ids[0] === id)
           );
         }
-        console.log(sameGenreGroup);
+        // console.log(sameGenreGroup);
         return sameGenreGroup;
       };
     },
-
+    /**
+     * 現在表示している映画のIDを取得して返す.
+     * @param state
+     * @returns movieID
+     */
     getCurrentMovieId(state) {
       return state.currentMovieId;
     },

@@ -33,31 +33,46 @@
       <div class="stars">
         <span>
           <input
-            id="size-m"
-            name="size"
+            id="review01"
             type="radio"
-            value="M"
+            name="review"
+            value="1"
             v-model="starCount"
+            @change="countStar"
           />
-          <!-- id="review01" type="radio" name="review" value="star"
-          v-model="starCount" /> -->
           <label for="review01"> ★ </label>
-          <input id="review02" type="radio" name="review" value="2" /><label
-            for="review02"
-            >★</label
-          >
-          <input id="review03" type="radio" name="review" value="3" /><label
-            for="review03"
-            >★</label
-          >
-          <input id="review04" type="radio" name="review" value="4" /><label
-            for="review04"
-            >★</label
-          >
-          <input id="review05" type="radio" name="review" value="5" /><label
-            for="review05"
-            >★</label
-          >
+          <input
+            id="review02"
+            type="radio"
+            name="review"
+            value="2"
+            v-model="starCount"
+            @change="countStar"
+          /><label for="review02">★</label>
+          <input
+            id="review03"
+            type="radio"
+            name="review"
+            value="3"
+            v-model="starCount"
+            @change="countStar"
+          /><label for="review03">★</label>
+          <input
+            id="review04"
+            type="radio"
+            name="review"
+            value="4"
+            v-model="starCount"
+            @change="countStar"
+          /><label for="review04">★</label>
+          <input
+            id="review05"
+            type="radio"
+            name="review"
+            value="5"
+            v-model="starCount"
+            @change="countStar"
+          /><label for="review05">★</label>
         </span>
       </div>
       <!-- レビュー入力欄 -->
@@ -113,6 +128,8 @@ export default class XXXComponent extends Vue {
   );
   // ★の数
   private starCount = "";
+  // レビューID
+  private reviewId = 0;
 
   /**
    * 渡されたIDをもとに情報を1件取得する
@@ -158,12 +175,15 @@ export default class XXXComponent extends Vue {
    * レビューを追加する
    */
   addReview(): void {
-    let reviewId = 0;
-    reviewId++;
+    // IDの採番
+    for (let reviewList of this.currentMovie.reviewList) {
+      this.reviewId += 1;
+      reviewList.id = this.reviewId;
+    }
     this.$store.commit("addReview", {
       movieId: this.currentMovie.id,
       review: new Review(
-        reviewId,
+        this.reviewId,
         0,
         this.currentMovie.id,
         0,
@@ -198,7 +218,7 @@ export default class XXXComponent extends Vue {
 
 .stars span {
   display: flex; /* 要素をフレックスボックスにする */
-  flex-direction: row-reverse; /* 星を逆順に並べる */
+  flex-direction: row-reverse; /*星を逆順に並べる*/
   justify-content: flex-end; /* 逆順なので、左寄せにする */
 }
 
