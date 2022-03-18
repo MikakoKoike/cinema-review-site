@@ -169,6 +169,9 @@ export default class XXXComponent extends Vue {
       0,
       0
     );
+    this.currentMovie = this.$store.getters.getcurrentMovie(
+      this.currentMovie.id
+    );
   }
   /**
    * 星の数をカウントする
@@ -182,7 +185,18 @@ export default class XXXComponent extends Vue {
    */
   addReview(): void {
     // IDの採番
-    this.reviewId++;
+    // for (let review of this.currentMovie.reviewList) {
+    //   latestReviewId = review.id;
+    //   this.reviewId = latestReviewId + 1;
+    // }
+    // let latestReviewId = 0;
+    let newId = 0;
+    if (this.currentMovie.reviewList.length !== 0) {
+      newId = this.currentMovie.reviewList[0].id + 1;
+    }
+    console.log(newId);
+
+    console.log(this.currentMovie.reviewList);
     // レビューを追加する
     this.$store.commit("addReview", {
       movieId: this.currentMovie.id,

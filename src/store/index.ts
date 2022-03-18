@@ -191,8 +191,22 @@ export default new Vuex.Store({
       };
     },
 
-    getLatestReviewId(state) {
-      state.currentMovieId;
+    getStarCount(state) {
+      return (reviewId: number) => {
+        return (movieId: number) => {
+          const newArray = [];
+          for (const movie of state.movieList) {
+            if (movie.id === movieId) {
+              for (const review of movie.reviewList) {
+                if (review.id === reviewId) {
+                  newArray.push(movie);
+                }
+              }
+            }
+          }
+          return newArray[0];
+        };
+      };
     },
   }, //end of getters
 
