@@ -9,7 +9,7 @@
         >
           <div class="movie-card z-depth-3">
             <div class="row">
-              <div class="col s4">
+              <div class="col s4 thumbnail-area">
                 <router-link v-bind:to="'/movieDetail/' + movie.id">
                   <img
                     class="responsive-img movie-img"
@@ -19,6 +19,7 @@
                     alt=""
                   />
                 </router-link>
+                <p class="btn indigo lighten-1" v-on:click="saveMovie(movie.id)">保存</p>
               </div>
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>
@@ -51,6 +52,17 @@ export default class MovieList extends Vue {
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getMovieList;
   }
+  /**
+   * ユーザーのmyMovieリストに保存するメソッド.
+   * @param - 映画のid
+   */
+  saveMovie(movieId: number): void{
+    let targetMovie = this.$store.getters.getcurrentMovie(movieId);
+    this.$store.commit("saveToMovieList", {
+      movie: targetMovie
+    });
+    alert("ムービーリストに保存されました！")
+  }
 }
 </script>
 
@@ -63,6 +75,9 @@ export default class MovieList extends Vue {
   margin: 10px;
 }
 .movie-img {
-  margin: 20px;
+  margin-top: 10px;
+}
+.thumbnail-area{
+  text-align: center;
 }
 </style>

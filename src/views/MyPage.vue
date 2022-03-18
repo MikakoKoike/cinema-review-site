@@ -58,13 +58,31 @@
 import { Component, Vue } from "vue-property-decorator";
 import M from "materialize-css";
 import { User } from "@/types/user";
+import { Movie } from "@/types/movie";
+import { Review } from "@/types/review";
+import { Comment } from "@/types/comment";
 
 @Component
 export default class MyPage extends Vue {
   private currentUserList = new Array<User>();
-  created(): void{
+  private loginUser = new User(
+    0,
+    "",
+    "",
+    "",
+    new Array<Movie>(),
+    new Array<Review>(),
+    new Array<Comment>()
+  );
+  private myMovieList = new Array<Movie>();
+
+
+  created(): void {
     this.$store.dispatch("asyncGetUserList");
     this.currentUserList = this.$store.getters.getUserList;
+
+    this.myMovieList = this.$store.getters.getCurrentUser.myMovieList;
+    console.log(this.myMovieList);
   }
   mounted(): void {
     //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。

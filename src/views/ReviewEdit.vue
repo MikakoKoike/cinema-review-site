@@ -32,26 +32,46 @@
       <pre>ユーザー名：</pre>
       <div class="stars">
         <span>
-          <input id="review01" type="radio" name="review" v-bind:value="1" v-model="starCount" v-on:change="onChange"/><label
-            for="review01"
-            >★</label
-          >
-          <input id="review02" type="radio" name="review" v-bind:value="2" v-model="starCount" v-on:change="onChange" /><label
-            for="review02"
-            >★</label
-          >
-          <input id="review03" type="radio" name="review" v-bind:value="3" v-model="starCount" v-on:change="onChange"/><label
-            for="review03"
-            >★</label
-          >
-          <input id="review04" type="radio" name="review" v-bind:value="4" v-model="starCount" v-on:change="onChange"/><label
-            for="review04"
-            >★</label
-          >
-          <input id="review05" type="radio" name="review" v-bind:value="5" v-model="starCount" v-on:change="onChange"/><label
-            for="review05"
-            >★</label
-          >
+          <input
+            id="review01"
+            type="radio"
+            name="review"
+            v-bind:value="1"
+            v-model="starCount"
+            v-on:change="onChange"
+          /><label for="review01">★</label>
+          <input
+            id="review02"
+            type="radio"
+            name="review"
+            v-bind:value="2"
+            v-model="starCount"
+            v-on:change="onChange"
+          /><label for="review02">★</label>
+          <input
+            id="review03"
+            type="radio"
+            name="review"
+            v-bind:value="3"
+            v-model="starCount"
+            v-on:change="onChange"
+          /><label for="review03">★</label>
+          <input
+            id="review04"
+            type="radio"
+            name="review"
+            v-bind:value="4"
+            v-model="starCount"
+            v-on:change="onChange"
+          /><label for="review04">★</label>
+          <input
+            id="review05"
+            type="radio"
+            name="review"
+            v-bind:value="5"
+            v-model="starCount"
+            v-on:change="onChange"
+          /><label for="review05">★</label>
         </span>
       </div>
       <!-- レビュー入力欄 -->
@@ -107,7 +127,7 @@ export default class XXXComponent extends Vue {
   );
   private starCount = 0;
 
-  onChange():void{
+  onChange(): void {
     console.log(this.starCount);
   }
 

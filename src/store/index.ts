@@ -159,6 +159,14 @@ export default new Vuex.Store({
       currentMovie.reviewList.unshift(payload.review);
       console.log(currentMovie.reviewList);
     },
+    /**
+     * ログインしているユーザーの映画リストに保存するメソッド.
+     * @param state 
+     * @param payload 
+     */
+    saveToMovieList(state, payload){
+      state.currentUser.myMovieList.unshift(payload.movie);
+    }
   }, //end of mutations
 
   modules: {},
