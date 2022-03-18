@@ -16,6 +16,7 @@ export default new Vuex.Store({
     currentMovieId: 0,
     count: 0,
     watchCount: 0,
+    reviewList: Array<Review>(),
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -72,7 +73,7 @@ export default new Vuex.Store({
           newArray.push(movie);
         }
       }
-      console.log(newArray[0].countWatch);
+      // console.log(newArray[0].countWatch);
       newArray[0].countWatch++;
       console.log(newArray[0].countWatch);
     },
@@ -94,28 +95,57 @@ export default new Vuex.Store({
           payload.review.postDate,
           payload.review.content,
           [],
-          0
+          payload.review.countStar
         ),
       };
       currentMovie.reviewList.unshift(newReview.review);
+      console.log(currentMovie.reviewList);
     },
 
+    /**
+     * コメントの追加
+     * @param state
+     * @param payload
+     */
     addComment(state, payload) {
-      const currentMovie = state.movieList.filter(
+      const newReview = state.reviewList.filter(
+        (review) => review.id === payload.reviewId
+      );
+
+      const newComment = {
+        comment: new Comment(
+          payload.review.id,
+          payload.review.userId,
+          payload.review.reviewId,
+          payload.review.postDate,
+          payload.review.content
+        ),
+      };
+      for (const review of newReview) {
+        const replyCommentList = review.replyCommentList;
+        replyCommentList.unshift(newComment.comment);
+      }
+    },
+
+    /**
+     * いいね数の追加
+     * @param state
+     * @param payload
+     */
+    addLike(state, payload) {
+      const currentReview = state.reviewList.filter(
         (movie) => movie.id === payload.movieId
       )[0];
       const newComment = {
-        review: new Review(
+        comment: new Comment(
           payload.review.id,
           payload.review.userId,
-          payload.review.movieId,
-          payload.review.countLike,
+          payload.review.reviewId,
           payload.review.postDate,
-          payload.review.content,
-          [],
-          0
+          payload.review.content
         ),
       };
+      currentReview.replyCommentList.unshift(newComment.comment);
     },
   }, //end of mutations
 
@@ -133,11 +163,15 @@ export default new Vuex.Store({
             state.movieList.filter((movie) => movie.genre_ids[0] === id)
           );
         }
-        console.log(sameGenreGroup);
+        // console.log(sameGenreGroup);
         return sameGenreGroup;
       };
     },
-
+    /**
+     * 現在表示している映画のIDを取得して返す.
+     * @param state
+     * @returns movieID
+     */
     getCurrentMovieId(state) {
       return state.currentMovieId;
     },
@@ -158,6 +192,24 @@ export default new Vuex.Store({
           }
         }
         return newArray[0];
+      };
+    },
+
+    getStarCount(state) {
+      return (reviewId: number) => {
+        return (movieId: number) => {
+          const newArray = [];
+          for (const movie of state.movieList) {
+            if (movie.id === movieId) {
+              for (const review of movie.reviewList) {
+                if (review.id === reviewId) {
+                  newArray.push(review);
+                }
+              }
+            }
+          }
+          return newArray[0];
+        };
       };
     },
   }, //end of getters
