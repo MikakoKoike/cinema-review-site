@@ -73,7 +73,7 @@ export default new Vuex.Store({
           newArray.push(movie);
         }
       }
-      console.log(newArray[0].countWatch);
+      // console.log(newArray[0].countWatch);
       newArray[0].countWatch++;
       console.log(newArray[0].countWatch);
     },
@@ -199,7 +199,7 @@ export default new Vuex.Store({
             if (movie.id === movieId) {
               for (const review of movie.reviewList) {
                 if (review.id === reviewId) {
-                  newArray.push(movie);
+                  newArray.push(review);
                 }
               }
             }
