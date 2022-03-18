@@ -18,7 +18,7 @@
 
           <button class="btn-small" v-on:click="addCountWatch">
             <i class="material-icons left">favorite</i>見たい！
-            {{ stateCurrentMovie.countWatch }}
+            {{ count }}
           </button>
 
           <p></p>
@@ -123,76 +123,6 @@
         </div>
       </div>
     </div>
-    <!-- 同じジャンルの映画をおすすめとして表示させる -->
-    <div class="similar-movie">
-      <div class="row">
-        <h5>あなたにおすすめの作品</h5>
-        <div
-          class="item"
-          v-for="(
-            sameGenreMovieList, index
-          ) of this.$store.getters.getGenreById(currentMovie.genre_ids)"
-          v-bind:key="index"
-        >
-          <div
-            class="item"
-            v-for="movie of sameGenreMovieList"
-            v-bind:key="movie.id"
-          >
-            <div class="col s6 m3 movie-genre">
-              <img
-                class="responsive-img movie-genre"
-                v-bind:src="
-                  'https://image.tmdb.org/t/p/w154' + movie.poster_path
-                "
-              />
-              <!-- <router-link v-bind:to="'/movieDetail/' + movie.id"> -->
-              <div v-on:click="onClick(movie.id)">{{ movie.title }}</div>
-              <!-- </router-link> -->
-              <div class="star">
-                ★
-                {{ movie.vote_average }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="review">
-      <p>レビュー</p>
-      <div class="stars">
-        <span>
-          <input id="review01" type="radio" name="review" /><label
-            for="review01"
-            >★</label
-          >
-          <input id="review02" type="radio" name="review" /><label
-            for="review02"
-            >★</label
-          >
-          <input id="review03" type="radio" name="review" /><label
-            for="review03"
-            >★</label
-          >
-          <input id="review04" type="radio" name="review" /><label
-            for="review04"
-            >★</label
-          >
-          <input id="review05" type="radio" name="review" /><label
-            for="review05"
-            >★</label
-          >
-        </span>
-      </div>
-    </div>
-    <button
-      type="button"
-      v-on:click="CountUp"
-      v-bind:class="{ btn: isClicked }"
-    >
-      <img v-bind:src="imgUrl" />{{ Count }}
-    </button>
   </div>
 </template>
 
@@ -206,7 +136,31 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class MovieDetail extends Vue {
+  private targetMovie = new Movie(
+    false,
+    "",
+    [0],
+    0,
+    "",
+    "",
+    "",
+    0,
+    "",
+    "",
+    "",
+    false,
+    0,
+    0,
+    new Array<string>(),
+    new Array<TimeList>(),
+    new Array<Review>(),
+    0,
+    0
+  );
   private isClicked = false;
+
+  //見たいボタン
+  private countWatch = 0;
   private stateCurrentMovie = new Movie(
     false,
     "",
@@ -237,7 +191,6 @@ export default class MovieDetail extends Vue {
   //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
   // }
   private watchCount = 0;
-
   // コメントボタン
   private commentFlag = false;
   // コメント
@@ -343,9 +296,6 @@ export default class MovieDetail extends Vue {
   /**
    * 表示している映画のジャンルIDと同じジャンルIDを持つ作品を表示させる.
    */
-  // getGenrebyId(genre_ids: Array<number>): any {
-  //   return this.$store.getters.getGenreById(genre_ids);
-  // }
   private currentMovieId = 0;
   private currentMovieList = Array<Movie>();
   private currentMovie = new Movie(
@@ -381,6 +331,31 @@ export default class MovieDetail extends Vue {
       initGenreIds.push(obj.id);
     }
 
+    for (let movie of this.$store.getters.getMovieList) {
+      if (movie.id === MovieId) {
+        this.targetMovie = new Movie(
+          movie.adult,
+          movie.backdrop_path,
+          initGenreIds,
+          movie.id,
+          movie.original_language,
+          movie.original_title,
+          movie.overview,
+          movie.popularity,
+          movie.poster_path,
+          movie.release_date,
+          movie.title,
+          movie.video,
+          movie.vote_average,
+          movie.vote_count,
+          movie.placeList,
+          movie.timeList,
+          movie.reviewList,
+          movie.countLike,
+          movie.countWatch
+        );
+      }
+    }
     this.currentMovie = new Movie(
       responseMovie.adult,
       responseMovie.backdrop_path,
@@ -448,23 +423,23 @@ export default class MovieDetail extends Vue {
       storeReview.countLike = likeCounts;
     }
   }
-  onClick(targetId: number): void {
-    setTimeout(() => {
-      this.$store.commit("setCurrentMovieId", {
-        currentMovieId: targetId,
-      });
-      this.$router.push(`/movieDetail/${targetId}`);
-    }, 10);
-    this.$router.push("/dummyPage");
-  }
 
+  /**
+   * 見たいボタンの設定.
+   */
   addCountWatch(): void {
+    this.countWatch++;
     this.$store.commit("setCountWatch", {
-      countWatch: this.currentMovie.countWatch,
+      countWatch: this.countWatch,
       movieId: this.currentMovie.id,
     });
   }
-
+  get count(): number {
+    return this.$store.getters.getCount(this.targetMovie);
+  }
+  /**
+   * おすすめ作品ページへ遷移.
+   */
   moveTosimilarMovie(currentMovieId: number): void {
     this.$router.push(`/similarMovie/${currentMovieId}`);
   }
@@ -554,15 +529,7 @@ export default class MovieDetail extends Vue {
   margin: 10px;
   padding: 0 5px;
 }
-/* .item { */
-/* display: flex; */
-/* margin: 10px;
-  padding: 10px;
-  width: 200px;
-}
-.title {
-  text-align: center; 
- } */
+
 .star {
   color: #ffd000;
 }
