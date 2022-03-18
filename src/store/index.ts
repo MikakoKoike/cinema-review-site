@@ -16,6 +16,7 @@ export default new Vuex.Store({
     currentMovieId: 0,
     count: 0,
     watchCount: 0,
+    reviewList: Array<Review>(),
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -100,22 +101,28 @@ export default new Vuex.Store({
       currentMovie.reviewList.unshift(newReview.review);
     },
 
+    /**
+     * コメントの追加
+     * @param state
+     * @param payload
+     */
     addComment(state, payload) {
-      const currentMovie = state.movieList.filter(
-        (movie) => movie.id === payload.movieId
-      )[0];
+      const newReview = state.reviewList.filter(
+        (review) => review.id === payload.reviewId
+      );
       const newComment = {
-        review: new Review(
+        comment: new Comment(
           payload.review.id,
           payload.review.userId,
-          payload.review.movieId,
-          payload.review.countLike,
+          payload.review.reviewId,
           payload.review.postDate,
-          payload.review.content,
-          [],
-          0
+          payload.review.content
         ),
       };
+      for (const review of newReview) {
+        const replyCommentList = review.replyCommentList;
+        replyCommentList.unshift(newComment.comment);
+      }
     },
   }, //end of mutations
 

@@ -129,6 +129,7 @@
 
 <script lang="ts">
 import store from "@/store";
+import { Comment } from "@/types/comment";
 import { Movie } from "@/types/movie";
 import { Review } from "@/types/review";
 import { TimeList } from "@/types/timeList";
@@ -321,16 +322,20 @@ export default class MovieDetail extends Vue {
     this.commentFlag = true;
   }
 
+  /**
+   * コメント投稿
+   */
   addComment(): void {
-    console.log("called");
     this.$store.commit("addComment", {
-      movieId: this.currentMovie.id,
+      comment: new Comment(-1, 0, -1, new Date(), "megumi"),
     });
   }
 
+  /**
+   * いいね機能
+   */
   addLike(): void {
     let likeCounts = this.likeCount++;
-    // let reviewList = new Array<Review>();
     for (let storeReview of this.storeMovie.reviewList) {
       storeReview.countLike = likeCounts;
     }
