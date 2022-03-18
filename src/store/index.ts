@@ -14,8 +14,6 @@ export default new Vuex.Store({
   state: {
     movieList: Array<Movie>(),
     currentMovieId: 0,
-    count: 0,
-    watchCount: 0,
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -66,15 +64,14 @@ export default new Vuex.Store({
     //   state.count++;
     // },
     setCountWatch(state, payload) {
-      const newArray = [];
       for (const movie of state.movieList) {
         if (movie.id === payload.movieId) {
-          newArray.push(movie);
+          console.log(movie);
+
+          movie.countWatch = payload.countWatch;
+          console.log(movie.countWatch);
         }
       }
-      console.log(newArray[0].countWatch);
-      newArray[0].countWatch++;
-      console.log(newArray[0].countWatch);
     },
     /**
      * レビューの追加
@@ -142,7 +139,9 @@ export default new Vuex.Store({
       return state.currentMovieId;
     },
     getCount(state) {
-      return state.count;
+      return (movie: Movie) => {
+        return movie.countWatch;
+      };
     },
     /**
      * detailに表示されている映画情報の取得

@@ -18,7 +18,7 @@
 
           <button class="btn-small" v-on:click="addCountWatch">
             <i class="material-icons left">favorite</i>見たい！
-            {{ currentMovie.countWatch }}
+            {{ count }}
           </button>
 
           <p></p>
@@ -137,9 +137,30 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class MovieDetail extends Vue {
+  private targetMovie = new Movie(
+    false,
+    "",
+    [0],
+    0,
+    "",
+    "",
+    "",
+    0,
+    "",
+    "",
+    "",
+    false,
+    0,
+    0,
+    new Array<string>(),
+    new Array<TimeList>(),
+    new Array<Review>(),
+    0,
+    0
+  );
   private isClicked = false;
-  private watchCount = 0;
-
+  //見たいボタン
+  private countWatch = 0;
   // コメントボタン
   private commentFlag = false;
   // コメント
@@ -244,9 +265,6 @@ export default class MovieDetail extends Vue {
   /**
    * 表示している映画のジャンルIDと同じジャンルIDを持つ作品を表示させる.
    */
-  // getGenrebyId(genre_ids: Array<number>): any {
-  //   return this.$store.getters.getGenreById(genre_ids);
-  // }
   private currentMovieId = 0;
   private currentMovieList = Array<Movie>();
   private currentMovie = new Movie(
@@ -283,6 +301,31 @@ export default class MovieDetail extends Vue {
       initGenreIds.push(obj.id);
     }
 
+    for (let movie of this.$store.getters.getMovieList) {
+      if (movie.id === MovieId) {
+        this.targetMovie = new Movie(
+          movie.adult,
+          movie.backdrop_path,
+          initGenreIds,
+          movie.id,
+          movie.original_language,
+          movie.original_title,
+          movie.overview,
+          movie.popularity,
+          movie.poster_path,
+          movie.release_date,
+          movie.title,
+          movie.video,
+          movie.vote_average,
+          movie.vote_count,
+          movie.placeList,
+          movie.timeList,
+          movie.reviewList,
+          movie.countLike,
+          movie.countWatch
+        );
+      }
+    }
     this.currentMovie = new Movie(
       responseMovie.adult,
       responseMovie.backdrop_path,
@@ -335,22 +378,22 @@ export default class MovieDetail extends Vue {
       storeReview.countLike = likeCounts;
     }
   }
-  onClick(): void {
-    setTimeout(() => {
-      let targetId = this.$route.params.id;
-      this.$store.commit("setCurrentMovieId", {
-        currentMovieId: targetId,
-      });
-      this.$router.push("/dummyPage");
-    }, 1000);
-  }
+  /**
+   * 見たいボタンの設定.
+   */
   addCountWatch(): void {
+    this.countWatch++;
     this.$store.commit("setCountWatch", {
-      countWatch: this.currentMovie.countWatch,
+      countWatch: this.countWatch,
       movieId: this.currentMovie.id,
     });
   }
-
+  get count(): number {
+    return this.$store.getters.getCount(this.targetMovie);
+  }
+  /**
+   * おすすめ作品ページへ遷移.
+   */
   moveTosimilarMovie(currentMovieId: number): void {
     this.$router.push(`/similarMovie/${currentMovieId}`);
   }
@@ -440,15 +483,7 @@ export default class MovieDetail extends Vue {
   margin: 10px;
   padding: 0 5px;
 }
-/* .item { */
-/* display: flex; */
-/* margin: 10px;
-  padding: 10px;
-  width: 200px;
-}
-.title {
-  text-align: center; 
- } */
+
 .star {
   color: #ffd000;
 }
