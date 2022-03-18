@@ -18,7 +18,7 @@
 
           <button class="btn-small" v-on:click="addCountWatch">
             <i class="material-icons left">favorite</i>見たい！
-            {{ currentMovie.countWatch }}
+            {{ stateCurrentMovie.countWatch }}
           </button>
 
           <p></p>
@@ -48,7 +48,6 @@
           </button>
         </div>
       </div>
-
       <div v-for="review of getcurrentMovieReview" v-bind:key="review.id">
         <div class="review-card z-depth-3">
           <div class="row">
@@ -124,11 +123,80 @@
         </div>
       </div>
     </div>
+    <!-- 同じジャンルの映画をおすすめとして表示させる -->
+    <div class="similar-movie">
+      <div class="row">
+        <h5>あなたにおすすめの作品</h5>
+        <div
+          class="item"
+          v-for="(
+            sameGenreMovieList, index
+          ) of this.$store.getters.getGenreById(currentMovie.genre_ids)"
+          v-bind:key="index"
+        >
+          <div
+            class="item"
+            v-for="movie of sameGenreMovieList"
+            v-bind:key="movie.id"
+          >
+            <div class="col s6 m3 movie-genre">
+              <img
+                class="responsive-img movie-genre"
+                v-bind:src="
+                  'https://image.tmdb.org/t/p/w154' + movie.poster_path
+                "
+              />
+              <!-- <router-link v-bind:to="'/movieDetail/' + movie.id"> -->
+              <div v-on:click="onClick(movie.id)">{{ movie.title }}</div>
+              <!-- </router-link> -->
+              <div class="star">
+                ★
+                {{ movie.vote_average }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review">
+      <p>レビュー</p>
+      <div class="stars">
+        <span>
+          <input id="review01" type="radio" name="review" /><label
+            for="review01"
+            >★</label
+          >
+          <input id="review02" type="radio" name="review" /><label
+            for="review02"
+            >★</label
+          >
+          <input id="review03" type="radio" name="review" /><label
+            for="review03"
+            >★</label
+          >
+          <input id="review04" type="radio" name="review" /><label
+            for="review04"
+            >★</label
+          >
+          <input id="review05" type="radio" name="review" /><label
+            for="review05"
+            >★</label
+          >
+        </span>
+      </div>
+    </div>
+    <button
+      type="button"
+      v-on:click="CountUp"
+      v-bind:class="{ btn: isClicked }"
+    >
+      <img v-bind:src="imgUrl" />{{ Count }}
+    </button>
   </div>
 </template>
 
 <script lang="ts">
-import store from "@/store";
 import { Comment } from "@/types/comment";
 import { Movie } from "@/types/movie";
 import { Review } from "@/types/review";
@@ -139,6 +207,35 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class MovieDetail extends Vue {
   private isClicked = false;
+  private stateCurrentMovie = new Movie(
+    false,
+    "",
+    [0],
+    0,
+    "",
+    "",
+    "",
+    0,
+    "",
+    "",
+    "",
+    false,
+    0,
+    0,
+    new Array<string>(),
+    new Array<TimeList>(),
+    new Array<Review>(),
+    0,
+    0
+  );
+
+  get currentReviewList(): Array<Review> {
+    return this.stateCurrentMovie.reviewList;
+  }
+
+  // get getCurrentMovie(): Movie{
+  //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
+  // }
   private watchCount = 0;
 
   // コメントボタン
@@ -173,6 +270,7 @@ export default class MovieDetail extends Vue {
   get Count(): number {
     return this.$store.getters.getCount;
   }
+
   CountUp(): void {
     this.$store.commit("countUp");
     console.log("clickされた");
@@ -277,7 +375,6 @@ export default class MovieDetail extends Vue {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
     );
-
     let responseMovie = response.data;
     let initGenreIds = new Array<number>();
     for (let obj of responseMovie.genres) {
@@ -302,8 +399,19 @@ export default class MovieDetail extends Vue {
       new Array<string>(),
       new Array<TimeList>(),
       new Array<Review>(),
+      // [
+      //   new Review(0, 0, 634649, 30, new Date(), "サイコー！！", [
+      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
+      //   ]),
+      //   new Review(1, 0, 634649, 40, new Date(), "最高の仕上がり!!", [
+      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
+      //   ]),
+      // ],
       0,
       0
+    );
+    this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
+      this.currentMovie.id
     );
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
@@ -340,15 +448,16 @@ export default class MovieDetail extends Vue {
       storeReview.countLike = likeCounts;
     }
   }
-  onClick(): void {
+  onClick(targetId: number): void {
     setTimeout(() => {
-      let targetId = this.$route.params.id;
       this.$store.commit("setCurrentMovieId", {
         currentMovieId: targetId,
       });
-      this.$router.push("/dummyPage");
-    }, 1000);
+      this.$router.push(`/movieDetail/${targetId}`);
+    }, 10);
+    this.$router.push("/dummyPage");
   }
+
   addCountWatch(): void {
     this.$store.commit("setCountWatch", {
       countWatch: this.currentMovie.countWatch,

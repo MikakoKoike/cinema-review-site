@@ -14,5 +14,9 @@ import { Component, Vue } from "vue-property-decorator";
     // HelloWorld,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  // created():void{
+  //   this.$router.push("/movieDetail/")
+  // }
+}
 </script>

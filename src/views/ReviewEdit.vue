@@ -36,11 +36,10 @@
             id="review01"
             type="radio"
             name="review"
-            value="5"
+            v-bind:value="5"
             v-model="starCount"
-            @change="countStar"
-          />
-          <label for="review01"> ★ </label>
+            v-on:change="onChange"
+          /><label for="review01">★</label>
           <input
             id="review02"
             type="radio"
