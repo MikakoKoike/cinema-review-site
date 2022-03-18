@@ -48,7 +48,6 @@
           </button>
         </div>
       </div>
-
       <div v-for="review of getcurrentMovieReview" v-bind:key="review.id">
         <div class="review-card z-depth-3">
           <div class="row">
@@ -128,7 +127,7 @@
 </template>
 
 <script lang="ts">
-import store from "@/store";
+import { Comment } from "@/types/comment";
 import { Movie } from "@/types/movie";
 import { Review } from "@/types/review";
 import { TimeList } from "@/types/timeList";
@@ -159,8 +158,39 @@ export default class MovieDetail extends Vue {
     0
   );
   private isClicked = false;
+
   //見たいボタン
   private countWatch = 0;
+  private stateCurrentMovie = new Movie(
+    false,
+    "",
+    [0],
+    0,
+    "",
+    "",
+    "",
+    0,
+    "",
+    "",
+    "",
+    false,
+    0,
+    0,
+    new Array<string>(),
+    new Array<TimeList>(),
+    new Array<Review>(),
+    0,
+    0
+  );
+
+  get currentReviewList(): Array<Review> {
+    return this.stateCurrentMovie.reviewList;
+  }
+
+  // get getCurrentMovie(): Movie{
+  //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
+  // }
+  private watchCount = 0;
   // コメントボタン
   private commentFlag = false;
   // コメント
@@ -193,6 +223,7 @@ export default class MovieDetail extends Vue {
   get Count(): number {
     return this.$store.getters.getCount;
   }
+
   CountUp(): void {
     this.$store.commit("countUp");
     console.log("clickされた");
@@ -294,7 +325,6 @@ export default class MovieDetail extends Vue {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
     );
-
     let responseMovie = response.data;
     let initGenreIds = new Array<number>();
     for (let obj of responseMovie.genres) {
@@ -344,8 +374,19 @@ export default class MovieDetail extends Vue {
       new Array<string>(),
       new Array<TimeList>(),
       new Array<Review>(),
+      // [
+      //   new Review(0, 0, 634649, 30, new Date(), "サイコー！！", [
+      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
+      //   ]),
+      //   new Review(1, 0, 634649, 40, new Date(), "最高の仕上がり!!", [
+      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
+      //   ]),
+      // ],
       0,
       0
+    );
+    this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
+      this.currentMovie.id
     );
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
@@ -364,20 +405,25 @@ export default class MovieDetail extends Vue {
     this.commentFlag = true;
   }
 
+  /**
+   * コメント投稿
+   */
   addComment(): void {
-    console.log("called");
     this.$store.commit("addComment", {
-      movieId: this.currentMovie.id,
+      comment: new Comment(-1, 0, -1, new Date(), "megumi"),
     });
   }
 
+  /**
+   * いいね機能
+   */
   addLike(): void {
     let likeCounts = this.likeCount++;
-    // let reviewList = new Array<Review>();
     for (let storeReview of this.storeMovie.reviewList) {
       storeReview.countLike = likeCounts;
     }
   }
+
   /**
    * 見たいボタンの設定.
    */

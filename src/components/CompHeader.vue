@@ -3,21 +3,23 @@
       <!-- この部分はヘッダー -->
       <nav>
         <div class="nav-wrapper indigo lighten-4">
-          <a href="#" class="brand-logo">Title</a>
+          <router-link class="brand-logo" to="/movieList">
+          Title
+          </router-link>
           <!-- この部分がハンバーガーメニュー -->
           <a href="#mobile-menu" class="sidenav-trigger" data-activates="mobile-menu">
             <i class="material-icons"  data-target="mobile-menu">menu</i>
           </a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#">My Page</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><router-link to="/movieList">Movie List</router-link></li>
+            <li><router-link to="/myPage">My Page</router-link></li>
+            <li><router-link to="/login">Sign In</router-link></li>
           </ul>
         </div>
         <ul class="sidenav grey lighten-4" id="mobile-menu">
-           <li><router-link to="/mypage">マイページ</router-link></li>
-           <li><router-link to="/login">ログイン</router-link></li>
-           <li><router-link to="/logout">ログアウト</router-link></li>
+          <li><router-link to="/movieList">Movie List</router-link></li>
+            <li><router-link to="/myPage">My Page</router-link></li>
+            <li><router-link to="/login">Sign In</router-link></li>
          </ul>
       </nav>
   </div>
@@ -31,7 +33,6 @@ export default class CompHeader extends Vue {}
 
 <style scoped>
 .header{
-  background: url(/img/bakery-1868925_1920.jpg);
   background-size: cover;
 }
 </style>

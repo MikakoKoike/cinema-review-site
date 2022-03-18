@@ -7,6 +7,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { Movie } from "@/types/movie";
 import { Comment } from "@/types/comment";
+import { User } from "@/types/user";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,19 @@ export default new Vuex.Store({
   state: {
     movieList: Array<Movie>(),
     currentMovieId: 0,
+    count: 0,
+    watchCount: 0,
+    userList: new Array<User>(),
+    currentUser: new User(
+      0,
+      "",
+      "",
+      "",
+      new Array<Movie>(),
+      new Array<Review>(),
+      new Array<Comment>()
+    ),
+    reviewList: Array<Review>(),
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -25,6 +39,13 @@ export default new Vuex.Store({
       );
       const payload = response.data;
       context.commit("showItemList", payload);
+    },
+    async asyncGetUserList(context) {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      const payload = response.data;
+      context.commit("setUserList", payload);
     },
   },
   mutations: {
@@ -55,6 +76,35 @@ export default new Vuex.Store({
           )
         );
       }
+    },
+    /**
+     * 登録されたユーザーを情報をセットする.
+     * @param state - ステイト
+     * @param payload 非同期で取得するJSONデータ
+     */
+    setUserList(state, payload) {
+      state.userList = new Array<User>();
+      for (const user of payload) {
+        state.userList.push(
+          new User(
+            user.id,
+            user.username,
+            user.email,
+            "",
+            new Array<Movie>(),
+            new Array<Review>(),
+            new Array<Comment>()
+          )
+        );
+      }
+    },
+    /**
+     * ログイン時にユーザー情報をstateにセットする.
+     * @param state - ステイト
+     * @param payload - ユーザー情報
+     */
+    setCurrentUser(state, payload) {
+      state.currentUser = payload.user;
     },
 
     setCurrentMovieId(state, payload) {
@@ -91,28 +141,64 @@ export default new Vuex.Store({
           payload.review.postDate,
           payload.review.content,
           [],
-          0
+          payload.review.countStar
         ),
       };
       currentMovie.reviewList.unshift(newReview.review);
     },
 
+    /**
+     * コメントの追加
+     * @param state
+     * @param payload
+     */
     addComment(state, payload) {
-      const currentMovie = state.movieList.filter(
+      const newReview = state.reviewList.filter(
+        (review) => review.id === payload.reviewId
+      );
+
+      const newComment = {
+        comment: new Comment(
+          payload.review.id,
+          payload.review.userId,
+          payload.review.reviewId,
+          payload.review.postDate,
+          payload.review.content
+        ),
+      };
+      for (const review of newReview) {
+        const replyCommentList = review.replyCommentList;
+        replyCommentList.unshift(newComment.comment);
+      }
+    },
+
+    /**
+     * いいね数の追加
+     * @param state
+     * @param payload
+     */
+    addLike(state, payload) {
+      const currentReview = state.reviewList.filter(
         (movie) => movie.id === payload.movieId
       )[0];
       const newComment = {
-        review: new Review(
+        comment: new Comment(
           payload.review.id,
           payload.review.userId,
-          payload.review.movieId,
-          payload.review.countLike,
+          payload.review.reviewId,
           payload.review.postDate,
-          payload.review.content,
-          [],
-          0
+          payload.review.content
         ),
       };
+      currentReview.replyCommentList.unshift(newComment.comment);
+    },
+    /**
+     * ログインしているユーザーの映画リストに保存するメソッド.
+     * @param state
+     * @param payload
+     */
+    saveToMovieList(state, payload) {
+      state.currentUser.myMovieList.unshift(payload.movie);
     },
   }, //end of mutations
 
@@ -130,11 +216,14 @@ export default new Vuex.Store({
             state.movieList.filter((movie) => movie.genre_ids[0] === id)
           );
         }
-        console.log(sameGenreGroup);
         return sameGenreGroup;
       };
     },
-
+    /**
+     * 現在表示している映画のIDを取得して返す.
+     * @param state
+     * @returns movieID
+     */
     getCurrentMovieId(state) {
       return state.currentMovieId;
     },
@@ -144,7 +233,7 @@ export default new Vuex.Store({
       };
     },
     /**
-     * detailに表示されている映画情報の取得
+     * detailに表示されている映画情報の取得.
      * @param state
      * @returns movieId
      */
@@ -158,6 +247,40 @@ export default new Vuex.Store({
         }
         return newArray[0];
       };
+    },
+
+    getStarCount(state) {
+      return (reviewId: number) => {
+        return (movieId: number) => {
+          const newArray = [];
+          for (const movie of state.movieList) {
+            if (movie.id === movieId) {
+              for (const review of movie.reviewList) {
+                if (review.id === reviewId) {
+                  newArray.push(review);
+                }
+              }
+            }
+          }
+          return newArray[0];
+        };
+      };
+    },
+    /**
+     * 登録されたユーザーを取得する.
+     * @param state - ステイト
+     * @returns 登録されたユーザーの配列
+     */
+    getUserList(state) {
+      return state.userList;
+    },
+    /**
+     * 登録されたユーザーを取得する.
+     * @param state - ステイト
+     * @returns 登録されたユーザーの配列
+     */
+    getCurrentUser(state) {
+      return state.currentUser;
     },
   }, //end of getters
 
