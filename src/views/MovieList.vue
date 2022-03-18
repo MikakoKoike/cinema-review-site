@@ -35,7 +35,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import axios from "axios";
 import { ApiMovie } from "@/types/api/apiMovie";
 @Component
 export default class MovieList extends Vue {
