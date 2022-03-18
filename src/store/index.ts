@@ -145,6 +145,7 @@ export default new Vuex.Store({
         ),
       };
       currentMovie.reviewList.unshift(newReview.review);
+      console.log(currentMovie.reviewList);
     },
 
     /**
