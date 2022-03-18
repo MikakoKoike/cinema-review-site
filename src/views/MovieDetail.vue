@@ -332,18 +332,13 @@ export default class MovieDetail extends Vue {
   }
 
   /**
-<<<<<<< HEAD
    * いいね機能
    */
   addLike(): void {
     let likeCounts = this.likeCount++;
-    let countLike = 0;
-    // for (let storeReview of this.storeMovie.reviewList) {
-    //   countLike = storeReview.countLike;
-    //   console.log(storeReview);
-    // }
-    countLike = likeCounts;
-    console.log(countLike);
+    for (let storeReview of this.storeMovie.reviewList) {
+      storeReview.countLike = likeCounts;
+    }
   }
   onClick(): void {
     setTimeout(() => {
