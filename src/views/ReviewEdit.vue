@@ -36,7 +36,7 @@
             id="review01"
             type="radio"
             name="review"
-            value="1"
+            value="5"
             v-model="starCount"
             @change="countStar"
           />
@@ -45,7 +45,7 @@
             id="review02"
             type="radio"
             name="review"
-            value="2"
+            value="4"
             v-model="starCount"
             @change="countStar"
           /><label for="review02">★</label>
@@ -61,7 +61,7 @@
             id="review04"
             type="radio"
             name="review"
-            value="4"
+            value="2"
             v-model="starCount"
             @change="countStar"
           /><label for="review04">★</label>
@@ -69,7 +69,7 @@
             id="review05"
             type="radio"
             name="review"
-            value="5"
+            value="1"
             v-model="starCount"
             @change="countStar"
           /><label for="review05">★</label>
@@ -127,7 +127,7 @@ export default class XXXComponent extends Vue {
     0
   );
   // ★の数
-  private starCount = "";
+  private starCount = 0;
   // レビューID
   private reviewId = 0;
 
@@ -170,16 +170,20 @@ export default class XXXComponent extends Vue {
       0
     );
   }
+  /**
+   * 星の数をカウントする
+   */
+  countStar(): void {
+    console.log(this.starCount);
+  }
 
   /**
    * レビューを追加する
    */
   addReview(): void {
     // IDの採番
-    for (let reviewList of this.currentMovie.reviewList) {
-      this.reviewId += 1;
-      reviewList.id = this.reviewId;
-    }
+    this.reviewId++;
+    // レビューを追加する
     this.$store.commit("addReview", {
       movieId: this.currentMovie.id,
       review: new Review(
@@ -190,13 +194,9 @@ export default class XXXComponent extends Vue {
         this.postDate,
         this.reviewContent,
         new Array<Comment>(),
-        0
+        this.starCount
       ),
     });
-  }
-
-  countStar(): void {
-    console.log(this.starCount);
   }
 }
 </script>

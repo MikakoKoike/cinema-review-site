@@ -398,7 +398,8 @@ export default class MovieDetail extends Vue {
     let likeCounts = this.likeCount++;
     let countLike = 0;
     for (let storeReview of this.storeMovie.reviewList) {
-      let countLike = storeReview.countLike;
+      countLike = storeReview.countLike;
+      console.log(storeReview);
     }
     countLike = likeCounts;
     console.log(countLike);

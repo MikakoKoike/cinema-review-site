@@ -16,6 +16,7 @@ export default new Vuex.Store({
     currentMovieId: 0,
     count: 0,
     watchCount: 0,
+    reviewList: Array<Review>(),
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -94,10 +95,11 @@ export default new Vuex.Store({
           payload.review.postDate,
           payload.review.content,
           [],
-          0
+          payload.review.countStar
         ),
       };
       currentMovie.reviewList.unshift(newReview.review);
+      console.log(currentMovie.reviewList);
     },
 
     /**
@@ -106,21 +108,40 @@ export default new Vuex.Store({
      * @param payload
      */
     addComment(state, payload) {
-      const currentMovie = state.movieList.filter(
+      const currentReview = state.reviewList.filter(
         (movie) => movie.id === payload.movieId
       )[0];
       const newComment = {
-        review: new Review(
+        comment: new Comment(
           payload.review.id,
           payload.review.userId,
-          payload.review.movieId,
-          payload.review.countLike,
+          payload.review.reviewId,
           payload.review.postDate,
-          payload.review.content,
-          [],
-          0
+          payload.review.content
         ),
       };
+      currentReview.replyCommentList.unshift(newComment.comment);
+    },
+
+    /**
+     * いいね数の追加
+     * @param state
+     * @param payload
+     */
+    addLike(state, payload) {
+      const currentReview = state.reviewList.filter(
+        (movie) => movie.id === payload.movieId
+      )[0];
+      const newComment = {
+        comment: new Comment(
+          payload.review.id,
+          payload.review.userId,
+          payload.review.reviewId,
+          payload.review.postDate,
+          payload.review.content
+        ),
+      };
+      currentReview.replyCommentList.unshift(newComment.comment);
     },
   }, //end of mutations
 
@@ -168,6 +189,10 @@ export default new Vuex.Store({
         }
         return newArray[0];
       };
+    },
+
+    getLatestReviewId(state) {
+      state.currentMovieId;
     },
   }, //end of getters
 
