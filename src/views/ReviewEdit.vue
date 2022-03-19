@@ -210,6 +210,19 @@ export default class XXXComponent extends Vue {
         this.starCount
       ),
     });
+    //レビューを自分のリストに追加する
+    this.$store.commit("saveToReviewList", {
+      review: new Review(
+        this.reviewId,
+        0,
+        this.currentMovie.id,
+        0,
+        this.postDate,
+        this.reviewContent,
+        new Array<Comment>(),
+        this.starCount
+      ),
+    });
   }
 }
 </script>
