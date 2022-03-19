@@ -7,7 +7,10 @@
             <h4>My Page</h4>
             <div class="row">
               <div class="col s3">
-                <img src="https://joeschmoe.io/api/v1/random" class="profile-img-area">
+                <img
+                  src="https://joeschmoe.io/api/v1/random"
+                  class="profile-img-area"
+                />
               </div>
               <div class="col s9">
                 <p>ユーザー名</p>
@@ -54,7 +57,11 @@
                     <p>{{ movie.overview }}</p>
                   </div>
                   <div class="col s2 offset-s10 delete-button">
-                    <span class="btn-small indigo lighten-3" v-on:click="deleteMovie(index)">削除</span>
+                    <span
+                      class="btn-small indigo lighten-3"
+                      v-on:click="deleteMovie(index)"
+                      >削除</span
+                    >
                   </div>
                 </div>
               </div>
@@ -75,12 +82,17 @@
                   <div class="col s3 movie-img-area">
                     <img
                       v-bind:src="
-                        'https://image.tmdb.org/t/p/w92' + review.getMovieByID(review.movieId, movieList).poster_path
+                        'https://image.tmdb.org/t/p/w92' +
+                        review.getMovieByID(review.movieId, movieList)
+                          .poster_path
                       "
                     />
                   </div>
                   <div class="col s9 review-info-area">
-                    <p>レビューした映画: {{ review.getMovieByID(review.movieId, movieList).title }}</p>
+                    <p>
+                      レビューした映画:
+                      {{ review.getMovieByID(review.movieId, movieList).title }}
+                    </p>
                     <p>日時: {{ review.formatDate }}</p>
                     <p>内容: {{ review.content }}</p>
                   </div>
@@ -129,13 +141,13 @@ export default class MyPage extends Vue {
       M.AutoInit();
     }, 200);
   }
-  get movieList(): Array<Movie>{
+  get movieList(): Array<Movie> {
     return this.$store.getters.getMovieList;
   }
-  deleteMovie(index: number): void{
+  deleteMovie(index: number): void {
     this.$store.commit("deleteMovieFromReviewList", {
-      index: index
-    })
+      index: index,
+    });
   }
 }
 </script>
@@ -190,23 +202,32 @@ export default class MyPage extends Vue {
   height: auto;
   border-radius: 10px;
 }
-.movie-img-area{
+.movie-img-area {
   margin: 20px 0;
   text-align: center;
 }
-.my-review-card{
+.my-review-card {
   background-color: bisque;
   width: 100%;
   height: auto;
   border-radius: 10px;
 }
-.profile-img-area{
+.profile-img-area {
   width: 150px;
   border-radius: 1000px;
   border: 5px solid gray;
 }
-.delete-button{
+.delete-button {
   text-align: center;
   margin-bottom: 10px;
 }
+.tabs .indicator {
+  background-color: none;
+}
+.tabs .tab a.active {
+  background: transparent;
+}
+.tabs .tab a:hover {
+  background-color: #eee;
+} /*Text color on hover*/
 </style>
