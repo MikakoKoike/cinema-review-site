@@ -19,7 +19,7 @@
                     alt=""
                   />
                 </router-link>
-                <p class="btn indigo lighten-1" v-on:click="saveMovie(movie.id)">保存</p>
+                <p class="btn-small indigo lighten-1" v-on:click="saveMovie(movie.id)">保存</p>
               </div>
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>

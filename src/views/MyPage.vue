@@ -5,7 +5,17 @@
         <div class="row">
           <div class="col s12 card-content">
             <h4>My Page</h4>
-            <p>ここにテキストが入ります。</p>
+            <div class="row">
+              <div class="col s3">
+                <img src="https://joeschmoe.io/api/v1/random" class="profile-img-area">
+              </div>
+              <div class="col s9">
+                <p>ユーザー名</p>
+                <h4>{{ loginUser.displayName }}</h4>
+                <p>紹介文</p>
+                <h5>{{ loginUser.introContent }}</h5>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -28,7 +38,7 @@
               </p>
               <div
                 class="my-movie-cred"
-                v-for="movie of myMovieList"
+                v-for="(movie, index) of myMovieList"
                 v-bind:key="movie.id"
               >
                 <div class="row">
@@ -43,6 +53,9 @@
                     <h4>{{ movie.title }}</h4>
                     <p>{{ movie.overview }}</p>
                   </div>
+                  <div class="col s2 offset-s10 delete-button">
+                    <span class="btn-small indigo lighten-3" v-on:click="deleteMovie(index)">削除</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -53,12 +66,26 @@
               >
                 My Leview List
               </p>
-              <p>
-                ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
-              </p>
-              <p>
-                ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
-              </p>
+              <div
+                class="my-review-card"
+                v-for="review of myReviewList"
+                v-bind:key="review.id"
+              >
+                <div class="row">
+                  <div class="col s3 movie-img-area">
+                    <img
+                      v-bind:src="
+                        'https://image.tmdb.org/t/p/w92' + review.getMovieByID(review.movieId, movieList).poster_path
+                      "
+                    />
+                  </div>
+                  <div class="col s9 review-info-area">
+                    <p>レビューした映画: {{ review.getMovieByID(review.movieId, movieList).title }}</p>
+                    <p>日時: {{ review.formatDate }}</p>
+                    <p>内容: {{ review.content }}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -85,21 +112,30 @@ export default class MyPage extends Vue {
     "",
     new Array<Movie>(),
     new Array<Review>(),
-    new Array<Comment>()
+    new Array<Comment>(),
+    ""
   );
   private myMovieList = new Array<Movie>();
-
+  private myReviewList = new Array<Review>();
   created(): void {
-    this.$store.dispatch("asyncGetUserList");
     this.currentUserList = this.$store.getters.getUserList;
-
     this.myMovieList = this.$store.getters.getCurrentUser.myMovieList;
+    this.myReviewList = this.$store.getters.getCurrentUser.myReviewList;
+    this.loginUser = this.$store.getters.getCurrentUser;
   }
   mounted(): void {
     //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。
     setTimeout(() => {
       M.AutoInit();
     }, 200);
+  }
+  get movieList(): Array<Movie>{
+    return this.$store.getters.getMovieList;
+  }
+  deleteMovie(index: number): void{
+    this.$store.commit("deleteMovieFromReviewList", {
+      index: index
+    })
   }
 }
 </script>
@@ -157,5 +193,20 @@ export default class MyPage extends Vue {
 .movie-img-area{
   margin: 20px 0;
   text-align: center;
+}
+.my-review-card{
+  background-color: bisque;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.profile-img-area{
+  width: 150px;
+  border-radius: 1000px;
+  border: 5px solid gray;
+}
+.delete-button{
+  text-align: center;
+  margin-bottom: 10px;
 }
 </style>

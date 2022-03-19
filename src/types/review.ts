@@ -1,6 +1,7 @@
 import { Comment } from "./comment";
 import { format } from "date-fns";
 import ja from "date-fns/locale/ja";
+import { Movie } from "./movie";
 /**
  * レビューコメントを表すドメインクラス.
  */
@@ -24,6 +25,14 @@ export class Review {
     private _countStar: number
   ) {}
 
+  /**
+   * 映画のIDを使って、該当する映画を探すメソッド.
+   * @param - 映画のID
+   * @return - 映画
+   */
+  getMovieByID(movieId: number, movieList: Array<Movie>): Movie{
+    return movieList.find((movie) => movie.id === movieId ) as Movie
+  }
   /**
    * 日付のフォーマット
    */

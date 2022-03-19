@@ -20,12 +20,13 @@ export default new Vuex.Store({
     userList: new Array<User>(),
     currentUser: new User(
       0,
-      "",
+      "Alphabet",
       "",
       "",
       new Array<Movie>(),
       new Array<Review>(),
-      new Array<Comment>()
+      new Array<Comment>(),
+      "このアプリを使い始めて3ヶ月目に突入!"
     ),
     reviewList: Array<Review>(),
   }, //end of state
@@ -93,7 +94,8 @@ export default new Vuex.Store({
             "",
             new Array<Movie>(),
             new Array<Review>(),
-            new Array<Comment>()
+            new Array<Comment>(),
+            ""
           )
         );
       }
@@ -199,6 +201,22 @@ export default new Vuex.Store({
      */
     saveToMovieList(state, payload) {
       state.currentUser.myMovieList.unshift(payload.movie);
+    },
+    /**
+     * * ログインしているユーザーのレビューリストに保存するメソッド.
+     * @param state
+     * @param payload
+     */
+     saveToReviewList(state, payload) {
+      state.currentUser.myReviewList.unshift(payload.review);
+    },
+    /**
+     * * ログインしているユーザーのレビューリストから削除するメソッド.
+     * @param state - ステイト
+     * @param payload - 削除するmovieのindex番号
+     */
+     deleteMovieFromReviewList(state, payload) {
+      state.currentUser.myMovieList.splice(payload.index, 1);
     },
   }, //end of mutations
 
