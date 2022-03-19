@@ -26,12 +26,25 @@
               <p class="flow-text indigo-text text-darken4" id="eatin">
                 My Movie List
               </p>
-              <p>
-                ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
-              </p>
-              <p>
-                ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。ここにテキストが入ります。
-              </p>
+              <div
+                class="my-movie-cred"
+                v-for="movie of myMovieList"
+                v-bind:key="movie.id"
+              >
+                <div class="row">
+                  <div class="col s3 movie-img-area">
+                    <img
+                      v-bind:src="
+                        'https://image.tmdb.org/t/p/w92' + movie.poster_path
+                      "
+                    />
+                  </div>
+                  <div class="col s9 movie-info-area">
+                    <h4>{{ movie.title }}</h4>
+                    <p>{{ movie.overview }}</p>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col s12" id="myReviewList">
               <p
@@ -76,13 +89,11 @@ export default class MyPage extends Vue {
   );
   private myMovieList = new Array<Movie>();
 
-
   created(): void {
     this.$store.dispatch("asyncGetUserList");
     this.currentUserList = this.$store.getters.getUserList;
 
     this.myMovieList = this.$store.getters.getCurrentUser.myMovieList;
-    console.log(this.myMovieList);
   }
   mounted(): void {
     //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。
@@ -136,5 +147,15 @@ export default class MyPage extends Vue {
   border-radius: 10px;
   border: 5px solid #f5f6fa;
   margin: 5px 20px;
+}
+.my-movie-cred {
+  background-color: bisque;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.movie-img-area{
+  margin: 20px 0;
+  text-align: center;
 }
 </style>
