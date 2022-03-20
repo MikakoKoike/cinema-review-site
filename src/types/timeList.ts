@@ -1,6 +1,16 @@
 export class TimeList {
-  constructor(private _startDate: string, private _endDate: string) {}
+  constructor(
+    private _place: string,
+    private _startDate: string,
+    private _endDate: string
+  ) {}
+  public get place(): string {
+    return this._place;
+  }
 
+  public set place(place: string) {
+    this._place = place;
+  }
   public get startDate(): string {
     return this._startDate;
   }
