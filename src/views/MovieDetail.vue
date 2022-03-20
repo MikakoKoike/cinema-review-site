@@ -113,13 +113,15 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
+        <div class="row">
+          <div
+            class="col s5 push-s2 comment-card z-depth-3"
+            v-for="comment of review.replyCommentList"
+            v-bind:key="comment.id"
+          >
+            <p>ユーザーID:{{ comment.userId }}</p>
+            <h5>{{ comment.content }}</h5>
+          </div>
         </div>
       </div>
     </div>
@@ -374,14 +376,6 @@ export default class MovieDetail extends Vue {
       new Array<string>(),
       new Array<TimeList>(),
       new Array<Review>(),
-      // [
-      //   new Review(0, 0, 634649, 30, new Date(), "サイコー！！", [
-      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
-      //   ]),
-      //   new Review(1, 0, 634649, 40, new Date(), "最高の仕上がり!!", [
-      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
-      //   ]),
-      // ],
       0,
       0
     );
@@ -390,6 +384,8 @@ export default class MovieDetail extends Vue {
     );
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
+
+    await this.$store.dispatch("asyncGetReviewList");
   }
   /**
    * レビューリストを取得する
@@ -513,12 +509,11 @@ export default class MovieDetail extends Vue {
 }
 .comment-card {
   background-color: white;
-  margin-left: 10px;
   width: 100%;
-  height: 150px;
+  height: 100px;
   border-radius: 10px;
   border: 5px solid #f5f6fa;
-  margin: 5px 20px;
+  margin: 5px;
 }
 
 .similar-movie {

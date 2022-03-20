@@ -48,6 +48,19 @@ export default new Vuex.Store({
       const payload = response.data;
       context.commit("setUserList", payload);
     },
+    /**
+     * レビューリストをAPIから取得.
+     * @param context - コンテクスト
+     */
+    async asyncGetReviewList(context) {
+      const response = await axios.get<{
+        reviewList: Array<Review>;
+      }>(
+        "https://demo7166221.mockable.io/reviewList"
+      );
+      const payload = response.data;
+      context.commit("addReviewList", payload);
+    },
   },
   mutations: {
     showItemList(state, payload) {
@@ -218,6 +231,19 @@ export default new Vuex.Store({
      deleteMovieFromReviewList(state, payload) {
       state.currentUser.myMovieList.splice(payload.index, 1);
     },
+    /**
+     * APIからレビューリストを追加する.
+     * 
+     */
+    addReviewList(state, payload){
+      for(const movie of state.movieList){
+        for(const review of payload.reviewList as Array<Review>){
+          if( Number(review.movieId) === movie.id){
+            movie.reviewList.push(review);
+          }
+        }
+      }
+    }
   }, //end of mutations
 
   modules: {},
