@@ -374,14 +374,6 @@ export default class MovieDetail extends Vue {
       new Array<string>(),
       new Array<TimeList>(),
       new Array<Review>(),
-      // [
-      //   new Review(0, 0, 634649, 30, new Date(), "サイコー！！", [
-      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
-      //   ]),
-      //   new Review(1, 0, 634649, 40, new Date(), "最高の仕上がり!!", [
-      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
-      //   ]),
-      // ],
       0,
       0
     );
@@ -390,6 +382,8 @@ export default class MovieDetail extends Vue {
     );
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
+
+    await this.$store.dispatch("asyncGetReviewList");
   }
   /**
    * レビューリストを取得する
