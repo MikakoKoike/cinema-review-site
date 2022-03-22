@@ -4,9 +4,10 @@
       <input
         id="searchItem"
         class="search-name-input"
-        v-model="searchMovieTitle"
+        v-model="searchMovieString"
         autocomplete="on"
         list="currentMovieList"
+        onfocus="this.select();"
       />
       <datalist id="currentMovieList">
         <div v-for="movie of currentMovieList" :key="movie.title">
@@ -14,11 +15,32 @@
         </div>
       </datalist>
 
-      <label for="searchItem">
+      <label for="searchMovie">
         <button class="btn search-btn" type="button" v-on:click="searchMovie">
           <span>検&nbsp;&nbsp;索</span>
         </button></label
       >
+      <span>
+        <label>
+          <input
+            name="searchWay"
+            type="radio"
+            value="movie"
+            v-model="searchWay"
+            checked
+          />
+          <span>映画</span>
+        </label>
+        <label>
+          <input
+            name="searchWay"
+            type="radio"
+            value="keyword"
+            v-model="searchWay"
+          />
+          <span>キーワード</span>
+        </label>
+      </span>
     </form>
     <div class="container">
       <div class="row">
@@ -64,9 +86,10 @@ import { ApiMovie } from "@/types/api/apiMovie";
 @Component
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
-
-  private searchMovieTitle = "Let's find your movie!";
-
+  // 検索バー
+  private searchMovieString = "Let's find your favourite movie!";
+  // 検索方法
+  private searchWay = "";
   async created(): Promise<void> {
     // let newArray = new Array<Movie>();
     // for (let i = 1; i < 10; i++) {
@@ -90,16 +113,40 @@ export default class MovieList extends Vue {
     alert("ムービーリストに保存されました！");
   }
 
+  /**
+   * 検索バーに入力された値からの絞り込み
+   */
   searchMovie(): void {
-    // 入力された文字列で絞り込みを行う
-    this.currentMovieList = this.$store.getters.getSearchedMovieList(
-      this.searchMovieTitle
-    );
+    if (this.searchWay === "movie") {
+      // 入力された文字列で絞り込みを行う
+      this.currentMovieList = this.$store.getters.getSearchedMovieList(
+        this.searchMovieString
+      );
+    } else if (this.searchWay === "keyword") {
+      this.currentMovieList = this.$store.getters.getSearchedMovieListByKeyWord(
+        this.searchMovieString
+      );
+    }
   }
 }
 </script>
 
 <style scoped>
+.searchMovies {
+  padding: 10px;
+}
+.search-form {
+  text-align: center;
+}
+
+.search-name-input {
+  width: 500px;
+  color: gray;
+}
+
+.search-name-input:hover {
+  color: black;
+}
 .movie-card {
   background-color: white;
   width: 100%;
