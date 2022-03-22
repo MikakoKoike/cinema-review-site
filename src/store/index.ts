@@ -319,6 +319,21 @@ export default new Vuex.Store({
     getCurrentUser(state) {
       return state.currentUser;
     },
+    /**
+     * 映画を名前で部分一致検索をする.
+     *
+     * @param state ステート
+     * @return 部分一致検索で検索された映画一覧情報
+     */
+    getSearchedMovieList(state) {
+      return (title: string) => {
+        return state.movieList.filter(
+          (movie) =>
+            movie.title.includes(title.toUpperCase()) ||
+            movie.title.includes(title)
+        );
+      };
+    },
   }, //end of getters
 
   plugins: [

@@ -1,5 +1,25 @@
 <template>
   <div class="movie-list">
+    <form method="post" class="search-form">
+      <input
+        id="searchItem"
+        class="search-name-input"
+        v-model="searchMovieTitle"
+        autocomplete="on"
+        list="searchItemList"
+      />
+      <datalist id="searchItemList">
+        <div v-for="item of searchItemList" :key="item.name">
+          <option :value="item.name"></option>
+        </div>
+      </datalist>
+
+      <label for="searchItem">
+        <button class="btn search-btn" type="button" v-on:click="searchItems">
+          <span>検&nbsp;&nbsp;索</span>
+        </button></label
+      >
+    </form>
     <div class="container">
       <div class="row">
         <div
@@ -19,7 +39,12 @@
                     alt=""
                   />
                 </router-link>
-                <p class="btn-small indigo lighten-1" v-on:click="saveMovie(movie.id)">保存</p>
+                <p
+                  class="btn-small indigo lighten-1"
+                  v-on:click="saveMovie(movie.id)"
+                >
+                  保存
+                </p>
               </div>
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>
@@ -40,6 +65,8 @@ import { ApiMovie } from "@/types/api/apiMovie";
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
 
+  private searchMovieTitle = "";
+
   async created(): Promise<void> {
     // let newArray = new Array<Movie>();
     // for (let i = 1; i < 10; i++) {
@@ -47,7 +74,7 @@ export default class MovieList extends Vue {
     //     `https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${i}&with_original_language=en&with_watch_monetization_types=flatrate`
     //   );
     // }
-  
+
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getMovieList;
   }
@@ -55,12 +82,19 @@ export default class MovieList extends Vue {
    * ユーザーのmyMovieリストに保存するメソッド.
    * @param - 映画のid
    */
-  saveMovie(movieId: number): void{
+  saveMovie(movieId: number): void {
     let targetMovie = this.$store.getters.getcurrentMovie(movieId);
     this.$store.commit("saveToMovieList", {
-      movie: targetMovie
+      movie: targetMovie,
     });
-    alert("ムービーリストに保存されました！")
+    alert("ムービーリストに保存されました！");
+  }
+
+  searchItems(): void {
+    // 入力された文字列で絞り込みを行う
+    this.currentMovieList = this.$store.getters.getSearchedMovieList(
+      this.searchMovieTitle
+    );
   }
 }
 </script>
@@ -76,7 +110,7 @@ export default class MovieList extends Vue {
 .movie-img {
   margin-top: 10px;
 }
-.thumbnail-area{
+.thumbnail-area {
   text-align: center;
 }
 </style>
