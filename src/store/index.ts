@@ -119,9 +119,8 @@ export default new Vuex.Store({
       for (const movie of state.movieList) {
         if (movie.id === payload.movieId) {
           console.log(movie);
-
           movie.countWatch = payload.countWatch;
-          console.log(movie.countWatch);
+          console.log("    1    ",movie.countWatch);
         }
       }
     },
@@ -284,6 +283,19 @@ export default new Vuex.Store({
         };
       };
     },
+    getCountWatch(state) {
+      return state.movieList[0].countWatch;
+      // return (movieId: number) => {
+      //     let targetCount = 0;
+      //     for (const movie of state.movieList) {
+      //       if (movie.id === movieId) {
+      //         targetCount = movie.countWatch
+      //       }
+      //     }
+      //     return targetCount;
+      // };
+    },
+    /**
     /**
      * 登録されたユーザーを取得する.
      * @param state - ステイト

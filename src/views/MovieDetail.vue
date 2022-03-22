@@ -12,28 +12,28 @@
           />
         </div>
         <div class="col s9 card-content">
-          <h4>{{ currentMovie.title }}</h4>
-          <p>{{ currentMovie.overview }}</p>
+          <h4>{{ targetMovie.title }}</h4>
+          <p>{{ targetMovie.overview }}</p>
           <p class="star">{{ showRate }}{{ currentMovie.vote_average }}</p>
 
           <button class="btn-small" v-on:click="addCountWatch">
             <i class="material-icons left">favorite</i>見たい！
-            {{ count }}
+            {{ countWatch }}
           </button>
 
           <p></p>
         </div>
         <div class="col s6 card-content">
           <h4>Sub Title</h4>
-          <p>{{ currentMovie.overview }}</p>
+          <p>{{ targetMovie.overview }}</p>
         </div>
         <div class="col s6 card-content">
           <h4>Sub Title</h4>
-          <p>{{ currentMovie.overview }}</p>
+          <p>{{ targetMovie.overview }}</p>
         </div>
         <!-- レビューボタン -->
         <!-- ここで次の画面にIDを渡す -->
-        <router-link v-bind:to="'/reviewEdit/' + currentMovie.id">
+        <router-link v-bind:to="'/reviewEdit/' + targetMovie.id">
           <button type="button" class="reviewButton">レビューする</button>
         </router-link>
 
@@ -98,6 +98,7 @@
               いいね！<span class="likeHeart">♡</span
               ><span>{{ review.countLike }}</span>
             </button>
+            <CompLikeButton v-bind:review="review"/>
             <button type="button" class="commentBtn" @click="showComment">
               コメントする
             </button>
@@ -133,8 +134,13 @@ import { Review } from "@/types/review";
 import { TimeList } from "@/types/timeList";
 import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
+import CompLikeButton from "@/components/CompLikeButton.vue";
 
-@Component
+@Component({
+  components: {
+    CompLikeButton
+  }
+})
 export default class MovieDetail extends Vue {
   private targetMovie = new Movie(
     false,
@@ -159,8 +165,7 @@ export default class MovieDetail extends Vue {
   );
   private isClicked = false;
 
-  //見たいボタン
-  private countWatch = 0;
+  
   private stateCurrentMovie = new Movie(
     false,
     "",
@@ -183,6 +188,10 @@ export default class MovieDetail extends Vue {
     0
   );
 
+  //見たいボタン
+  private watchId = this.$route.params.id;
+  private countWatch = 0;
+
   get currentReviewList(): Array<Review> {
     return this.stateCurrentMovie.reviewList;
   }
@@ -190,7 +199,7 @@ export default class MovieDetail extends Vue {
   // get getCurrentMovie(): Movie{
   //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
   // }
-  private watchCount = 0;
+  // private watchCount = 0;
   // コメントボタン
   private commentFlag = false;
   // コメント
@@ -356,6 +365,7 @@ export default class MovieDetail extends Vue {
         );
       }
     }
+
     this.currentMovie = new Movie(
       responseMovie.adult,
       responseMovie.backdrop_path,
@@ -388,6 +398,9 @@ export default class MovieDetail extends Vue {
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
     );
+    this.countWatch = this.targetMovie.countWatch;
+    console.log(this.targetMovie.countWatch);
+
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
   }
@@ -429,14 +442,15 @@ export default class MovieDetail extends Vue {
    */
   addCountWatch(): void {
     this.countWatch++;
+    console.log(this.countWatch);
     this.$store.commit("setCountWatch", {
-      countWatch: this.countWatch,
+      countWatch: this.stateCurrentMovie.countWatch,
       movieId: this.currentMovie.id,
     });
   }
-  get count(): number {
-    return this.$store.getters.getCount(this.targetMovie);
-  }
+  // get count(): number {
+  //   return this.$store.getters.getCount(this.targetMovie);
+  // }
   /**
    * おすすめ作品ページへ遷移.
    */
