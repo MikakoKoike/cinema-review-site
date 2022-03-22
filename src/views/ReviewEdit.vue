@@ -183,12 +183,12 @@ export default class XXXComponent extends Vue {
    * レビューを追加する
    */
   addReview(): void {
+    // IDの採番
     let newId = 0;
     if (this.currentMovie.reviewList.length !== 0) {
       newId = this.currentMovie.reviewList[0].id + 1;
     }
     console.log("newID:" + newId);
-
     console.log(this.currentMovie.reviewList);
     // レビューを追加する
     this.$store.commit("addReview", {

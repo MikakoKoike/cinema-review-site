@@ -180,7 +180,7 @@ export default new Vuex.Store({
      */
     addLike(state, payload) {
       const currentReview = state.reviewList.filter(
-        (movie) => movie.id === payload.movieId
+        (review) => review.id === payload.movieId
       )[0];
       const newComment = {
         comment: new Comment(

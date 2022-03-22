@@ -48,7 +48,10 @@
           </button>
         </div>
       </div>
-      <div v-for="review of getcurrentMovieReview" v-bind:key="review.id">
+      <div
+        v-for="(review, reviewIndex) of getcurrentMovieReview"
+        v-bind:key="review.id"
+      >
         <div class="review-card z-depth-3">
           <div class="row">
             <div class="col s2 review-header">
@@ -94,7 +97,7 @@
           </div>
           <div class="col s12">
             <p>レビュー内容：{{ review.content }}</p>
-            <button type="button" class="likeBtn" @click="addLike">
+            <button type="button" class="likeBtn" @click="addLike(reviewIndex)">
               いいね！<span class="likeHeart">♡</span
               ><span>{{ review.countLike }}</span>
             </button>
@@ -417,11 +420,20 @@ export default class MovieDetail extends Vue {
   /**
    * いいね機能
    */
-  addLike(): void {
+  addLike(reviewIndex: number): void {
     let likeCounts = this.likeCount++;
-    for (let storeReview of this.storeMovie.reviewList) {
-      storeReview.countLike = likeCounts;
+    let currentMovie = this.$store.getters.getcurrentMovie(this.storeMovie.id);
+    let currentReviewList = currentMovie.reviewList;
+    console.log(currentReviewList[0].id);
+
+    for (let countStars of currentReviewList.countStar) {
+      countStars = likeCounts;
     }
+    // 最初のいいね機能
+    // let likeCounts = this.likeCount++;
+    // for (let storeReview of this.storeMovie.reviewList) {
+    //   storeReview.countLike = likeCounts;
+    // }
   }
 
   /**
