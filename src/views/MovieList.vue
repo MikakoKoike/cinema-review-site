@@ -41,6 +41,20 @@
           <span>キーワード</span>
         </label>
       </span>
+      <br />
+      <span>絞り込み機能 </span>
+      <input type="checkbox" id="releasedDate" value="releasedDate" />
+      <span><label for="releasedDate">公開中</label></span>
+      <input type="checkbox" id="soonReleased" value="soonReleased" />
+      <span><label for="soonReleased">公開予定</label></span>
+      <input type="checkbox" id="years" value="years" />
+      <span><label for="years">年代</label></span>
+      <input type="checkbox" id="genre" value="genre" />
+      <span><label for="genre">ジャンル</label></span>
+      <input type="checkbox" id="popularity" value="popularity" />
+      <span><label for="popularity">人気</label></span>
+      <input type="checkbox" id="voteAverage" value="voteAverage" />
+      <span><label for="voteAverage">高評価</label></span>
     </form>
     <div class="container">
       <div class="row">
@@ -90,6 +104,12 @@ export default class MovieList extends Vue {
   private searchMovieString = "Let's find your favourite movie!";
   // 検索方法
   private searchWay = "";
+  // 検索オプション
+  private searchOptions = "";
+
+  /**
+   * movieListを表示する.
+   */
   async created(): Promise<void> {
     // let newArray = new Array<Movie>();
     // for (let i = 1; i < 10; i++) {
@@ -117,6 +137,7 @@ export default class MovieList extends Vue {
    * 検索バーに入力された値からの絞り込み
    */
   searchMovie(): void {
+    console.dir("movieAPI:" + this.currentMovieList);
     if (this.searchWay === "movie") {
       // 入力された文字列で絞り込みを行う
       this.currentMovieList = this.$store.getters.getSearchedMovieList(
@@ -132,6 +153,9 @@ export default class MovieList extends Vue {
 </script>
 
 <style scoped>
+.searchOptions {
+  width: 300px;
+}
 .searchMovies {
   padding: 10px;
 }
