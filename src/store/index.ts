@@ -55,9 +55,7 @@ export default new Vuex.Store({
     async asyncGetReviewList(context) {
       const response = await axios.get<{
         reviewList: Array<Review>;
-      }>(
-        "https://demo7166221.mockable.io/reviewList"
-      );
+      }>("https://demo7166221.mockable.io/reviewList");
       const payload = response.data;
       context.commit("addReviewList", payload);
     },
@@ -160,7 +158,6 @@ export default new Vuex.Store({
         ),
       };
       currentMovie.reviewList.unshift(newReview.review);
-      console.log(currentMovie.reviewList);
     },
 
     /**
@@ -194,19 +191,14 @@ export default new Vuex.Store({
      * @param payload
      */
     addLike(state, payload) {
-      const currentReview = state.reviewList.filter(
-        (review) => review.id === payload.movieId
+      const currentMovie = state.movieList.filter(
+        (movie) => movie.id === payload.movieId
       )[0];
-      const newComment = {
-        comment: new Comment(
-          payload.review.id,
-          payload.review.userId,
-          payload.review.reviewId,
-          payload.review.postDate,
-          payload.review.content
-        ),
-      };
-      currentReview.replyCommentList.unshift(newComment.comment);
+
+      const currentReview = currentMovie.reviewList;
+      let countLike = currentMovie.countLike;
+
+      countLike = payload.countLike;
     },
     /**
      * ログインしているユーザーの映画リストに保存するメソッド.
@@ -221,7 +213,7 @@ export default new Vuex.Store({
      * @param state
      * @param payload
      */
-     saveToReviewList(state, payload) {
+    saveToReviewList(state, payload) {
       state.currentUser.myReviewList.unshift(payload.review);
     },
     /**
@@ -229,22 +221,22 @@ export default new Vuex.Store({
      * @param state - ステイト
      * @param payload - 削除するmovieのindex番号
      */
-     deleteMovieFromReviewList(state, payload) {
+    deleteMovieFromReviewList(state, payload) {
       state.currentUser.myMovieList.splice(payload.index, 1);
     },
     /**
      * APIからレビューリストを追加する.
-     * 
+     *
      */
-    addReviewList(state, payload){
-      for(const movie of state.movieList){
-        for(const review of payload.reviewList as Array<Review>){
-          if( Number(review.movieId) === movie.id){
+    addReviewList(state, payload) {
+      for (const movie of state.movieList) {
+        for (const review of payload.reviewList as Array<Review>) {
+          if (Number(review.movieId) === movie.id) {
             movie.reviewList.push(review);
           }
         }
       }
-    }
+    },
   }, //end of mutations
 
   modules: {},

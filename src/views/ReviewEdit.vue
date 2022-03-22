@@ -188,13 +188,12 @@ export default class XXXComponent extends Vue {
     if (this.currentMovie.reviewList.length !== 0) {
       newId = this.currentMovie.reviewList[0].id + 1;
     }
-    console.log("newID:" + newId);
-    console.log(this.currentMovie.reviewList);
+    this.reviewId = newId;
     // レビューを追加する
     this.$store.commit("addReview", {
       movieId: this.currentMovie.id,
       review: new Review(
-        newId,
+        this.reviewId,
         0,
         this.currentMovie.id,
         0,

@@ -48,10 +48,7 @@
           </button>
         </div>
       </div>
-      <div
-        v-for="(review, reviewIndex) of getcurrentMovieReview"
-        v-bind:key="review.id"
-      >
+      <div v-for="review of getcurrentMovieReview" v-bind:key="review.id">
         <div class="review-card z-depth-3">
           <div class="row">
             <div class="col s2 review-header">
@@ -92,14 +89,15 @@
               </div>
 
               <p>ユーザーID：{{ review.userId }}</p>
+              <p>レビューID：{{ review.id }}</p>
               <p>投稿日時：{{ review.formatDate }}</p>
             </div>
           </div>
           <div class="col s12">
             <p>レビュー内容：{{ review.content }}</p>
-            <button type="button" class="likeBtn" @click="addLike(reviewIndex)">
+            <button type="button" class="likeBtn" @click="addLike">
               いいね！<span class="likeHeart">♡</span
-              ><span>{{ review.countLike }}</span>
+              ><span>{{ review.countLike }}</span> ><span>{{ likeCount }}</span>
             </button>
             <button type="button" class="commentBtn" @click="showComment">
               コメントする
@@ -224,6 +222,8 @@ export default class MovieDetail extends Vue {
   );
   // いいね数
   private likeCount = 0;
+  // いいねしたレビューのID
+  private currentReviewId = 0;
 
   get Count(): number {
     return this.$store.getters.getCount;
@@ -361,6 +361,7 @@ export default class MovieDetail extends Vue {
         );
       }
     }
+
     this.currentMovie = new Movie(
       responseMovie.adult,
       responseMovie.backdrop_path,
@@ -378,13 +379,14 @@ export default class MovieDetail extends Vue {
       responseMovie.vote_count,
       new Array<string>(),
       new Array<TimeList>(),
-      new Array<Review>(),
+      this.storeMovie.reviewList,
       0,
       0
     );
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
     );
+    console.log(this.storeMovie.reviewList);
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
 
@@ -416,16 +418,20 @@ export default class MovieDetail extends Vue {
   /**
    * いいね機能
    */
-  addLike(reviewIndex: number): void {
-    let likeCounts = this.likeCount++;
-    let currentMovie = this.$store.getters.getcurrentMovie(this.storeMovie.id);
-    let currentReviewList = currentMovie.reviewList;
-    console.log(currentReviewList[0].id);
+  getCurrentReviewId(reviewIndex: number): void {
+    this.currentReviewId = this.currentReviewList[reviewIndex].id;
+  }
 
-    for (let countStars of currentReviewList.countStar) {
-      countStars = likeCounts;
-    }
-    // 最初のいいね機能
+  addLike(): void {
+    // いいね数のカウントアップ
+    this.likeCount++;
+
+    this.$store.commit("addLike", {
+      movieId: this.currentMovieId,
+      countLike: this.likeCount,
+    });
+
+    // 最初のいいね
     // let likeCounts = this.likeCount++;
     // for (let storeReview of this.storeMovie.reviewList) {
     //   storeReview.countLike = likeCounts;
