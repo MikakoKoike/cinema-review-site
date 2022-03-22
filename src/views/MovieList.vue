@@ -6,16 +6,16 @@
         class="search-name-input"
         v-model="searchMovieTitle"
         autocomplete="on"
-        list="searchItemList"
+        list="currentMovieList"
       />
-      <datalist id="searchItemList">
-        <div v-for="item of searchItemList" :key="item.name">
-          <option :value="item.name"></option>
+      <datalist id="currentMovieList">
+        <div v-for="movie of currentMovieList" :key="movie.title">
+          <option :value="movie.title"></option>
         </div>
       </datalist>
 
       <label for="searchItem">
-        <button class="btn search-btn" type="button" v-on:click="searchItems">
+        <button class="btn search-btn" type="button" v-on:click="searchMovie">
           <span>検&nbsp;&nbsp;索</span>
         </button></label
       >
@@ -65,7 +65,7 @@ import { ApiMovie } from "@/types/api/apiMovie";
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
 
-  private searchMovieTitle = "";
+  private searchMovieTitle = "Let's find your movie!";
 
   async created(): Promise<void> {
     // let newArray = new Array<Movie>();
@@ -90,7 +90,7 @@ export default class MovieList extends Vue {
     alert("ムービーリストに保存されました！");
   }
 
-  searchItems(): void {
+  searchMovie(): void {
     // 入力された文字列で絞り込みを行う
     this.currentMovieList = this.$store.getters.getSearchedMovieList(
       this.searchMovieTitle

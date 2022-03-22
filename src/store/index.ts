@@ -327,10 +327,9 @@ export default new Vuex.Store({
      */
     getSearchedMovieList(state) {
       return (title: string) => {
-        return state.movieList.filter(
-          (movie) =>
-            movie.title.includes(title.toUpperCase()) ||
-            movie.title.includes(title)
+        return state.movieList.filter((movie) =>
+          // 大文字に変換したmovieListの映画タイトルから、大文字に変換した検索文字列を含んだものを返す。
+          movie.title.toUpperCase().includes(title.toUpperCase())
         );
       };
     },
