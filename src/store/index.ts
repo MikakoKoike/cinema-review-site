@@ -8,6 +8,7 @@ import Vuex from "vuex";
 import { Movie } from "@/types/movie";
 import { Comment } from "@/types/comment";
 import { User } from "@/types/user";
+import { format } from "date-fns";
 
 Vue.use(Vuex);
 
@@ -362,6 +363,57 @@ export default new Vuex.Store({
         }
         return newArray.length !== 0 ? newArray[0].countWatch : 0;
       }
+    },
+    /**
+     * 映画を名前で部分一致検索をする.
+     *
+     * @param state ステート
+     * @return 部分一致検索で検索された映画一覧情報
+     */
+    getSearchedMovieList(state) {
+      return (title: string) => {
+        return state.movieList.filter((movie) =>
+          // 大文字に変換したmovieListの映画タイトルから、大文字に変換した検索文字列を含んだものを返す。
+          movie.title.toUpperCase().includes(title.toUpperCase())
+        );
+      };
+    },
+
+    /**
+     * 概要欄の中から、該当する値を検索する.
+     * @param state
+     * @returns 部分一致検索で検索された映画一覧情報
+     */
+    getSearchedMovieListByKeyWord(state) {
+      return (keyword: string) => {
+        return state.movieList.filter((movie) =>
+          // 大文字に変換したmovieListの映画タイトルから、大文字に変換した検索文字列を含んだものを返す。
+          movie.overview.toUpperCase().includes(keyword.toUpperCase())
+        );
+      };
+    },
+
+    /**
+     * 公開中の映画タイトルを検索する
+     * @param state
+     * @returns
+     */
+    getSearchedReleasedMovieList(state) {
+      const nowDate = format(new Date(), "yyyy-MM-dd");
+
+      return (title: string) => {
+        return state.movieList.filter((movie) =>
+          // 公開中の映画タイトルを検索する
+          {
+            if (movie.release_date >= nowDate) {
+              console.log(movie.release_date >= nowDate);
+              movie.title.toUpperCase().includes(title.toUpperCase());
+            } else {
+              return;
+            }
+          }
+        );
+      };
     },
   }, //end of getters
 

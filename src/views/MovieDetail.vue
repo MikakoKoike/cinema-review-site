@@ -335,12 +335,12 @@ export default class MovieDetail extends Vue {
     0
   );
 
-  created(): void{
+  async created(): Promise<void>{
     const MovieId = Number(this.$route.params.id);
 
     
     this.targetApiMovie = this.$store.getters.getcurrentMovie(MovieId);
-    
+
     this.$store.commit("setMovieList",{
         movie: new Movie(
           this.targetApiMovie.adult,
@@ -366,72 +366,17 @@ export default class MovieDetail extends Vue {
       });
 
       this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
-    console.log(this.countWatch);
-    // const response = await axios.get(
-    //   `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
-    // );
-    // let responseMovie = response.data;
-    // let initGenreIds = new Array<number>();
-    // for (let obj of responseMovie.genres) {
-    //   initGenreIds.push(obj.id);
-    // }
 
-    // for (let movie of this.$store.getters.getMovieList) {
-    //   if (movie.id === MovieId) {
-    //     this.targetApiMovie = new Movie(
-    //       movie.adult,
-    //       movie.backdrop_path,
-    //       initGenreIds,
-    //       movie.id,
-    //       movie.original_language,
-    //       movie.original_title,
-    //       movie.overview,
-    //       movie.popularity,
-    //       movie.poster_path,
-    //       movie.release_date,
-    //       movie.title,
-    //       movie.video,
-    //       movie.vote_average,
-    //       movie.vote_count,
-    //       movie.placeList,
-    //       movie.timeList,
-    //       movie.reviewList,
-    //       movie.countLike,
-    //       movie.countWatch
-    //     );
-    //   }
-    // }
+    
 
-    // this.currentMovie = new Movie(
-    //   responseMovie.adult,
-    //   responseMovie.backdrop_path,
-    //   initGenreIds,
-    //   responseMovie.id,
-    //   responseMovie.original_language,
-    //   responseMovie.original_title,
-    //   responseMovie.overview,
-    //   responseMovie.popularity,
-    //   responseMovie.poster_path,
-    //   responseMovie.release_date,
-    //   responseMovie.title,
-    //   responseMovie.video,
-    //   responseMovie.vote_average,
-    //   responseMovie.vote_count,
-    //   new Array<string>(),
-    //   new Array<TimeList>(),
-    //   this.storeMovie.reviewList,
-    //   0,
-    //   0
-    // );
+    this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
+      this.currentMovie.id
+    );
+    this.countWatch = this.targetApiMovie.countWatch;
+    this.currentMovieId = MovieId;
+    this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
 
-    // this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
-    //   this.currentMovie.id
-    // );
-    // this.countWatch = this.targetApiMovie.countWatch;
-    // this.currentMovieId = MovieId;
-    // this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
-
-    // await this.$store.dispatch("asyncGetReviewList");
+    await this.$store.dispatch("asyncGetReviewList");
   }
   /**
    * レビューリストを取得する
