@@ -16,10 +16,10 @@
           <p>{{ currentMovie.overview }}</p>
           <p class="star">{{ showRate }}{{ currentMovie.vote_average }}</p>
 
-          <button class="btn-small" v-on:click="addCountWatch">
+          <span class="btn-small" v-on:click="addCountWatch">
             <i class="material-icons left">favorite</i>見たい！
-            {{ count }}
-          </button>
+            {{ countWatch }}
+          </span>
 
           <p></p>
         </div>
@@ -157,10 +157,9 @@ export default class MovieDetail extends Vue {
     0,
     0
   );
-  private isClicked = false;
 
   //見たいボタン
-  private countWatch = 0;
+  private countWatch = this.$store.getters.getCount(508947);
   private stateCurrentMovie = new Movie(
     false,
     "",
@@ -190,7 +189,7 @@ export default class MovieDetail extends Vue {
   // get getCurrentMovie(): Movie{
   //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
   // }
-  private watchCount = 0;
+
   // コメントボタン
   private commentFlag = false;
   // コメント
@@ -219,16 +218,6 @@ export default class MovieDetail extends Vue {
   );
   // いいね数
   private likeCount = 0;
-
-  get Count(): number {
-    return this.$store.getters.getCount;
-  }
-
-  CountUp(): void {
-    this.$store.commit("countUp");
-    console.log("clickされた");
-    this.isClicked = !this.isClicked;
-  }
 
   /**
    * 映画の評価(vote_average)を★の数で表示する.
@@ -383,13 +372,15 @@ export default class MovieDetail extends Vue {
       //   ]),
       // ],
       0,
-      0
+      this.$store.getters.getCount(this.targetMovie)
     );
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
     );
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
+    this.countWatch = this.$store.getters.getCount(this.targetMovie);
+    console.log(this.countWatch);
   }
   /**
    * レビューリストを取得する
@@ -434,6 +425,9 @@ export default class MovieDetail extends Vue {
       movieId: this.currentMovie.id,
     });
   }
+  /**
+   * 見たいボタンを押した数を返す.
+   */
   get count(): number {
     return this.$store.getters.getCount(this.targetMovie);
   }

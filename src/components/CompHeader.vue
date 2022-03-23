@@ -1,27 +1,32 @@
 <template>
   <div class="header">
-      <!-- この部分はヘッダー -->
-      <nav>
-        <div class="nav-wrapper indigo lighten-4">
-          <router-link class="brand-logo" to="/movieList">
-          Title
-          </router-link>
-          <!-- この部分がハンバーガーメニュー -->
-          <a href="#mobile-menu" class="sidenav-trigger" data-activates="mobile-menu">
-            <i class="material-icons"  data-target="mobile-menu">menu</i>
-          </a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><router-link to="/movieList">Movie List</router-link></li>
-            <li><router-link to="/myPage">My Page</router-link></li>
-            <li><router-link to="/login">Sign In</router-link></li>
-          </ul>
-        </div>
-        <ul class="sidenav grey lighten-4" id="mobile-menu">
+    <!-- この部分はヘッダー -->
+    <nav>
+      <div class="nav-wrapper blue-grey darken-4">
+        <router-link class="brand-logo" to="/movieList">
+          Rakus Films
+        </router-link>
+        <!-- この部分がハンバーガーメニュー -->
+        <a
+          href="#mobile-menu"
+          class="sidenav-trigger"
+          data-activates="mobile-menu"
+        >
+          <i class="material-icons" data-target="mobile-menu">menu</i>
+        </a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><router-link to="/movieList">Movie List</router-link></li>
-            <li><router-link to="/myPage">My Page</router-link></li>
-            <li><router-link to="/login">Sign In</router-link></li>
-         </ul>
-      </nav>
+          <li><router-link to="/movieList2">Movie List2</router-link></li>
+          <li><router-link to="/myPage">My Page</router-link></li>
+          <li><router-link to="/login">Sign In</router-link></li>
+        </ul>
+      </div>
+      <ul class="sidenav grey lighten-4" id="mobile-menu">
+        <li><router-link to="/movieList">Movie List</router-link></li>
+        <li><router-link to="/myPage">My Page</router-link></li>
+        <li><router-link to="/login">Sign In</router-link></li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -32,7 +37,8 @@ export default class CompHeader extends Vue {}
 </script>
 
 <style scoped>
-.header{
+.header {
   background-size: cover;
+  text-shadow: 0 0 20px #00afec, 0 0 5px #00afec;
 }
 </style>

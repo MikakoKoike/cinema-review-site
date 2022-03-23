@@ -13,10 +13,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    movieList: Array<Movie>(),
+    movieList: Array<Movie>(), //詳細画面
+    apimovieList: Array<ApiMovie>(), //一覧画面
     currentMovieId: 0,
-    count: 0,
-    watchCount: 0,
+    countWatch: 0,
     userList: new Array<User>(),
     currentUser: new User(
       0,
@@ -113,6 +113,9 @@ export default new Vuex.Store({
     // countUp(state) {
     //   state.count++;
     // },
+    /**
+     * 見たいボタンの設定.
+     */
     setCountWatch(state, payload) {
       for (const movie of state.movieList) {
         if (movie.id === payload.movieId) {
@@ -227,7 +230,12 @@ export default new Vuex.Store({
     getCurrentMovieId(state) {
       return state.currentMovieId;
     },
-    getCount(state) {
+    /**
+     * 見たいボタンを押した数を取得.
+     * @param state
+     * @returns 見たい数
+     */
+    getCount() {
       return (movie: Movie) => {
         return movie.countWatch;
       };

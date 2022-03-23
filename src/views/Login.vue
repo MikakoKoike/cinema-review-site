@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row login-page">
           <div class="col s12 z-depth-6 card-panel">
-            <div class="error">{{ errorMessage }}</div>
+            <!-- <div class="error">{{ errorMessage }}</div> -->
             <form class="login-form">
               <div class="row"></div>
               <div class="row">
@@ -31,8 +31,12 @@
                   <label for="password">パスワード</label>
                 </div>
               </div>
-              <div class="row login-btn ">
-                <button class="btn indigo lighten-4" type="button" v-on:click="loginUser">
+              <div class="row login-btn">
+                <button
+                  class="btn indigo lighten-4"
+                  type="button"
+                  v-on:click="signIn"
+                >
                   <span>ログイン</span>
                 </button>
               </div>
@@ -55,9 +59,30 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app, analytics } from "../main";
 @Component
 export default class Login extends Vue {
+  private email = "";
+  private password = "";
 
+  async signIn(): Promise<void> {
+    const auth = getAuth();
+    try {
+      const response = await signInWithEmailAndPassword(
+        auth,
+        this.email,
+        this.password
+      );
+
+      console.log(response);
+      alert("登録されました。");
+      console.log(response.user);
+    } catch (error) {
+      console.log(error);
+      alert("エラーが発生");
+    }
+  }
 }
 </script>
 

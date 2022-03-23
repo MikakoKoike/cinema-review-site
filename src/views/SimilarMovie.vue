@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="similar-movie">
     <!-- 同じジャンルの映画をおすすめとして表示させる -->
-    <div class="similar-movie">
-      <div class="row">
+    <div>
+      <div class="row item">
         <h5>あなたにおすすめの作品</h5>
         <div
           class="item"
@@ -15,18 +15,18 @@
             v-bind:key="movie.id"
           >
             <div class="col s6 m3 movie-genre">
-              <img
-                class="responsive-img movie-poster"
-                v-bind:src="
-                  'https://image.tmdb.org/t/p/w154' + movie.poster_path
-                "
-              />
               <router-link
                 v-bind:to="'/movieDetail/' + movie.id"
                 v-on:click="onClick"
               >
-                <div>{{ movie.title }}</div>
+                <img
+                  class="movie-poster"
+                  v-bind:src="
+                    'https://image.tmdb.org/t/p/w154' + movie.poster_path
+                  "
+                />
               </router-link>
+              <div class="title">{{ movie.title }}</div>
               <div class="star">
                 ★
                 {{ movie.vote_average }}
@@ -36,7 +36,7 @@
         </div>
       </div>
       <router-link v-bind:to="'/movieDetail/' + currentMovieId" class="btn">
-        作品詳細に戻る
+        <a href="#">作品詳細に戻る</a>
       </router-link>
     </div>
   </div>
@@ -126,7 +126,60 @@ export default class XXXComponent extends Vue {
 </script>
 
 <style scoped>
+.row {
+  margin: 0;
+}
+h5 {
+  color: aliceblue;
+  text-align: center;
+  text-shadow: 0 0 20px #00afec, 0 0 5px #00afec;
+  margin-top: 0;
+}
 .star {
   color: #ffd000;
+}
+.title {
+  color: white;
+}
+.similar-movie {
+  background-color: #1a1b20;
+}
+/* .item {
+  text-align: center;
+} */
+.movie-genre {
+  text-align: center;
+}
+/* .movie-genre:hover { */
+/* box-shadow: 10px 10px 15px -10px whitesmoke; */
+/* } */
+.movie-poster:hover {
+  box-shadow: 5px -8px 20px #fff;
+}
+.btn {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+  background: #000;
+}
+
+.btn a {
+  margin: 0 15px;
+  padding: 10px 30px;
+  color: #ff21f4bd;
+  text-decoration: none;
+  font-size: 20px;
+  letter-spacing: 3px;
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+}
+
+.btn a:hover {
+  background: #ff21f4;
+  color: #000;
+  box-shadow: 0 0 50px #ff21f4;
+  transition-delay: 0.5s;
 }
 </style>
