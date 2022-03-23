@@ -342,6 +342,7 @@ export default class MovieDetail extends Vue {
     this.targetApiMovie = this.$store.getters.getcurrentMovie(MovieId);
 
     this.$store.commit("setMovieList",{
+        movieId: MovieId,
         movie: new Movie(
           this.targetApiMovie.adult,
           this.targetApiMovie.backdrop_path,
@@ -372,7 +373,6 @@ export default class MovieDetail extends Vue {
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
     );
-    this.countWatch = this.targetApiMovie.countWatch;
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
 
@@ -382,7 +382,7 @@ export default class MovieDetail extends Vue {
    * レビューリストを取得する
    */
   get getcurrentMovieReview(): Array<Review> {
-    return this.storeMovie.reviewList;
+    return this.$store.getters.getcurrentMovie2(this.currentMovieId).reviewList;
   }
 
   /**
