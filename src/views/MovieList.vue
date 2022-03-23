@@ -52,6 +52,7 @@
             name="releaseDate"
             id="releasedDate"
             value="releasedDate"
+            v-model="releaseStatus"
           />
           <span><label for="releasedDate">公開中</label></span>
           <input
@@ -59,6 +60,7 @@
             name="releaseDate"
             id="soonReleased"
             value="soonReleased"
+            v-model="releaseStatus"
           />
           <span><label for="soonReleased">近日公開</label></span>
         </div>
@@ -193,6 +195,8 @@ export default class MovieList extends Vue {
   private searchWay = "";
   // 検索オプション
   private searchOptions = "";
+  // 公開状況
+  private releaseStatus = "";
 
   /**
    * movieListを表示する.
