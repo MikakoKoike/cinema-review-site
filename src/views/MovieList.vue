@@ -43,16 +43,88 @@
       </span>
       <br />
       <span>絞り込み機能 </span>
-      <input type="checkbox" id="releasedDate" value="releasedDate" />
-      <span><label for="releasedDate">公開中</label></span>
-      <input type="checkbox" id="soonReleased" value="soonReleased" />
-      <span><label for="soonReleased">公開予定</label></span>
-      <input type="checkbox" id="years" value="years" />
-      <span><label for="years">年代</label></span>
-      <input type="checkbox" id="genre" value="genre" />
-      <span><label for="genre">ジャンル</label></span>
-      <input type="checkbox" id="popularity" value="popularity" />
-      <span><label for="popularity">人気</label></span>
+      <div class="searchByReleaseDate">
+        <hr />
+        <span>公開日：</span><br />
+        <input
+          type="radio"
+          name="releaseDate"
+          id="releasedDate"
+          value="releasedDate"
+        />
+        <span><label for="releasedDate">公開中</label></span>
+        <input
+          type="radio"
+          name="releaseDate"
+          id="soonReleased"
+          value="soonReleased"
+        />
+        <span><label for="soonReleased">近日公開</label></span>
+      </div>
+      <div class="searchByYears">
+        <hr />
+        <span>年代：</span><br />
+        <input type="radio" name="years" id="1900s" value="years" />
+        <span><label for="1900s">1900年代</label></span>
+        <input type="radio" name="years" id="2000s" value="years" />
+        <span><label for="2000s">2000年代</label></span>
+      </div>
+      <div class="searchBygenre">
+        <hr />
+        <span>ジャンル：</span>
+        <input type="checkbox" name="genre" value="action" id="action" />
+        <span> <label for="action"> Action(アクション）</label> </span>
+        <input type="checkbox" name="genre" value="adventure" id="adventure" />
+        <span>
+          <label for="adventure"> Adventure（アドベンチャー）</label>
+        </span>
+        <input type="checkbox" name="genre" value="animation" id="animation" />
+        <span> <label for="animation"> Animation （アニメ） </label></span>
+        <input type="checkbox" name="genre" value="comedy" id="comedy" />
+        <span> <label for="comedy"> Comedy（コメディ）</label> </span>
+        <input type="checkbox" name="genre" value="crime" id="crime" />
+        <span> <label for="crime"> （暴力） </label></span>
+        <input
+          type="checkbox"
+          name="genre"
+          value="documentary"
+          id="documentary"
+        />
+        <span>
+          <label for="documentary">Documentary （ドキュメンタリ） </label></span
+        >
+        <input type="checkbox" name="genre" value="drama" id="drama" />
+        <span> <label for="drama">Drama （ドラマ） </label></span>
+        <input type="checkbox" name="genre" value="family" id="family" />
+        <span> <label for="family">Family（家族） </label></span>
+        <input type="checkbox" name="genre" value="fantasy" id="fantasy" />
+        <span> <label for="fantasy">Fantasy （ファンタジー） </label></span>
+        <input type="checkbox" name="genre" value="history" id="history" />
+        <span> <label for="history">History （歴史） </label></span>
+        <input type="checkbox" name="genre" value="horror" id="horror" />
+        <span> <label for="horror">Horror （ホラー） </label></span>
+        <input type="checkbox" name="genre" value="music" id="music" />
+        <span> <label for="music">Music （ミュージカル） </label></span>
+        <input type="checkbox" name="genre" value="mystery" id="mystery" />
+        <span> <label for="mystery">Mystery （ミステリー） </label></span>
+        <input type="checkbox" name="genre" value="romance" id="romance" />
+        <span> <label for="romance">Romance （恋愛・ロマンス） </label></span>
+        <input
+          type="checkbox"
+          name="genre"
+          value="sciencefiction"
+          id="sciencefiction"
+        />
+        <span> <label for="sciencefiction">Science Fiction （SF) </label></span>
+        <input type="checkbox" name="genre" value="tvmovie" id="tvmovie" />
+        <span> <label for="tvmovie">TV Movie （TV映画） </label></span>
+        <input type="checkbox" name="genre" value="thriller" id="thriller" />
+        <span> <label for="thriller">Thriller （スリラー） </label></span>
+        <input type="checkbox" name="genre" value="war" id="war" />
+        <span> <label for="war">War （戦争） </label></span>
+        <input type="checkbox" name="genre" value="western" id="western" />
+        <span> <label for="western">Western （ウェスターン） </label></span>
+      </div>
       <input type="checkbox" id="voteAverage" value="voteAverage" />
       <span><label for="voteAverage">高評価</label></span>
     </form>
