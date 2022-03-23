@@ -51,7 +51,7 @@
             type="radio"
             name="releaseDate"
             id="releasedDate"
-            value="releasedDate"
+            value="released"
             v-model="releaseStatus"
           />
           <span><label for="releasedDate">公開中</label></span>
@@ -213,7 +213,6 @@ export default class MovieList extends Vue {
 
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getApiMovieList;
-
   }
   /**
    * ユーザーのmyMovieリストに保存するメソッド.
@@ -228,19 +227,33 @@ export default class MovieList extends Vue {
   }
 
   /**
-   * 検索バーに入力された値からの絞り込み
+   * 検索機能
    */
   searchMovie(): void {
-    console.dir("movieAPI:" + this.currentMovieList);
+    let currentMovie = new Array<ApiMovie>();
     if (this.searchWay === "movie") {
       // 入力された文字列で絞り込みを行う
       this.currentMovieList = this.$store.getters.getSearchedMovieList(
         this.searchMovieString
       );
+      currentMovie = this.currentMovieList;
     } else if (this.searchWay === "keyword") {
       this.currentMovieList = this.$store.getters.getSearchedMovieListByKeyWord(
         this.searchMovieString
       );
+      currentMovie = this.currentMovieList;
+    }
+    // 公開中の映画を検索する
+    if (this.releaseStatus === "released") {
+      this.$store.getters.getSearchedReleasedMovieList;
+    } else if (this.releaseStatus === "soonReleased") {
+      console.log("called soonReleased");
+
+      // this.currentMovieList = this.$store.getters.getSearchedReleasedMovie(
+      //   this.searchMovieString
+      // );
+    } else {
+      return;
     }
   }
 }

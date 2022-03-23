@@ -8,7 +8,7 @@ import Vuex from "vuex";
 import { Movie } from "@/types/movie";
 import { Comment } from "@/types/comment";
 import { User } from "@/types/user";
-import { format } from "date-fns";
+import { format, getDay } from "date-fns";
 
 Vue.use(Vuex);
 
@@ -81,7 +81,7 @@ export default new Vuex.Store({
             movie.title,
             movie.video,
             movie.vote_average,
-            movie.vote_count,
+            movie.vote_count
           )
         );
       }
@@ -185,11 +185,11 @@ export default new Vuex.Store({
      * @param payload
      */
     addLike(state, payload) {
-      for(const movie of state.movieList ){
-        for(const review of movie.reviewList)
-        if( review.id === payload.reviewId ){
-          review.countLike = payload.countLike;
-        }
+      for (const movie of state.movieList) {
+        for (const review of movie.reviewList)
+          if (review.id === payload.reviewId) {
+            review.countLike = payload.countLike;
+          }
       }
     },
     /**
@@ -232,10 +232,10 @@ export default new Vuex.Store({
     /**
      * apiMovieではなく、Movieリストを作る.
      */
-    setMovieList(state, payload){
-      state.movieList.push(payload.movie)
-      console.log(state.movieList)
-    }
+    setMovieList(state, payload) {
+      state.movieList.push(payload.movie);
+      console.log(state.movieList);
+    },
   }, //end of mutations
 
   modules: {},
@@ -334,35 +334,37 @@ export default new Vuex.Store({
     getReviewListByMovieId(state) {
       return (movieId: number) => {
         const newArray = [];
-        for(const movie of state.movieList){
-          if(movie.id === movieId){
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
             newArray.push(movie);
           }
         }
-        return newArray.length !== 0 ? newArray[0].reviewList : new Array<Review>();
-      }
+        return newArray.length !== 0
+          ? newArray[0].reviewList
+          : new Array<Review>();
+      };
     },
     getCountLikeByMovieId(state) {
       return (movieId: number) => {
         const newArray = [];
-        for(const movie of state.movieList){
-          if(movie.id === movieId){
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
             newArray.push(movie);
           }
         }
         return newArray.length !== 0 ? newArray[0].countLike : 0;
-      }
+      };
     },
     getCountWatchByMovieId(state) {
       return (movieId: number) => {
         const newArray = [];
-        for(const movie of state.movieList){
-          if(movie.id === movieId){
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
             newArray.push(movie);
           }
         }
         return newArray.length !== 0 ? newArray[0].countWatch : 0;
-      }
+      };
     },
     /**
      * 映画を名前で部分一致検索をする.
@@ -372,7 +374,7 @@ export default new Vuex.Store({
      */
     getSearchedMovieList(state) {
       return (title: string) => {
-        return state.movieList.filter((movie) =>
+        return state.apiMovieList.filter((movie) =>
           // 大文字に変換したmovieListの映画タイトルから、大文字に変換した検索文字列を含んだものを返す。
           movie.title.toUpperCase().includes(title.toUpperCase())
         );
@@ -386,8 +388,7 @@ export default new Vuex.Store({
      */
     getSearchedMovieListByKeyWord(state) {
       return (keyword: string) => {
-        return state.movieList.filter((movie) =>
-          // 大文字に変換したmovieListの映画タイトルから、大文字に変換した検索文字列を含んだものを返す。
+        return state.apiMovieList.filter((movie) =>
           movie.overview.toUpperCase().includes(keyword.toUpperCase())
         );
       };
@@ -399,22 +400,32 @@ export default new Vuex.Store({
      * @returns
      */
     getSearchedReleasedMovieList(state) {
-      const nowDate = format(new Date(), "yyyy-MM-dd");
-
-      return (title: string) => {
-        return state.movieList.filter((movie) =>
-          // 公開中の映画タイトルを検索する
-          {
-            if (movie.release_date >= nowDate) {
-              console.log(movie.release_date >= nowDate);
-              movie.title.toUpperCase().includes(title.toUpperCase());
-            } else {
-              return;
-            }
-          }
-        );
-      };
+      // 現在の日付
+      const nowDate = new Date();
+      // 公開日
+      let releaseDate = new Date();
+      // 公開中の条件
+      const releasedMovieDate = nowDate >= releaseDate;
+      // 公開中の映画
+      const releasedMovies = new Array<ApiMovie>();
+      // 公開中の映画を絞り込む
+      for (const apiMovie of state.apiMovieList) {
+        // 公開日を表示映画ぶん取得する
+        releaseDate = new Date(apiMovie.release_date);
+        // フィルターをする
+        if (releasedMovieDate) {
+          releasedMovies.push(apiMovie);
+        } else {
+          console.log("NOT RELEASED");
+        }
+      }
+      console.log("success");
+      return releasedMovies;
     },
+
+    // getSoonReleasedMovieList(state) {
+    //   const nowDate = new Date();
+    // },
   }, //end of getters
 
   plugins: [
