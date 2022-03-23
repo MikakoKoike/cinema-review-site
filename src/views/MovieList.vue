@@ -186,8 +186,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { ApiMovie } from "@/types/api/apiMovie";
-import { Movie } from "@/types/movie";
-import { TimeList } from "@/types/timeList";
 @Component
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
@@ -230,28 +228,21 @@ export default class MovieList extends Vue {
    * 検索機能
    */
   searchMovie(): void {
-    let currentMovie = new Array<ApiMovie>();
     if (this.searchWay === "movie") {
       // 入力された文字列で絞り込みを行う
       this.currentMovieList = this.$store.getters.getSearchedMovieList(
         this.searchMovieString
       );
-      currentMovie = this.currentMovieList;
     } else if (this.searchWay === "keyword") {
       this.currentMovieList = this.$store.getters.getSearchedMovieListByKeyWord(
         this.searchMovieString
       );
-      currentMovie = this.currentMovieList;
     }
     // 公開中の映画を検索する
     if (this.releaseStatus === "released") {
       this.$store.getters.getSearchedReleasedMovieList;
     } else if (this.releaseStatus === "soonReleased") {
       console.log("called soonReleased");
-
-      // this.currentMovieList = this.$store.getters.getSearchedReleasedMovie(
-      //   this.searchMovieString
-      // );
     } else {
       return;
     }

@@ -8,7 +8,13 @@ import Vuex from "vuex";
 import { Movie } from "@/types/movie";
 import { Comment } from "@/types/comment";
 import { User } from "@/types/user";
-import { format, getDay } from "date-fns";
+import {
+  getYear,
+  format,
+  getDay,
+  differenceInCalendarMonths,
+  differenceInCalendarYears,
+} from "date-fns";
 
 Vue.use(Vuex);
 
@@ -38,7 +44,8 @@ export default new Vuex.Store({
         page: number;
         results: Array<ApiMovie>;
       }>(
-        "https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_original_language=en&with_watch_monetization_types=flatrate"
+        // "https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=ja-JP&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_original_language=en&with_watch_monetization_types=flatrate"
+        "https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=ja-JP"
       );
       const payload = response.data;
       context.commit("showItemList", payload);
@@ -405,15 +412,32 @@ export default new Vuex.Store({
       // 公開日
       let releaseDate = new Date();
       // 公開中の条件
-      const releasedMovieDate = nowDate >= releaseDate;
+      const releasedMovieYears =
+        // differenceInCalendarYears(
+        //   nowDate,
+        //   releaseDate
+        // );
+        getYear(releaseDate);
+      const releasedMovieMonth = differenceInCalendarMonths(
+        nowDate,
+        releaseDate
+      );
+
       // 公開中の映画
       const releasedMovies = new Array<ApiMovie>();
       // 公開中の映画を絞り込む
       for (const apiMovie of state.apiMovieList) {
         // 公開日を表示映画ぶん取得する
         releaseDate = new Date(apiMovie.release_date);
+        console.log(releasedMovieMonth);
+        console.log(releasedMovieYears);
+
         // フィルターをする
-        if (releasedMovieDate) {
+        if (
+          releasedMovieYears === 0 &&
+          releasedMovieMonth >= 0 &&
+          releasedMovieMonth <= 3
+        ) {
           releasedMovies.push(apiMovie);
         } else {
           console.log("NOT RELEASED");
