@@ -1,0 +1,69 @@
+{
+  "theaters": [
+    {
+      "place": "TOHOシネマズ新宿",
+      "startDate": "09:40",
+      "endtDate": "12:50"
+    },
+    {
+      "place": "TOHOシネマズ新宿",
+      "startDate": "13:30",
+      "endtDate": "16:40"
+    },
+    {
+      "place": "TOHOシネマズ新宿",
+      "startDate": "17:10",
+      "endtDate": "20:20"
+    },
+    {
+      "place": "TOHOシネマズ新宿",
+      "startDate": "20:45",
+      "endtDate": "23:55"
+    },
+    {
+      "place": "TOHOシネマズ新宿",
+      "startDate": "24:30",
+      "endtDate": "27:40"
+    },
+    {
+      "place": "ヒューマントラストシネマ渋谷",
+      "startDate": "09:40",
+      "endtDate": "12:50"
+    },
+    {
+      "place": "ヒューマントラストシネマ渋谷",
+      "startDate": "14:00",
+      "endtDate": "17:00"
+    },
+    {
+      "place": "ヒューマントラストシネマ渋谷",
+      "startDate": "18:10",
+      "endtDate": "21:10"
+    },
+    {
+      "place": "ヒューマントラストシネマ渋谷",
+      "startDate": "20:00",
+      "endtDate": "23:00"
+    },
+    {
+      "place": "グランドシネマサンシャイン",
+      "startDate": "09:20",
+      "endtDate": "12:30"
+    },
+    {
+      "place": "グランドシネマサンシャイン",
+      "startDate": "13:00",
+      "endtDate": "16:10"
+    },
+    {
+      "place": "グランドシネマサンシャイン",
+      "startDate": "16:35",
+      "endtDate": "19:45"
+    },
+    {
+      "place": "グランドシネマサンシャイン",
+      "startDate": "18:45",
+      "endtDate": "21:55"
+    }
+  ]
+}

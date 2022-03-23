@@ -1,5 +1,61 @@
 <template>
   <div class="movie-list">
+    <form method="post" class="search-form">
+      <input
+        id="searchItem"
+        class="search-name-input"
+        v-model="searchMovieString"
+        autocomplete="on"
+        list="currentMovieList"
+        onfocus="this.select();"
+      />
+      <datalist id="currentMovieList">
+        <div v-for="movie of currentMovieList" :key="movie.title">
+          <option :value="movie.title"></option>
+        </div>
+      </datalist>
+
+      <label for="searchMovie">
+        <button class="btn search-btn" type="button" v-on:click="searchMovie">
+          <span>検&nbsp;&nbsp;索</span>
+        </button></label
+      >
+      <span>
+        <label>
+          <input
+            name="searchWay"
+            type="radio"
+            value="movie"
+            v-model="searchWay"
+            checked
+          />
+          <span>映画</span>
+        </label>
+        <label>
+          <input
+            name="searchWay"
+            type="radio"
+            value="keyword"
+            v-model="searchWay"
+          />
+          <span>キーワード</span>
+        </label>
+      </span>
+      <br />
+      <span>絞り込み機能 </span>
+      <input type="checkbox" id="releasedDate" value="releasedDate" />
+      <span><label for="releasedDate">公開中</label></span>
+      <input type="checkbox" id="soonReleased" value="soonReleased" />
+      <span><label for="soonReleased">公開予定</label></span>
+      <input type="checkbox" id="years" value="years" />
+      <span><label for="years">年代</label></span>
+      <input type="checkbox" id="genre" value="genre" />
+      <span><label for="genre">ジャンル</label></span>
+      <input type="checkbox" id="popularity" value="popularity" />
+      <span><label for="popularity">人気</label></span>
+      <input type="checkbox" id="voteAverage" value="voteAverage" />
+      <span><label for="voteAverage">高評価</label></span>
+    </form>
     <div class="container">
       <div class="row">
         <!-- 一覧画面に表示させる個数 -->
@@ -21,7 +77,7 @@
                   />
                 </router-link>
                 <p
-                  class="btn indigo lighten-1"
+                  class="btn-small indigo lighten-1"
                   v-on:click="saveMovie(movie.id)"
                 >
                   保存
@@ -42,10 +98,21 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { ApiMovie } from "@/types/api/apiMovie";
+import { Movie } from "@/types/movie";
+import { TimeList } from "@/types/timeList";
 @Component
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
+  // 検索バー
+  private searchMovieString = "Let's find your favourite movie!";
+  // 検索方法
+  private searchWay = "";
+  // 検索オプション
+  private searchOptions = "";
 
+  /**
+   * movieListを表示する.
+   */
   async created(): Promise<void> {
     // let newArray = new Array<Movie>();
     // for (let i = 1; i < 10; i++) {
@@ -55,7 +122,7 @@ export default class MovieList extends Vue {
     // }
 
     await this.$store.dispatch("asyncGetMovieList");
-    this.currentMovieList = this.$store.getters.getMovieList;
+    this.currentMovieList = this.$store.getters.getApiMovieList;
   }
   /**
    * ユーザーのmyMovieリストに保存するメソッド.
@@ -68,10 +135,45 @@ export default class MovieList extends Vue {
     });
     alert("ムービーリストに保存されました！");
   }
+
+  /**
+   * 検索バーに入力された値からの絞り込み
+   */
+  searchMovie(): void {
+    console.dir("movieAPI:" + this.currentMovieList);
+    if (this.searchWay === "movie") {
+      // 入力された文字列で絞り込みを行う
+      this.currentMovieList = this.$store.getters.getSearchedMovieList(
+        this.searchMovieString
+      );
+    } else if (this.searchWay === "keyword") {
+      this.currentMovieList = this.$store.getters.getSearchedMovieListByKeyWord(
+        this.searchMovieString
+      );
+    }
+  }
 }
 </script>
 
 <style scoped>
+.searchOptions {
+  width: 300px;
+}
+.searchMovies {
+  padding: 10px;
+}
+.search-form {
+  text-align: center;
+}
+
+.search-name-input {
+  width: 500px;
+  color: gray;
+}
+
+.search-name-input:hover {
+  color: black;
+}
 .movie-card {
   background-color: white;
   width: 100%;

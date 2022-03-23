@@ -10,7 +10,8 @@ export class User {
     private _password: string,
     private _myMovieList: Array<Movie>,
     private _myReviewList: Array<Review>,
-    private _myCommentList: Array<Comment>
+    private _myCommentList: Array<Comment>,
+    private _introContent: string,
   ) {}
 
   public get id(): number {
@@ -67,5 +68,12 @@ export class User {
 
   public set myCommentList(myCommentList: Array<Comment>) {
     this._myCommentList = myCommentList;
+  }
+  public set introContent(introContent: string) {
+    this._introContent = introContent;
+  }
+
+  public get introContent(): string {
+    return this._introContent;
   }
 }

@@ -1,0 +1,77 @@
+{
+  "reviewList":[
+    {
+      "id": "20",
+      "userId": "3",
+      "movieId": "508947",
+      "countLike": "30",
+      "postDate": "new Date(2022, 4, 13)",
+      "content": "上映時間の長さが全然気にならなかったという方もたくさんいらっしゃるようですが、折り返しくらいからトイレ行きたくなって最後の方はかなりキツかったです汗",
+      "replyCommentList": [
+        {
+          "id": "30",
+          "userId": "4",
+          "reviewId": "20",
+          "postDate": "new Date(2022, 4, 15)",
+          "content": "それは事前に知れてよかったです。"
+        },
+        {
+          "id": "31",
+          "userId": "5",
+          "reviewId": "20",
+          "postDate": "new Date(2022, 4, 14)",
+          "content": "あるあるですね！"
+        }
+      ]
+    },
+    {
+      "id": "21",
+      "userId": "4",
+      "movieId": "634649",
+      "countLike": "22",
+      "postDate": "new Date(2022, 4, 13)",
+      "content": "全編がIMAX画角なので、没入度が全然違った。スパイダースイングだけでなく、ストレンジのミラータイム、最終決戦の高低差アクションなど、（ノーラン作品を別格として）最もIMAXの良さを引き出した作品じゃないかな。",
+      "replyCommentList": [
+        {
+          "id": "32",
+          "userId": "6",
+          "reviewId": "21",
+          "postDate": "new Date(2022, 4, 15)",
+          "content": "いいですね！"
+        },
+        {
+          "id": "33",
+          "userId": "7",
+          "reviewId": "21",
+          "postDate": "new Date(2022, 4, 14)",
+          "content": "没入感、楽しみ！"
+        }
+      ]
+    },
+    {
+      "id": "22",
+      "userId": "8",
+      "movieId": "634649",
+      "countLike": "15",
+      "postDate": "new Date(2022, 4, 18)",
+      "content": "ヴェノム2を見て続きが気になってたので終了ギリギリに観てきました。スパイダーマンの集大成なんですね、、引き込まれる引き込まれる。初代スパイダーマンが出てくるとお！ってなった。みんなスパイダーマンなんだけど私の中でザ・スパイダーマンは初代なんだなって感じた。途中アトラクションに乗ってるような感覚になった。面白かった。",
+      "replyCommentList": [
+        {
+          "id": "33",
+          "userId": "3",
+          "reviewId": "22",
+          "postDate": "new Date(2022, 4, 15)",
+          "content": "いいですね！"
+        },
+        {
+          "id": "34",
+          "userId": "9",
+          "reviewId": "22",
+          "postDate": "new Date(2022, 4, 20)",
+          "content": "うおおおおおおおお!!!!"
+        }
+      ]
+    }
+
+  ]
+}
