@@ -230,6 +230,9 @@ export default new Vuex.Store({
       for (const movie of state.movieList) {
         for (const review of payload.reviewList as Array<Review>) {
           if (Number(review.movieId) === movie.id) {
+            movie.reviewList.forEach((targetReview, index) => {
+              movie.reviewList.splice(index, 1);
+            });
             movie.reviewList.push(review);
           }
         }
