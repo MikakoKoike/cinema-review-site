@@ -87,7 +87,6 @@
                   </span>
                 </div>
               </div>
-
               <p>ユーザーID：{{ review.userId }}</p>
               <p>レビューID：{{ review.id }}</p>
               <p>投稿日時：{{ review.formatDate }}</p>
@@ -366,9 +365,6 @@ export default class MovieDetail extends Vue {
       });
 
       this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
-
-    
-
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
     );
@@ -383,14 +379,12 @@ export default class MovieDetail extends Vue {
   get getcurrentMovieReview(): Array<Review> {
     return this.storeMovie.reviewList;
   }
-
   /**
    * コメント入力欄を表示する
    */
   showComment(): void {
     this.commentFlag = true;
   }
-
   /**
    * コメント投稿
    */
