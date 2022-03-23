@@ -1,9 +1,11 @@
 <template>
   <div>
-    <span  class="btn" v-on:click="countUp">
-      いいね！<span >♡</span
-      ><span>{{ review.countLike }}</span>
+    <span class="btn" v-on:click="countUp">
+      いいね！<span>♡</span><span>{{ review.countLike }}</span>
     </span>
+    <div>
+      <span>{{ dummy }}</span>
+    </div>
   </div>
 </template>
 
@@ -13,18 +15,23 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class CompLikeButton extends Vue {
   @Prop()
-  private review?:Review;
+  private review?: Review;
   private count = 0;
-  created(): void{
-    this.count = this.review?.countLike as number
+  private dummy = 1;
+  created(): void {
+    console.log(this.review?.countLike);
+    this.count = this.review?.countLike as number;
   }
-  countUp():void{
+  countUp(): void {
+    this.dummy++;
     console.log(this.review);
-    if(!(this.review === undefined)){
+    if (this.review !== undefined) {
       this.count++;
-      this.$store.commit("", {
-        
-      })
+      console.log(this.count);
+      this.$store.commit("addLike", {
+        movieId: this.review.movieId,
+        countLike: this.count,
+      });
     }
   }
 }

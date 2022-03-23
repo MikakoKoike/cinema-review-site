@@ -19,7 +19,12 @@
                     alt=""
                   />
                 </router-link>
-                <p class="btn-small indigo lighten-1" v-on:click="saveMovie(movie.id)">保存</p>
+                <p
+                  class="btn-small indigo lighten-1"
+                  v-on:click="saveMovie(movie.id)"
+                >
+                  保存
+                </p>
               </div>
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>
@@ -36,6 +41,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { ApiMovie } from "@/types/api/apiMovie";
+import { Movie } from "@/types/movie";
+import { TimeList } from "@/types/timeList";
 @Component
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
@@ -49,18 +56,19 @@ export default class MovieList extends Vue {
     // }
 
     await this.$store.dispatch("asyncGetMovieList");
-    this.currentMovieList = this.$store.getters.getMovieList;
+    this.currentMovieList = this.$store.getters.getApiMovieList;
+
   }
   /**
    * ユーザーのmyMovieリストに保存するメソッド.
    * @param - 映画のid
    */
-  saveMovie(movieId: number): void{
+  saveMovie(movieId: number): void {
     let targetMovie = this.$store.getters.getcurrentMovie(movieId);
     this.$store.commit("saveToMovieList", {
-      movie: targetMovie
+      movie: targetMovie,
     });
-    alert("ムービーリストに保存されました！")
+    alert("ムービーリストに保存されました！");
   }
 }
 </script>
@@ -76,7 +84,7 @@ export default class MovieList extends Vue {
 .movie-img {
   margin-top: 10px;
 }
-.thumbnail-area{
+.thumbnail-area {
   text-align: center;
 }
 </style>

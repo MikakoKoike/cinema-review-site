@@ -6,34 +6,34 @@
           <img
             class="responsive-img movie-img"
             v-bind:src="
-              'https://image.tmdb.org/t/p/w154' + currentMovie.poster_path
+              'https://image.tmdb.org/t/p/w154' + targetApiMovie.poster_path
             "
             alt=""
           />
         </div>
         <div class="col s9 card-content">
-          <h4>{{ targetMovie.title }}</h4>
-          <p>{{ targetMovie.overview }}</p>
-          <p class="star">{{ showRate }}{{ currentMovie.vote_average }}</p>
+          <h4>{{ targetApiMovie.title }}</h4>
+          <p>{{ targetApiMovie.overview }}</p>
+          <p class="star">{{ showRate }}{{ targetApiMovie.vote_average }}</p>
 
-          <button class="btn-small" v-on:click="addCountWatch">
+          <span class="btn-small" v-on:click="addCountWatch">
             <i class="material-icons left">favorite</i>見たい！
             {{ countWatch }}
-          </button>
+          </span>
 
           <p></p>
         </div>
         <div class="col s6 card-content">
           <h4>Sub Title</h4>
-          <p>{{ targetMovie.overview }}</p>
+          <p>{{ targetApiMovie.overview }}</p>
         </div>
         <div class="col s6 card-content">
           <h4>Sub Title</h4>
-          <p>{{ targetMovie.overview }}</p>
+          <p>{{ targetApiMovie.overview }}</p>
         </div>
         <!-- レビューボタン -->
         <!-- ここで次の画面にIDを渡す -->
-        <router-link v-bind:to="'/reviewEdit/' + targetMovie.id">
+        <router-link v-bind:to="'/reviewEdit/' + targetApiMovie.id">
           <button type="button" class="reviewButton">レビューする</button>
         </router-link>
 
@@ -89,6 +89,7 @@
               </div>
 
               <p>ユーザーID：{{ review.userId }}</p>
+              <p>レビューID：{{ review.id }}</p>
               <p>投稿日時：{{ review.formatDate }}</p>
             </div>
           </div>
@@ -96,7 +97,7 @@
             <p>レビュー内容：{{ review.content }}</p>
             <button type="button" class="likeBtn" @click="addLike">
               いいね！<span class="likeHeart">♡</span
-              ><span>{{ review.countLike }}</span>
+              ><span>{{ review.countLike }}</span> ><span>{{ likeCount }}</span>
             </button>
             <CompLikeButton v-bind:review="review"/>
             <button type="button" class="commentBtn" @click="showComment">
@@ -114,13 +115,15 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col s5 comment-card z-depth-3">
-          <h5>User Name</h5>
-          <p>contents/contents/contents/contents/</p>
-          <p>contents/contents/contents/contents/</p>
+        <div class="row">
+          <div
+            class="col s5 push-s2 comment-card z-depth-3"
+            v-for="comment of review.replyCommentList"
+            v-bind:key="comment.id"
+          >
+            <p>ユーザーID:{{ comment.userId }}</p>
+            <h5>{{ comment.content }}</h5>
+          </div>
         </div>
       </div>
     </div>
@@ -135,6 +138,7 @@ import { TimeList } from "@/types/timeList";
 import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
 import CompLikeButton from "@/components/CompLikeButton.vue";
+import { ApiMovie } from "@/types/api/apiMovie";
 
 @Component({
   components: {
@@ -142,7 +146,7 @@ import CompLikeButton from "@/components/CompLikeButton.vue";
   }
 })
 export default class MovieDetail extends Vue {
-  private targetMovie = new Movie(
+  private targetApiMovie = new Movie(
     false,
     "",
     [0],
@@ -192,9 +196,9 @@ export default class MovieDetail extends Vue {
   private watchId = this.$route.params.id;
   private countWatch = 0;
 
-  get currentReviewList(): Array<Review> {
-    return this.stateCurrentMovie.reviewList;
-  }
+  // get currentReviewList(): Array<Review> {
+  //   return this.stateCurrentMovie.reviewList;
+  // }
 
   // get getCurrentMovie(): Movie{
   //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
@@ -228,6 +232,8 @@ export default class MovieDetail extends Vue {
   );
   // いいね数
   private likeCount = 0;
+  // いいねしたレビューのID
+  private currentReviewId = 0;
 
   get Count(): number {
     return this.$store.getters.getCount;
@@ -245,58 +251,58 @@ export default class MovieDetail extends Vue {
   get showRate(): string {
     let rating = "";
     if (
-      this.currentMovie.vote_average <= 10 &&
-      9.6 <= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average <= 10 &&
+      9.6 <= this.targetApiMovie.vote_average
     ) {
       rating = "★★★★★★★★★★";
     } else if (
-      this.currentMovie.vote_average >= 8.6 &&
-      9.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 8.6 &&
+      9.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★★★★★★★★★";
     } else if (
-      this.currentMovie.vote_average >= 7.6 &&
-      8.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 7.6 &&
+      8.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★★★★★★★★";
     } else if (
-      this.currentMovie.vote_average >= 6.6 &&
-      7.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 6.6 &&
+      7.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★★★★★★★";
     } else if (
-      this.currentMovie.vote_average >= 5.6 &&
-      6.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 5.6 &&
+      6.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★★★★★★";
     } else if (
-      this.currentMovie.vote_average >= 4.6 &&
-      5.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 4.6 &&
+      5.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★★★★★";
     } else if (
-      this.currentMovie.vote_average >= 3.6 &&
-      4.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 3.6 &&
+      4.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★★★★";
     } else if (
-      this.currentMovie.vote_average >= 2.6 &&
-      3.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 2.6 &&
+      3.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★★★";
     } else if (
-      this.currentMovie.vote_average >= 1.6 &&
-      2.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 1.6 &&
+      2.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★★";
     } else if (
-      this.currentMovie.vote_average >= 0.6 &&
-      1.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 0.6 &&
+      1.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "★";
     } else if (
-      this.currentMovie.vote_average >= 0 &&
-      0.5 >= this.currentMovie.vote_average
+      this.targetApiMovie.vote_average >= 0 &&
+      0.5 >= this.targetApiMovie.vote_average
     ) {
       rating = "";
     }
@@ -329,80 +335,103 @@ export default class MovieDetail extends Vue {
     0
   );
 
-  async created(): Promise<void> {
+  created(): void{
     const MovieId = Number(this.$route.params.id);
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
-    );
-    let responseMovie = response.data;
-    let initGenreIds = new Array<number>();
-    for (let obj of responseMovie.genres) {
-      initGenreIds.push(obj.id);
-    }
 
-    for (let movie of this.$store.getters.getMovieList) {
-      if (movie.id === MovieId) {
-        this.targetMovie = new Movie(
-          movie.adult,
-          movie.backdrop_path,
-          initGenreIds,
-          movie.id,
-          movie.original_language,
-          movie.original_title,
-          movie.overview,
-          movie.popularity,
-          movie.poster_path,
-          movie.release_date,
-          movie.title,
-          movie.video,
-          movie.vote_average,
-          movie.vote_count,
-          movie.placeList,
-          movie.timeList,
-          movie.reviewList,
-          movie.countLike,
-          movie.countWatch
-        );
-      }
-    }
+    
+    this.targetApiMovie = this.$store.getters.getcurrentMovie(MovieId);
+    
+    this.$store.commit("setMovieList",{
+        movie: new Movie(
+          this.targetApiMovie.adult,
+          this.targetApiMovie.backdrop_path,
+          this.targetApiMovie.genre_ids,
+          this.targetApiMovie.id,
+          this.targetApiMovie.original_language,
+          this.targetApiMovie.original_title,
+          this.targetApiMovie.overview,
+          this.targetApiMovie.popularity,
+          this.targetApiMovie.poster_path,
+          this.targetApiMovie.release_date,
+          this.targetApiMovie.title,
+          this.targetApiMovie.video,
+          this.targetApiMovie.vote_average,
+          this.targetApiMovie.vote_count,
+          new Array<string>(),
+          new Array<TimeList>(),
+          this.$store.getters.getReviewListByMovieId(MovieId) ?? new Array<Review>(),
+          this.$store.getters.getCountLikeByMovieId(MovieId) ?? 0,
+          this.$store.getters.getCountWatchByMovieId(MovieId) ?? 0,
+        )
+      });
 
-    this.currentMovie = new Movie(
-      responseMovie.adult,
-      responseMovie.backdrop_path,
-      initGenreIds,
-      responseMovie.id,
-      responseMovie.original_language,
-      responseMovie.original_title,
-      responseMovie.overview,
-      responseMovie.popularity,
-      responseMovie.poster_path,
-      responseMovie.release_date,
-      responseMovie.title,
-      responseMovie.video,
-      responseMovie.vote_average,
-      responseMovie.vote_count,
-      new Array<string>(),
-      new Array<TimeList>(),
-      new Array<Review>(),
-      // [
-      //   new Review(0, 0, 634649, 30, new Date(), "サイコー！！", [
-      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
-      //   ]),
-      //   new Review(1, 0, 634649, 40, new Date(), "最高の仕上がり!!", [
-      //     new Comment(0, 0, 0, new Date(), "ナイスレビュー！！"),
-      //   ]),
-      // ],
-      0,
-      0
-    );
-    this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
-      this.currentMovie.id
-    );
-    this.countWatch = this.targetMovie.countWatch;
-    console.log(this.targetMovie.countWatch);
+      this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
+    console.log(this.countWatch);
+    // const response = await axios.get(
+    //   `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
+    // );
+    // let responseMovie = response.data;
+    // let initGenreIds = new Array<number>();
+    // for (let obj of responseMovie.genres) {
+    //   initGenreIds.push(obj.id);
+    // }
 
-    this.currentMovieId = MovieId;
-    this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovie.id);
+    // for (let movie of this.$store.getters.getMovieList) {
+    //   if (movie.id === MovieId) {
+    //     this.targetApiMovie = new Movie(
+    //       movie.adult,
+    //       movie.backdrop_path,
+    //       initGenreIds,
+    //       movie.id,
+    //       movie.original_language,
+    //       movie.original_title,
+    //       movie.overview,
+    //       movie.popularity,
+    //       movie.poster_path,
+    //       movie.release_date,
+    //       movie.title,
+    //       movie.video,
+    //       movie.vote_average,
+    //       movie.vote_count,
+    //       movie.placeList,
+    //       movie.timeList,
+    //       movie.reviewList,
+    //       movie.countLike,
+    //       movie.countWatch
+    //     );
+    //   }
+    // }
+
+    // this.currentMovie = new Movie(
+    //   responseMovie.adult,
+    //   responseMovie.backdrop_path,
+    //   initGenreIds,
+    //   responseMovie.id,
+    //   responseMovie.original_language,
+    //   responseMovie.original_title,
+    //   responseMovie.overview,
+    //   responseMovie.popularity,
+    //   responseMovie.poster_path,
+    //   responseMovie.release_date,
+    //   responseMovie.title,
+    //   responseMovie.video,
+    //   responseMovie.vote_average,
+    //   responseMovie.vote_count,
+    //   new Array<string>(),
+    //   new Array<TimeList>(),
+    //   this.storeMovie.reviewList,
+    //   0,
+    //   0
+    // );
+
+    // this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
+    //   this.currentMovie.id
+    // );
+    // this.countWatch = this.targetApiMovie.countWatch;
+    // this.currentMovieId = MovieId;
+    // this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
+
+    // await this.$store.dispatch("asyncGetReviewList");
   }
   /**
    * レビューリストを取得する
@@ -430,11 +459,25 @@ export default class MovieDetail extends Vue {
   /**
    * いいね機能
    */
-  addLike(): void {
-    let likeCounts = this.likeCount++;
-    for (let storeReview of this.storeMovie.reviewList) {
-      storeReview.countLike = likeCounts;
-    }
+  // getCurrentReviewId(reviewIndex: number): void {
+  //   this.currentReviewId = this.currentReviewList[reviewIndex].id;
+  // }
+
+  addLike(reviewId: number): void {
+    // いいね数のカウントアップ
+    this.likeCount++;
+
+    this.$store.commit("addLike", {
+      movieId: this.currentMovieId,
+      reviewId: reviewId,
+      countLike: this.likeCount,
+    });
+
+    // 最初のいいね
+    // let likeCounts = this.likeCount++;
+    // for (let storeReview of this.storeMovie.reviewList) {
+    //   storeReview.countLike = likeCounts;
+    // }
   }
 
   /**
@@ -444,12 +487,12 @@ export default class MovieDetail extends Vue {
     this.countWatch++;
     console.log(this.countWatch);
     this.$store.commit("setCountWatch", {
-      countWatch: this.stateCurrentMovie.countWatch,
-      movieId: this.currentMovie.id,
+      countWatch: this.countWatch,
+      movieId: this.targetApiMovie.id,
     });
   }
   // get count(): number {
-  //   return this.$store.getters.getCount(this.targetMovie);
+  //   return this.$store.getters.getCount(this.targetApiMovie);
   // }
   /**
    * おすすめ作品ページへ遷移.
@@ -527,12 +570,11 @@ export default class MovieDetail extends Vue {
 }
 .comment-card {
   background-color: white;
-  margin-left: 10px;
   width: 100%;
-  height: 150px;
+  height: 100px;
   border-radius: 10px;
   border: 5px solid #f5f6fa;
-  margin: 5px 20px;
+  margin: 5px;
 }
 
 .similar-movie {

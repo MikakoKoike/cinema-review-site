@@ -14,6 +14,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     movieList: Array<Movie>(),
+    apiMovieList: Array<ApiMovie>(),
     currentMovieId: 0,
     count: 0,
     watchCount: 0,
@@ -48,13 +49,24 @@ export default new Vuex.Store({
       const payload = response.data;
       context.commit("setUserList", payload);
     },
+    /**
+     * レビューリストをAPIから取得.
+     * @param context - コンテクスト
+     */
+    async asyncGetReviewList(context) {
+      const response = await axios.get<{
+        reviewList: Array<Review>;
+      }>("https://demo7166221.mockable.io/reviewList");
+      const payload = response.data;
+      context.commit("addReviewList", payload);
+    },
   },
   mutations: {
     showItemList(state, payload) {
-      state.movieList = new Array<Movie>();
+      state.apiMovieList = new Array<ApiMovie>();
       for (const movie of payload.results) {
-        state.movieList.push(
-          new Movie(
+        state.apiMovieList.push(
+          new ApiMovie(
             movie.adult,
             movie.backdrop_path,
             movie.genre_ids,
@@ -69,11 +81,6 @@ export default new Vuex.Store({
             movie.video,
             movie.vote_average,
             movie.vote_count,
-            [""],
-            new Array<TimeList>(),
-            new Array<Review>(),
-            0,
-            0
           )
         );
       }
@@ -118,9 +125,7 @@ export default new Vuex.Store({
     setCountWatch(state, payload) {
       for (const movie of state.movieList) {
         if (movie.id === payload.movieId) {
-          console.log(movie);
           movie.countWatch = payload.countWatch;
-          console.log("    1    ",movie.countWatch);
         }
       }
     },
@@ -179,19 +184,12 @@ export default new Vuex.Store({
      * @param payload
      */
     addLike(state, payload) {
-      const currentReview = state.reviewList.filter(
-        (movie) => movie.id === payload.movieId
-      )[0];
-      const newComment = {
-        comment: new Comment(
-          payload.review.id,
-          payload.review.userId,
-          payload.review.reviewId,
-          payload.review.postDate,
-          payload.review.content
-        ),
-      };
-      currentReview.replyCommentList.unshift(newComment.comment);
+      for(const movie of state.movieList ){
+        for(const review of movie.reviewList)
+        if( review.id === payload.reviewId ){
+          review.countLike = payload.countLike;
+        }
+      }
     },
     /**
      * ログインしているユーザーの映画リストに保存するメソッド.
@@ -206,7 +204,7 @@ export default new Vuex.Store({
      * @param state
      * @param payload
      */
-     saveToReviewList(state, payload) {
+    saveToReviewList(state, payload) {
       state.currentUser.myReviewList.unshift(payload.review);
     },
     /**
@@ -214,15 +212,35 @@ export default new Vuex.Store({
      * @param state - ステイト
      * @param payload - 削除するmovieのindex番号
      */
-     deleteMovieFromReviewList(state, payload) {
+    deleteMovieFromReviewList(state, payload) {
       state.currentUser.myMovieList.splice(payload.index, 1);
     },
+    /**
+     * APIからレビューリストを追加する.
+     *
+     */
+    addReviewList(state, payload) {
+      for (const movie of state.movieList) {
+        for (const review of payload.reviewList as Array<Review>) {
+          if (Number(review.movieId) === movie.id) {
+            movie.reviewList.push(review);
+          }
+        }
+      }
+    },
+    /**
+     * apiMovieではなく、Movieリストを作る.
+     */
+    setMovieList(state, payload){
+      state.movieList.push(payload.movie)
+      console.log(state.movieList)
+    }
   }, //end of mutations
 
   modules: {},
   getters: {
-    getMovieList(state) {
-      return state.movieList;
+    getApiMovieList(state) {
+      return state.apiMovieList;
     },
     //渡されたジャンルIDと同じIDを返す
     getGenreById(state) {
@@ -257,7 +275,7 @@ export default new Vuex.Store({
     getcurrentMovie(state) {
       return (movieId: number) => {
         const newArray = [];
-        for (const movie of state.movieList) {
+        for (const movie of state.apiMovieList) {
           if (movie.id === movieId) {
             newArray.push(movie);
           }
@@ -311,6 +329,39 @@ export default new Vuex.Store({
      */
     getCurrentUser(state) {
       return state.currentUser;
+    },
+    getReviewListByMovieId(state) {
+      return (movieId: number) => {
+        const newArray = [];
+        for(const movie of state.movieList){
+          if(movie.id === movieId){
+            newArray.push(movie);
+          }
+        }
+        return newArray.length !== 0 ? newArray[0].reviewList : new Array<Review>();
+      }
+    },
+    getCountLikeByMovieId(state) {
+      return (movieId: number) => {
+        const newArray = [];
+        for(const movie of state.movieList){
+          if(movie.id === movieId){
+            newArray.push(movie);
+          }
+        }
+        return newArray.length !== 0 ? newArray[0].countLike : 0;
+      }
+    },
+    getCountWatchByMovieId(state) {
+      return (movieId: number) => {
+        const newArray = [];
+        for(const movie of state.movieList){
+          if(movie.id === movieId){
+            newArray.push(movie);
+          }
+        }
+        return newArray.length !== 0 ? newArray[0].countWatch : 0;
+      }
     },
   }, //end of getters
 
