@@ -372,7 +372,6 @@ export default class MovieDetail extends Vue {
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
     );
-    this.countWatch = this.targetApiMovie.countWatch;
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
 
