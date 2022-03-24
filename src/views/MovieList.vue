@@ -198,6 +198,8 @@ export default class MovieList extends Vue {
   private searchOptions = "";
   // 公開状況
   private releaseStatus = "";
+  // エラーメッセージ
+  private errorMsg = "映画が見つかりませんでした";
 
   /**
    * movieListを表示する.
@@ -235,7 +237,6 @@ export default class MovieList extends Vue {
         this.searchMovieString
       );
       if (this.releaseStatus === "released") {
-        console.log("公開中の映画を検索");
         this.currentMovieList =
           this.$store.getters.getSearchedReleasedMovieList;
       } else if (this.releaseStatus === "soonReleased") {
@@ -250,7 +251,6 @@ export default class MovieList extends Vue {
         this.searchMovieString
       );
       if (this.releaseStatus === "released") {
-        console.log("公開中の映画を検索");
         this.currentMovieList =
           this.$store.getters.getSearchedReleasedMovieList;
       } else if (this.releaseStatus === "soonReleased") {
