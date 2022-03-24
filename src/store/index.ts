@@ -239,6 +239,19 @@ export default new Vuex.Store({
       state.movieList.push(payload.movie);
       console.log(state.movieList);
     },
+    setLoginUser(state, payload) {
+      state.currentUser = new User(
+        payload.id,
+        payload.name,
+        payload.email,
+        payload.password,
+        new Array<Movie>(),
+        new Array<Review>(),
+        new Array<Comment>(),
+        ""
+      );
+      console.log(state.currentUser);
+    },
   }, //end of mutations
 
   modules: {},
@@ -424,6 +437,12 @@ export default new Vuex.Store({
           }
         );
       };
+    },
+    getDisplayName(state) {
+      // return state.currentUser.displayName
+      console.log(state.currentUser.displayName);
+
+      return state.currentUser.displayName;
     },
   }, //end of getters
 

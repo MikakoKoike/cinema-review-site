@@ -7,10 +7,84 @@
             <h4>My Page</h4>
             <div class="row">
               <div class="col s3">
-                <img
-                  src="https://joeschmoe.io/api/v1/random"
-                  class="profile-img-area"
-                />
+                <img v-bind:src="iconImage" class="profile-img-area" />
+                <!-- Modal Trigger -->
+                <a class="waves-light btn modal-trigger" href="#modal1"
+                  >アイコンを変更する</a
+                >
+                <!-- Modal Structure -->
+                <div id="modal1" class="modal">
+                  <div class="modal-content">
+                    <h4>アイコンを選択する</h4>
+                    <img
+                      class="icon-img"
+                      src="/img/turningRed.jpg"
+                      v-on:click="option1"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/batman.jpg"
+                      v-on:click="option2"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/doctorstrange.jpg"
+                      v-on:click="option3"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/rednotice.jpg"
+                      v-on:click="option4"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/scream.jpg"
+                      v-on:click="option5"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/spiderman.jpg"
+                      v-on:click="option6"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/sing2.jpeg"
+                      v-on:click="option7"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/encanto.jpg"
+                      v-on:click="option8"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/blacklight.jpg"
+                      v-on:click="option9"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/kimi.jpg"
+                      v-on:click="option10"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/dombledore.jpg"
+                      v-on:click="option11"
+                    />
+                    <img
+                      class="icon-img"
+                      src="/img/avatar.png"
+                      v-on:click="option12"
+                    />
+                  </div>
+                  <div class="modal-footer">
+                    <a
+                      href="#!"
+                      class="modal-close waves-effect waves-green btn-flat"
+                      >戻る</a
+                    >
+                  </div>
+                </div>
               </div>
               <div class="col s9">
                 <p>ユーザー名</p>
@@ -116,6 +190,7 @@ import { Comment } from "@/types/comment";
 
 @Component
 export default class MyPage extends Vue {
+  private iconImage = "https://joeschmoe.io/api/v1/random";
   private currentUserList = new Array<User>();
   private loginUser = new User(
     0,
@@ -148,6 +223,46 @@ export default class MyPage extends Vue {
     this.$store.commit("deleteMovieFromReviewList", {
       index: index,
     });
+  }
+  /**
+   * アイコンを選択する.
+   */
+
+  option1(): void {
+    this.iconImage = "/img/turningRed.jpg";
+  }
+  option2(): void {
+    this.iconImage = "/img/batman.jpg";
+  }
+  option3(): void {
+    this.iconImage = "/img/doctorstrange.jpg";
+  }
+  option4(): void {
+    this.iconImage = "/img/rednotice.jpg";
+  }
+  option5(): void {
+    this.iconImage = "/img/scream.jpg";
+  }
+  option6(): void {
+    this.iconImage = "/img/spiderman.jpg";
+  }
+  option7(): void {
+    this.iconImage = "/img/sing2.jpeg";
+  }
+  option8(): void {
+    this.iconImage = "/img/encanto.jpg";
+  }
+  option9(): void {
+    this.iconImage = "/img/blacklight.jpg";
+  }
+  option10(): void {
+    this.iconImage = "/img/kimi.jpg";
+  }
+  option11(): void {
+    this.iconImage = "/img/dombledore.jpg";
+  }
+  option12(): void {
+    this.iconImage = "/img/avatar.png";
   }
 }
 </script>
@@ -215,7 +330,8 @@ export default class MyPage extends Vue {
 .profile-img-area {
   width: 150px;
   border-radius: 1000px;
-  border: 5px solid gray;
+  border: 5px solid #bfe1ee;
+  text-shadow: 0 0 20px #bfe1ee, 0 0 5px #bfe1ee;
 }
 .delete-button {
   text-align: center;
@@ -230,4 +346,9 @@ export default class MyPage extends Vue {
 .tabs .tab a:hover {
   background-color: #eee;
 } /*Text color on hover*/
+.icon-img {
+  border-radius: 50%;
+  width: 150px;
+  border: 2px solid gray;
+}
 </style>

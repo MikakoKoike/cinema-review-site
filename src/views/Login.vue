@@ -39,6 +39,24 @@
                 >
                   <span>ログイン</span>
                 </button>
+                <!-- twitterでログイン -->
+                <button
+                  v-on:click="twitterSignIn"
+                  class="btn-twitter"
+                  type="button"
+                >
+                  <i class="fa-brands fa-twitter"></i>twitterでログイン
+                </button>
+                <!-- facebookでログイン -->
+                <div
+                  class="fb-login-button"
+                  data-width=""
+                  data-size="large"
+                  data-button-type="continue_with"
+                  data-layout="default"
+                  data-auto-logout-link="false"
+                  data-use-continue-as="false"
+                ></div>
               </div>
               <div class="row">
                 <div class="input-field col s6 m6 l6">
@@ -59,28 +77,139 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { app, analytics } from "../main";
+import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
 @Component
 export default class Login extends Vue {
-  private email = "";
-  private password = "";
+  email = "";
+  password = "";
+  loginEmail = "";
+  loginPassword = "";
 
-  async signIn(): Promise<void> {
+  // async signUp(): Promise<void> {
+  //   app;
+  //   analytics;
+  //   const auth = getAuth();
+
+  //   try {
+  //     const response = await createUserWithEmailAndPassword(
+  //       auth,
+  //       this.email,
+  //       this.password
+  //     );
+  //     console.log(response);
+  //     console.log(response.user);
+  //     alert("登録されました。");
+  //   } catch (error) {
+  //     alert("エラーが発生");
+  //   }
+  // }
+  // async signIn(): Promise<void> {
+  //   const auth = getAuth();
+  //   try {
+  //     const response = await signInWithEmailAndPassword(
+  //       auth,
+  //       this.email,
+  //       this.password
+  //     );
+
+  //     console.log(response);
+  //     alert("登録されました。");
+  //     console.log(response.user);
+  //   } catch (error) {
+  //     console.log(error);
+  //     alert("エラーが発生");
+  //   }
+  // }
+  // /**
+  //  * twitterでログインする.
+  //  */
+  // async twitterSignIn(): Promise<void> {
+  //   app;
+  //   analytics;
+  //   const auth = getAuth();
+  //   const provider = new TwitterAuthProvider();
+
+  //   try {
+  //     await signInWithPopup(auth, provider).then((result) => {
+  //       const credential = TwitterAuthProvider.credentialFromResult(result);
+  //       console.log(result);
+  //       console.log(credential);
+  //       alert("ログイン成功!!");
+  //       // signInWithRedirect(auth, provider).then((user) => {
+  //       //   console.log(user);
+  //       // })
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+  async signUp(): Promise<void> {
+    app;
+    analytics;
     const auth = getAuth();
     try {
-      const response = await signInWithEmailAndPassword(
+      const response = await createUserWithEmailAndPassword(
         auth,
         this.email,
         this.password
       );
+      console.log(response);
+      console.log(response.user);
+      alert("登録されました。");
+    } catch (error) {
+      alert("エラーが発生");
+    }
+  }
 
+  async signIn(): Promise<void> {
+    const auth = getAuth();
+
+    try {
+      const response = await signInWithEmailAndPassword(
+        auth,
+        this.loginEmail,
+        this.loginPassword
+      );
       console.log(response);
       alert("登録されました。");
       console.log(response.user);
     } catch (error) {
       console.log(error);
       alert("エラーが発生");
+    }
+  }
+
+  async twitterSignIn(): Promise<void> {
+    app;
+    analytics;
+    const auth = getAuth();
+    const provider = new TwitterAuthProvider();
+
+    try {
+      await signInWithPopup(auth, provider).then((result) => {
+        const credential = TwitterAuthProvider.credentialFromResult(result);
+        console.log(result);
+        console.log(credential);
+        this.$store.commit("setLoginUser", {
+          id: 5,
+          name: result.user.displayName,
+          email: result.user.email,
+          password: "",
+        });
+        this.$router.push("/registerUser");
+        alert("ログイン成功!!");
+        // signInWithRedirect(auth, provider).then((user) => {
+        //   console.log(user);
+        // })
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
 }

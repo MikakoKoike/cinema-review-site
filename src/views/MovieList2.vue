@@ -74,10 +74,20 @@
 import { ApiMovie } from "@/types/api/apiMovie";
 import { Component, Vue } from "vue-property-decorator";
 import "normalize.css";
+// import M from "materialize-css/dist/js/materialize.min";
 @Component
 export default class XXXComponent extends Vue {
   private currentMovieList = Array<ApiMovie>();
+  // 検索バー
+  private searchMovieString = "Let's find your favourite movie!";
+  // 検索方法
+  private searchWay = "";
+  // 検索オプション
+  private searchOptions = "";
 
+  /**
+   * movieListを表示する.
+   */
   async created(): Promise<void> {
     // let newArray = new Array<Movie>();
     // for (let i = 1; i < 10; i++) {
@@ -87,8 +97,14 @@ export default class XXXComponent extends Vue {
     // }
 
     await this.$store.dispatch("asyncGetMovieList");
-    this.currentMovieList = this.$store.getters.getMovieList;
+    this.currentMovieList = this.$store.getters.getApiMovieList;
   }
+  // mounted() {
+  //   //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。
+  //   setTimeout(() => {
+  //     M.AutoInit();
+  //   }, 100);
+  // }
   /**
    * ユーザーのmyMovieリストに保存するメソッド.
    * @param - 映画のid
@@ -99,6 +115,22 @@ export default class XXXComponent extends Vue {
       movie: targetMovie,
     });
     alert("ムービーリストに保存されました！");
+  }
+  /**
+   * 検索バーに入力された値からの絞り込み
+   */
+  searchMovie(): void {
+    console.dir("movieAPI:" + this.currentMovieList);
+    if (this.searchWay === "movie") {
+      // 入力された文字列で絞り込みを行う
+      this.currentMovieList = this.$store.getters.getSearchedMovieList(
+        this.searchMovieString
+      );
+    } else if (this.searchWay === "keyword") {
+      this.currentMovieList = this.$store.getters.getSearchedMovieListByKeyWord(
+        this.searchMovieString
+      );
+    }
   }
 }
 </script>

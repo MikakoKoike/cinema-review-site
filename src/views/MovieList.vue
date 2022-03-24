@@ -100,6 +100,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { ApiMovie } from "@/types/api/apiMovie";
 import { Movie } from "@/types/movie";
 import { TimeList } from "@/types/timeList";
+
 @Component
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
