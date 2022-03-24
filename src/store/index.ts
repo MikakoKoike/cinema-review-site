@@ -163,8 +163,8 @@ export default new Vuex.Store({
       for(const movie of state.movieList){
         if( movie.id == payload.movieId ){
           for( const review of movie.reviewList ){
-            if( review.id == payload.review.id ){
-              console.log(review);
+            console.log(review);
+            if( review.id == payload.reviewId ){
               review.replyCommentList.unshift(payload.comment);
             }
           }
@@ -408,6 +408,20 @@ export default new Vuex.Store({
         );
       };
     },
+    /**
+     * 
+     */
+    getCurrentMovieFromMovieList(state){
+      return (movieId: number) => {
+        const newArray = [];
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
+            newArray.push(movie);
+          }
+        }
+        return newArray[0];
+      };
+    }
   }, //end of getters
 
   plugins: [
