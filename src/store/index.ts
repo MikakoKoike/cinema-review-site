@@ -8,7 +8,13 @@ import Vuex from "vuex";
 import { Movie } from "@/types/movie";
 import { Comment } from "@/types/comment";
 import { User } from "@/types/user";
-import { format } from "date-fns";
+import {
+  getYear,
+  format,
+  getDay,
+  differenceInCalendarMonths,
+  differenceInCalendarYears,
+} from "date-fns";
 
 Vue.use(Vuex);
 
@@ -38,7 +44,8 @@ export default new Vuex.Store({
         page: number;
         results: Array<ApiMovie>;
       }>(
-        "https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_original_language=en&with_watch_monetization_types=flatrate"
+        // "https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=ja-JP&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_original_language=en&with_watch_monetization_types=flatrate"
+        "https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=ja-JP"
       );
       const payload = response.data;
       context.commit("showItemList", payload);
@@ -153,7 +160,6 @@ export default new Vuex.Store({
       };
       currentMovie.reviewList.unshift(newReview.review);
     },
-
     /**
      * コメントの追加
      * @param state
@@ -228,7 +234,6 @@ export default new Vuex.Store({
      */
     setMovieList(state, payload) {
       state.movieList.push(payload.movie);
-      console.log(state.movieList);
     },
   }, //end of mutations
 
@@ -368,7 +373,7 @@ export default new Vuex.Store({
      */
     getSearchedMovieList(state) {
       return (title: string) => {
-        return state.movieList.filter((movie) =>
+        return state.apiMovieList.filter((movie) =>
           // 大文字に変換したmovieListの映画タイトルから、大文字に変換した検索文字列を含んだものを返す。
           movie.title.toUpperCase().includes(title.toUpperCase())
         );
@@ -382,8 +387,7 @@ export default new Vuex.Store({
      */
     getSearchedMovieListByKeyWord(state) {
       return (keyword: string) => {
-        return state.movieList.filter((movie) =>
-          // 大文字に変換したmovieListの映画タイトルから、大文字に変換した検索文字列を含んだものを返す。
+        return state.apiMovieList.filter((movie) =>
           movie.overview.toUpperCase().includes(keyword.toUpperCase())
         );
       };
@@ -395,25 +399,81 @@ export default new Vuex.Store({
      * @returns
      */
     getSearchedReleasedMovieList(state) {
-      const nowDate = format(new Date(), "yyyy-MM-dd");
+      // 現在の日付
+      const nowDate = new Date();
+      // 公開日
+      let releaseDate = new Date();
+      // 公開中の映画
+      const releasedMovies = new Array<ApiMovie>();
+      for (const apiMovie of state.apiMovieList) {
+        // 公開日を表示映画ぶん取得する
+        releaseDate = new Date(apiMovie.release_date);
+        getYear(releaseDate);
+        // 公開中の映画を絞り込む
+        const releasedMovieYears = getYear(releaseDate) - getYear(nowDate);
 
-      return (title: string) => {
-        return state.movieList.filter((movie) =>
-          // 公開中の映画タイトルを検索する
-          {
-            if (movie.release_date >= nowDate) {
-              console.log(movie.release_date >= nowDate);
-              movie.title.toUpperCase().includes(title.toUpperCase());
-            } else {
-              return;
-            }
-          }
+        const releasedMovieMonth = differenceInCalendarMonths(
+          nowDate,
+          releaseDate
         );
-      };
+
+        // フィルターをする
+        if (
+          // 公開中の映画（現時点から3カ月以内の公開日の映画）
+          releasedMovieYears === 0 &&
+          releasedMovieMonth >= 0 &&
+          releasedMovieMonth <= 3
+        ) {
+          releasedMovies.push(apiMovie);
+        }
+      }
+      return releasedMovies;
     },
     /**
+<<<<<<< HEAD
      *
      */
+=======
+     * 公開予定の映画タイトルを検索する
+     * @param state
+     * @returns
+     */
+    getSearchedSoonReleasedMovieList(state) {
+      // 現在の日付
+      const nowDate = new Date();
+      // 公開日
+      let releaseDate = new Date();
+      // 公開中の映画
+      const releasedMovies = new Array<ApiMovie>();
+      for (const apiMovie of state.apiMovieList) {
+        // 公開日を表示映画ぶん取得する
+        releaseDate = new Date(apiMovie.release_date);
+        getYear(releaseDate);
+        // 公開中の映画を絞り込む
+        const releasedMovieYears = getYear(releaseDate) - getYear(nowDate);
+
+        const releasedMovieMonth = differenceInCalendarMonths(
+          nowDate,
+          releaseDate
+        );
+
+        // フィルターをする
+        if (
+          // 公開予定の映画
+          releasedMovieYears >= 0 &&
+          releasedMovieMonth >= 0 &&
+          releaseDate > nowDate
+        ) {
+          releasedMovies.push(apiMovie);
+        }
+      }
+      return releasedMovies;
+    },
+
+    /**
+     * movieIdとReviewIdから該当するレビュー記事のいいねの数を取得する
+     */
+>>>>>>> develop
     getCurrentMovieFromMovieList(state) {
       return (movieId: number) => {
         const newArray = [];
@@ -425,9 +485,12 @@ export default new Vuex.Store({
         return newArray[0];
       };
     },
+<<<<<<< HEAD
     getMovieList(state){
       return state.movieList;
     }
+=======
+>>>>>>> develop
   }, //end of getters
 
   plugins: [

@@ -136,7 +136,8 @@ export default class XXXComponent extends Vue {
    */
   async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
-    this.currentMovie = this.$store.getters.getCurrentMovieFromMovieList(MovieId);
+    this.currentMovie =
+      this.$store.getters.getCurrentMovieFromMovieList(MovieId);
   }
   /**
    * 星の数をカウントする
@@ -169,6 +170,7 @@ export default class XXXComponent extends Vue {
         this.starCount
       ),
     });
+    console.log(this.currentMovie.reviewList);
     //レビューを自分のリストに追加する
     this.$store.commit("saveToReviewList", {
       review: new Review(
