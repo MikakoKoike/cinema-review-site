@@ -81,7 +81,7 @@ export default new Vuex.Store({
             movie.title,
             movie.video,
             movie.vote_average,
-            movie.vote_count,
+            movie.vote_count
           )
         );
       }
@@ -136,22 +136,28 @@ export default new Vuex.Store({
      * @param payload -payload
      */
     addReview(state, payload) {
-      const currentMovie = state.movieList.filter(
-        (movie) => movie.id === payload.movieId
-      )[0];
-      const newReview = {
-        review: new Review(
-          payload.review.id,
-          payload.review.userId,
-          payload.review.movieId,
-          payload.review.countLike,
-          payload.review.postDate,
-          payload.review.content,
-          [],
-          payload.review.countStar
-        ),
-      };
-      currentMovie.reviewList.unshift(newReview.review);
+      for (const movie of state.movieList) {
+        console.log(movie);
+        if (movie.id === payload.movieId) {
+          movie.reviewList.unshift(payload.review);
+        }
+      }
+      // const currentMovie = state.movieList.filter(
+      //   (movie) => movie.id === payload.movieId
+      // )[0];
+      // const newReview = {
+      //   review: new Review(
+      //     payload.review.id,
+      //     payload.review.userId,
+      //     payload.review.movieId,
+      //     payload.review.countLike,
+      //     payload.review.postDate,
+      //     payload.review.content,
+      //     [],
+      //     payload.review.countStar
+      //   ),
+      // };
+      // currentMovie.reviewList.unshift(newReview.review);
     },
 
     /**
@@ -185,10 +191,15 @@ export default new Vuex.Store({
      * @param payload
      */
     addLike(state, payload) {
-      for(const movie of state.movieList ){
-        for(const review of movie.reviewList)
-        if( review.id === payload.reviewId ){
-          review.countLike = payload.countLike;
+      for (const movie of state.movieList) {
+        if (movie.id == payload.movieId) {
+          for (const review of movie.reviewList) {
+            if (review.id == payload.reviewId) {
+              review.countLike = payload.countLike;
+              console.log(movie)
+              console.log(review)
+            }
+          }
         }
       }
     },
@@ -224,6 +235,11 @@ export default new Vuex.Store({
       for (const movie of state.movieList) {
         for (const review of payload.reviewList as Array<Review>) {
           if (Number(review.movieId) === movie.id) {
+            movie.reviewList.forEach((targetReview, index) => {
+              if (targetReview.id === review.id) {
+                movie.reviewList.splice(index, 1);
+              }
+            });
             movie.reviewList.push(review);
           }
         }
@@ -232,10 +248,14 @@ export default new Vuex.Store({
     /**
      * apiMovieではなく、Movieリストを作る.
      */
-    setMovieList(state, payload){
-      state.movieList.push(payload.movie)
-      console.log(state.movieList)
-    }
+    setMovieList(state, payload) {
+      state.movieList.forEach((movie, index) => {
+        if (movie.id === payload.movieId) {
+          state.movieList.splice(index, 1);
+        }
+      });
+      state.movieList.push(payload.movie);
+    },
   }, //end of mutations
 
   modules: {},
@@ -277,6 +297,22 @@ export default new Vuex.Store({
       return (movieId: number) => {
         const newArray = [];
         for (const movie of state.apiMovieList) {
+          if (movie.id === movieId) {
+            newArray.push(movie);
+          }
+        }
+        return newArray[0];
+      };
+    },
+    /**
+     * detailに表示されている映画情報の取得.
+     * @param state
+     * @returns movieId
+     */
+    getcurrentMovie2(state) {
+      return (movieId: number) => {
+        const newArray = [];
+        for (const movie of state.movieList) {
           if (movie.id === movieId) {
             newArray.push(movie);
           }
@@ -334,35 +370,37 @@ export default new Vuex.Store({
     getReviewListByMovieId(state) {
       return (movieId: number) => {
         const newArray = [];
-        for(const movie of state.movieList){
-          if(movie.id === movieId){
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
             newArray.push(movie);
           }
         }
-        return newArray.length !== 0 ? newArray[0].reviewList : new Array<Review>();
-      }
+        return newArray.length !== 0
+          ? newArray[0].reviewList
+          : new Array<Review>();
+      };
     },
     getCountLikeByMovieId(state) {
       return (movieId: number) => {
         const newArray = [];
-        for(const movie of state.movieList){
-          if(movie.id === movieId){
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
             newArray.push(movie);
           }
         }
         return newArray.length !== 0 ? newArray[0].countLike : 0;
-      }
+      };
     },
     getCountWatchByMovieId(state) {
       return (movieId: number) => {
         const newArray = [];
-        for(const movie of state.movieList){
-          if(movie.id === movieId){
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
             newArray.push(movie);
           }
         }
         return newArray.length !== 0 ? newArray[0].countWatch : 0;
-      }
+      };
     },
     /**
      * 映画を名前で部分一致検索をする.
@@ -413,6 +451,24 @@ export default new Vuex.Store({
             }
           }
         );
+      };
+    },
+    /**
+     * movieIdとReviewIdから該当するレビュー記事のいいねの数を取得する
+     */
+    getCountLikeByMovieIdAndReviewId(state) {
+      return (movieId: number, reviewId: number) => {
+        let targetNum = 0;
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
+            for (const review of movie.reviewList) {
+              if (review.id === reviewId) {
+                targetNum = review.countLike;
+              }
+            }
+          }
+        }
+        return targetNum;
       };
     },
   }, //end of getters

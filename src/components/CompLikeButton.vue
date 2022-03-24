@@ -1,10 +1,9 @@
 <template>
   <div>
     <span class="btn" v-on:click="countUp">
-      いいね！<span>♡</span><span>{{ review.countLike }}</span>
+      いいね！<span>♡</span><span>{{ count }}</span>
     </span>
     <div>
-      <span>{{ dummy }}</span>
     </div>
   </div>
 </template>
@@ -19,16 +18,15 @@ export default class CompLikeButton extends Vue {
   private count = 0;
   private dummy = 1;
   created(): void {
-    console.log(this.review?.countLike);
     this.count = this.review?.countLike as number;
+    console.log(this.count);
+
   }
   countUp(): void {
-    this.dummy++;
-    console.log(this.review);
     if (this.review !== undefined) {
       this.count++;
-      console.log(this.count);
       this.$store.commit("addLike", {
+        reviewId: this.review.id,
         movieId: this.review.movieId,
         countLike: this.count,
       });

@@ -87,7 +87,6 @@
                   </span>
                 </div>
               </div>
-
               <p>ユーザーID：{{ review.userId }}</p>
               <p>レビューID：{{ review.id }}</p>
               <p>投稿日時：{{ review.formatDate }}</p>
@@ -95,10 +94,6 @@
           </div>
           <div class="col s12">
             <p>レビュー内容：{{ review.content }}</p>
-            <button type="button" class="likeBtn" @click="addLike">
-              いいね！<span class="likeHeart">♡</span
-              ><span>{{ review.countLike }}</span> ><span>{{ likeCount }}</span>
-            </button>
             <CompLikeButton v-bind:review="review"/>
             <button type="button" class="commentBtn" @click="showComment">
               コメントする
@@ -342,6 +337,7 @@ export default class MovieDetail extends Vue {
     this.targetApiMovie = this.$store.getters.getcurrentMovie(MovieId);
 
     this.$store.commit("setMovieList",{
+        movieId: MovieId,
         movie: new Movie(
           this.targetApiMovie.adult,
           this.targetApiMovie.backdrop_path,
@@ -366,9 +362,6 @@ export default class MovieDetail extends Vue {
       });
 
       this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
-
-    
-
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
     );
@@ -381,16 +374,14 @@ export default class MovieDetail extends Vue {
    * レビューリストを取得する
    */
   get getcurrentMovieReview(): Array<Review> {
-    return this.storeMovie.reviewList;
+    return this.$store.getters.getcurrentMovie2(this.currentMovieId).reviewList;
   }
-
   /**
    * コメント入力欄を表示する
    */
   showComment(): void {
     this.commentFlag = true;
   }
-
   /**
    * コメント投稿
    */
