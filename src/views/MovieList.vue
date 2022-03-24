@@ -41,20 +41,193 @@
           <span>キーワード</span>
         </label>
       </span>
-      <br />
-      <span>絞り込み機能 </span>
-      <input type="checkbox" id="releasedDate" value="releasedDate" />
-      <span><label for="releasedDate">公開中</label></span>
-      <input type="checkbox" id="soonReleased" value="soonReleased" />
-      <span><label for="soonReleased">公開予定</label></span>
-      <input type="checkbox" id="years" value="years" />
-      <span><label for="years">年代</label></span>
-      <input type="checkbox" id="genre" value="genre" />
-      <span><label for="genre">ジャンル</label></span>
-      <input type="checkbox" id="popularity" value="popularity" />
-      <span><label for="popularity">人気</label></span>
-      <input type="checkbox" id="voteAverage" value="voteAverage" />
-      <span><label for="voteAverage">高評価</label></span>
+      <div class="searchTitle">
+        <br />
+        <span>絞り込み機能 </span>
+        <span><button type="button" @click="showSearch">絞り込み</button></span>
+      </div>
+      <div class="searchByDetail" v-if="this.showFlag">
+        <span><button type="button" @click="resetAll">リセット</button></span>
+        <div class="searchByReleaseDate">
+          <hr />
+          <span>公開日：</span><br />
+          <input
+            type="radio"
+            name="releaseDate"
+            id="releasedDate"
+            value="released"
+            v-model="releaseStatus"
+          />
+          <span><label for="releasedDate">公開中</label></span>
+          <input
+            type="radio"
+            name="releaseDate"
+            id="soonReleased"
+            value="soonReleased"
+            v-model="releaseStatus"
+          />
+          <span><label for="soonReleased">近日公開</label></span>
+        </div>
+        <div class="searchBygenre">
+          <hr />
+          <span>ジャンル：</span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="28"
+            id="action"
+            v-model="genres"
+          />
+          <span> <label for="action"> Action(アクション）</label> </span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="12"
+            id="adventure"
+            v-model="genres"
+          />
+          <span>
+            <label for="adventure"> Adventure（アドベンチャー）</label>
+          </span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="16"
+            id="animation"
+            v-model="genres"
+          />
+          <span> <label for="animation"> Animation （アニメ） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="35"
+            id="comedy"
+            v-model="genres"
+          />
+          <span> <label for="comedy"> Comedy（コメディ）</label> </span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="80"
+            id="crime"
+            v-model="genres"
+          />
+          <span> <label for="crime"> （暴力） </label></span>
+          <input type="checkbox" name="genre" value="99" id="documentary" />
+          <span>
+            <label for="documentary"
+              >Documentary （ドキュメンタリ）
+            </label></span
+          >
+          <input
+            type="checkbox"
+            name="genre"
+            value="18"
+            id="drama"
+            v-model="genres"
+          />
+          <span> <label for="drama">Drama （ドラマ） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="10751"
+            id="family"
+            v-model="genres"
+          />
+          <span> <label for="family">Family（家族） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="14"
+            id="fantasy"
+            v-model="genres"
+          />
+          <span> <label for="fantasy">Fantasy （ファンタジー） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="36"
+            id="history"
+            v-model="genres"
+          />
+          <span> <label for="history">History （歴史） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="27"
+            id="horror"
+            v-model="genres"
+          />
+          <span> <label for="horror">Horror （ホラー） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="10402"
+            id="music"
+            v-model="genres"
+          />
+          <span> <label for="music">Music （ミュージカル） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="9648"
+            id="mystery"
+            v-model="genres"
+          />
+          <span> <label for="mystery">Mystery （ミステリー） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="10479"
+            id="romance"
+            v-model="genres"
+          />
+          <span> <label for="romance">Romance （恋愛・ロマンス） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="878"
+            id="sciencefiction"
+            v-model="genres"
+          />
+          <span>
+            <label for="sciencefiction">Science Fiction （SF) </label></span
+          >
+          <input
+            type="checkbox"
+            name="genre"
+            value="10770"
+            id="tvmovie"
+            v-model="genres"
+          />
+          <span> <label for="tvmovie">TV Movie （TV映画） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="53"
+            id="thriller"
+            v-model="genres"
+          />
+          <span> <label for="thriller">Thriller （スリラー） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="10752"
+            id="war"
+            v-model="genres"
+          />
+          <span> <label for="war">War （戦争） </label></span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="37"
+            id="western"
+            v-model="genres"
+          />
+          <span> <label for="western">Western （ウェスターン） </label></span>
+        </div>
+        <hr />
+      </div>
     </form>
     <div class="container">
       <div class="row">
@@ -84,7 +257,9 @@
               </div>
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>
+                <p>公開日：{{ movie.formatDate }}</p>
                 <p>{{ movie.overview }}</p>
+                <p>{{ movie.genre_ids }}</p>
               </div>
             </div>
           </div>
@@ -97,8 +272,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { ApiMovie } from "@/types/api/apiMovie";
-import { Movie } from "@/types/movie";
-import { TimeList } from "@/types/timeList";
 @Component
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
@@ -108,6 +281,14 @@ export default class MovieList extends Vue {
   private searchWay = "";
   // 検索オプション
   private searchOptions = "";
+  // 公開状況
+  private releaseStatus = "";
+  // 公開年
+  private releasedYear = "";
+  // ジャンル
+  private genres = [];
+  // メニューバーの表示
+  private showFlag = false;
 
   /**
    * movieListを表示する.
@@ -122,8 +303,8 @@ export default class MovieList extends Vue {
 
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getApiMovieList;
-
   }
+
   /**
    * ユーザーのmyMovieリストに保存するメソッド.
    * @param - 映画のid
@@ -137,25 +318,150 @@ export default class MovieList extends Vue {
   }
 
   /**
-   * 検索バーに入力された値からの絞り込み
+   * 検索機能
    */
   searchMovie(): void {
-    console.dir("movieAPI:" + this.currentMovieList);
+    this.currentMovieList = this.$store.getters.getApiMovieList;
     if (this.searchWay === "movie") {
       // 入力された文字列で絞り込みを行う
       this.currentMovieList = this.$store.getters.getSearchedMovieList(
         this.searchMovieString
       );
+      // 公開日でのフィルター
+      if (this.releaseStatus !== "") {
+        if (this.releaseStatus === "released") {
+          this.currentMovieList =
+            this.$store.getters.getSearchedReleasedMovieList;
+        } else if (this.releaseStatus === "soonReleased") {
+          this.currentMovieList =
+            this.$store.getters.getSearchedSoonReleasedMovieList;
+        } else {
+          console.log("中止");
+          return;
+        }
+      }
+      // ジャンルでのフィルター
+      if (this.genres.length !== 0) {
+        let idArray = (idArray: Array<number>, movieList: Array<ApiMovie>) => {
+          const movielistSortByGenreId = new Array<Array<ApiMovie>>();
+          const resultOfFilteredMovie = new Array<ApiMovie>();
+
+          // ジャンルIDのチェック
+          movielistSortByGenreId.push(
+            movieList.filter((movie) => {
+              let countTrue = 0;
+              for (const genreId of movie.genre_ids) {
+                for (const id of idArray) {
+                  if (genreId === Number(id)) {
+                    countTrue++;
+                  }
+                }
+              }
+              if (countTrue === this.genres.length) {
+                return true;
+              } else {
+                return false;
+              }
+            })
+          ); // end of sort
+          for (const movieList of movielistSortByGenreId) {
+            for (const movie of movieList) {
+              resultOfFilteredMovie.push(movie);
+            }
+          }
+          return resultOfFilteredMovie;
+        }; // end of function
+        this.currentMovieList = idArray(this.genres, this.currentMovieList);
+      } // end of if
     } else if (this.searchWay === "keyword") {
       this.currentMovieList = this.$store.getters.getSearchedMovieListByKeyWord(
         this.searchMovieString
       );
+      // 公開日でのフィルター
+      if (this.releaseStatus !== "") {
+        if (this.releaseStatus === "released") {
+          this.currentMovieList =
+            this.$store.getters.getSearchedReleasedMovieList;
+        } else if (this.releaseStatus === "soonReleased") {
+          this.currentMovieList =
+            this.$store.getters.getSearchedSoonReleasedMovieList;
+        } else {
+          console.log("中止");
+          return;
+        }
+      }
+      // 年代でのフィルター
+      if (this.releasedYear !== "") {
+        if (this.releasedYear === "2000s") {
+          this.currentMovieList = this.$store.getters.get2000sMovieList;
+        } else if (this.releasedYear === "2010s") {
+          this.currentMovieList = this.$store.getters.get2010sMovieList;
+        }
+      }
+      // ジャンルでのフィルター
+      if (this.genres.length !== 0) {
+        let idArray = (idArray: Array<number>, movieList: Array<ApiMovie>) => {
+          const movielistSortByGenreId = new Array<Array<ApiMovie>>();
+          const resultOfFilteredMovie = new Array<ApiMovie>();
+
+          // ジャンルIDのチェック
+          movielistSortByGenreId.push(
+            movieList.filter((movie) => {
+              let countTrue = 0;
+              for (const genreId of movie.genre_ids) {
+                for (const id of idArray) {
+                  if (genreId === Number(id)) {
+                    countTrue++;
+                  }
+                }
+              }
+              if (countTrue === this.genres.length) {
+                return true;
+              } else {
+                return false;
+              }
+            })
+          ); // end of sort
+          for (const movieList of movielistSortByGenreId) {
+            for (const movie of movieList) {
+              resultOfFilteredMovie.push(movie);
+            }
+          }
+          return resultOfFilteredMovie;
+        }; // end of function
+        this.currentMovieList = idArray(this.genres, this.currentMovieList);
+      }
+    }
+  }
+  /**
+   * 入力値のリセット
+   */
+  resetAll(): void {
+    this.searchMovieString = "";
+    // 公開状況
+    this.releaseStatus = "";
+    // 公開年
+    this.releasedYear = "";
+    // ジャンル
+    this.genres = [];
+  }
+
+  showSearch(): void {
+    if (this.showFlag == true) {
+      this.showFlag = false;
+    } else {
+      this.showFlag = true;
     }
   }
 }
 </script>
 
 <style scoped>
+.searchByDetail {
+  width: 500px;
+  margin: 10px auto;
+}
+
 .searchOptions {
   width: 300px;
 }
