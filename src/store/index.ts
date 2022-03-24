@@ -412,12 +412,11 @@ export default new Vuex.Store({
       // 公開日
       let releaseDate = new Date();
       // 公開中の条件
-      const releasedMovieYears =
-        // differenceInCalendarYears(
-        //   nowDate,
-        //   releaseDate
-        // );
-        getYear(releaseDate);
+      const releasedMovieYears = differenceInCalendarYears(
+        nowDate,
+        releaseDate
+      );
+
       const releasedMovieMonth = differenceInCalendarMonths(
         nowDate,
         releaseDate
@@ -429,8 +428,6 @@ export default new Vuex.Store({
       for (const apiMovie of state.apiMovieList) {
         // 公開日を表示映画ぶん取得する
         releaseDate = new Date(apiMovie.release_date);
-        console.log(releasedMovieMonth);
-        console.log(releasedMovieYears);
 
         // フィルターをする
         if (
@@ -441,9 +438,9 @@ export default new Vuex.Store({
           releasedMovies.push(apiMovie);
         } else {
           console.log("NOT RELEASED");
+          continue;
         }
       }
-      console.log("success");
       return releasedMovies;
     },
 
