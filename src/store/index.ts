@@ -192,10 +192,15 @@ export default new Vuex.Store({
      */
     addLike(state, payload) {
       for (const movie of state.movieList) {
-        for (const review of movie.reviewList)
-          if (review.id === payload.reviewId) {
-            review.countLike = payload.countLike;
+        if (movie.id == payload.movieId) {
+          for (const review of movie.reviewList) {
+            if (review.id == payload.reviewId) {
+              review.countLike = payload.countLike;
+              console.log(movie)
+              console.log(review)
+            }
           }
+        }
       }
     },
     /**
@@ -231,7 +236,9 @@ export default new Vuex.Store({
         for (const review of payload.reviewList as Array<Review>) {
           if (Number(review.movieId) === movie.id) {
             movie.reviewList.forEach((targetReview, index) => {
-              movie.reviewList.splice(index, 1);
+              if (targetReview.id === review.id) {
+                movie.reviewList.splice(index, 1);
+              }
             });
             movie.reviewList.push(review);
           }
@@ -243,12 +250,12 @@ export default new Vuex.Store({
      */
     setMovieList(state, payload) {
       state.movieList.forEach((movie, index) => {
-        if(movie.id === payload.movieId){
+        if (movie.id === payload.movieId) {
           state.movieList.splice(index, 1);
         }
-      })
+      });
       state.movieList.push(payload.movie);
-    }
+    },
   }, //end of mutations
 
   modules: {},
@@ -444,6 +451,24 @@ export default new Vuex.Store({
             }
           }
         );
+      };
+    },
+    /**
+     * movieIdとReviewIdから該当するレビュー記事のいいねの数を取得する
+     */
+    getCountLikeByMovieIdAndReviewId(state) {
+      return (movieId: number, reviewId: number) => {
+        let targetNum = 0;
+        for (const movie of state.movieList) {
+          if (movie.id === movieId) {
+            for (const review of movie.reviewList) {
+              if (review.id === reviewId) {
+                targetNum = review.countLike;
+              }
+            }
+          }
+        }
+        return targetNum;
       };
     },
   }, //end of getters
