@@ -369,29 +369,22 @@ export default class MovieList extends Vue {
           const movielistSortByGenreId = new Array<Array<ApiMovie>>();
           const resultOfFilteredMovie = new Array<ApiMovie>();
 
-          let countTrue = 0;
           // ジャンルIDのチェック
           movielistSortByGenreId.push(
             movieList.filter((movie) => {
-              for (const id of idArray) {
-                for (const genreId of movie.genre_ids) {
-                  let trueFlag = false;
+              let countTrue = 0;
+              for (const genreId of movie.genre_ids) {
+                for (const id of idArray) {
                   if (genreId === Number(id)) {
-                    trueFlag = true;
                     countTrue++;
-
-                    let allIdCheckCount =
-                      movie.genre_ids.length * this.genres.length;
-                    console.log("countTrue:" + countTrue);
-                    console.log("allChecks:" + allIdCheckCount);
-
-                    return trueFlag;
-                  } else {
-                    continue;
                   }
                 }
               }
-              return false;
+              if (countTrue === this.genres.length) {
+                return true;
+              } else {
+                return false;
+              }
             })
           ); // end of sort
           for (const movieList of movielistSortByGenreId) {
