@@ -93,22 +93,12 @@
               <p>投稿日時：{{ review.formatDate }}</p>
             </div>
           </div>
+        </div>
+        <div class="row">
           <div class="col s12">
             <p>レビュー内容：{{ review.content }}</p>
-            <CompLikeButton v-bind:review="review"/>
-            <button type="button" class="commentBtn" @click="showComment">
-              コメントする
-            </button>
-            <div class="commentBox" v-if="commentFlag">
-              <textarea
-                name="comment"
-                id="comment"
-                cols="30"
-                rows="10"
-                v-model="commentContent"
-              ></textarea>
-              <button type="button" @click="addComment">投稿</button>
-            </div>
+            <CompLikeButton v-bind:review="review" />
+            <CompCommentArea v-bind:review="review"/>
           </div>
         </div>
         <div class="row">
@@ -134,12 +124,14 @@ import { TimeList } from "@/types/timeList";
 import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
 import CompLikeButton from "@/components/CompLikeButton.vue";
+import CompCommentArea from "@/components/CompCommentArea.vue";
 import { ApiMovie } from "@/types/api/apiMovie";
 
 @Component({
   components: {
-    CompLikeButton
-  }
+    CompLikeButton,
+    CompCommentArea,
+  },
 })
 export default class MovieDetail extends Vue {
   private targetApiMovie = new Movie(
@@ -165,7 +157,6 @@ export default class MovieDetail extends Vue {
   );
   private isClicked = false;
 
-  
   private stateCurrentMovie = new Movie(
     false,
     "",
@@ -200,10 +191,8 @@ export default class MovieDetail extends Vue {
   //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
   // }
   // private watchCount = 0;
-  // コメントボタン
-  private commentFlag = false;
-  // コメント
-  private commentContent = "";
+  
+  
   // storeの映画情報
   private storeMovie = new Movie(
     false,
@@ -331,40 +320,38 @@ export default class MovieDetail extends Vue {
     0
   );
 
-  async created(): Promise<void>{
+  async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
 
-    
     this.targetApiMovie = this.$store.getters.getcurrentMovie(MovieId);
 
-    this.$store.commit("setMovieList",{
-        movieId: MovieId,
-        movie: new Movie(
-          this.targetApiMovie.adult,
-          this.targetApiMovie.backdrop_path,
-          this.targetApiMovie.genre_ids,
-          this.targetApiMovie.id,
-          this.targetApiMovie.original_language,
-          this.targetApiMovie.original_title,
-          this.targetApiMovie.overview,
-          this.targetApiMovie.popularity,
-          this.targetApiMovie.poster_path,
-          this.targetApiMovie.release_date,
-          this.targetApiMovie.title,
-          this.targetApiMovie.video,
-          this.targetApiMovie.vote_average,
-          this.targetApiMovie.vote_count,
-          new Array<string>(),
-          new Array<TimeList>(),
-          this.$store.getters.getReviewListByMovieId(MovieId) ?? new Array<Review>(),
-          this.$store.getters.getCountLikeByMovieId(MovieId) ?? 0,
-          this.$store.getters.getCountWatchByMovieId(MovieId) ?? 0,
-        )
-      });
+    this.$store.commit("setMovieList", {
+      movieId: MovieId,
+      movie: new Movie(
+        this.targetApiMovie.adult,
+        this.targetApiMovie.backdrop_path,
+        this.targetApiMovie.genre_ids,
+        this.targetApiMovie.id,
+        this.targetApiMovie.original_language,
+        this.targetApiMovie.original_title,
+        this.targetApiMovie.overview,
+        this.targetApiMovie.popularity,
+        this.targetApiMovie.poster_path,
+        this.targetApiMovie.release_date,
+        this.targetApiMovie.title,
+        this.targetApiMovie.video,
+        this.targetApiMovie.vote_average,
+        this.targetApiMovie.vote_count,
+        new Array<string>(),
+        new Array<TimeList>(),
+        this.$store.getters.getReviewListByMovieId(MovieId) ??
+          new Array<Review>(),
+        this.$store.getters.getCountLikeByMovieId(MovieId) ?? 0,
+        this.$store.getters.getCountWatchByMovieId(MovieId) ?? 0
+      ),
+    });
 
-      this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
-
-    
+    this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
 
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
@@ -378,24 +365,12 @@ export default class MovieDetail extends Vue {
    * レビューリストを取得する
    */
   get getcurrentMovieReview(): Array<Review> {
-    return this.$store.getters.getcurrentMovie2(this.currentMovieId).reviewList;
+    return this.$store.getters.getReviewListByMovieId(this.targetApiMovie.id);
   }
 
-  /**
-   * コメント入力欄を表示する
-   */
-  showComment(): void {
-    this.commentFlag = true;
-  }
+  
 
-  /**
-   * コメント投稿
-   */
-  addComment(): void {
-    this.$store.commit("addComment", {
-      comment: new Comment(-1, 0, -1, new Date(), "megumi"),
-    });
-  }
+  
 
   /**
    * いいね機能
