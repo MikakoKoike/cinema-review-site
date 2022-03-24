@@ -447,26 +447,23 @@ export default new Vuex.Store({
       const nowDate = new Date();
       // 公開日
       let releaseDate = new Date();
-      // 公開中の条件
-      const releasedMovieYears = differenceInCalendarYears(
-        nowDate,
-        releaseDate
-      );
-
-      const releasedMovieMonth = differenceInCalendarMonths(
-        nowDate,
-        releaseDate
-      );
-
       // 公開中の映画
       const releasedMovies = new Array<ApiMovie>();
-      // 公開中の映画を絞り込む
       for (const apiMovie of state.apiMovieList) {
         // 公開日を表示映画ぶん取得する
         releaseDate = new Date(apiMovie.release_date);
+        getYear(releaseDate);
+        // 公開中の映画を絞り込む
+        const releasedMovieYears = getYear(releaseDate) - getYear(nowDate);
+
+        const releasedMovieMonth = differenceInCalendarMonths(
+          nowDate,
+          releaseDate
+        );
 
         // フィルターをする
         if (
+          // 公開中の映画（現時点から3カ月以内の公開日の映画）
           releasedMovieYears === 0 &&
           releasedMovieMonth >= 0 &&
           releasedMovieMonth <= 3
@@ -474,11 +471,46 @@ export default new Vuex.Store({
           releasedMovies.push(apiMovie);
         } else {
           console.log("NOT RELEASED");
-          continue;
         }
       }
-      console.log("フィルター完了");
+      return releasedMovies;
+    },
+    /**
+     * 公開予定の映画タイトルを検索する
+     * @param state
+     * @returns
+     */
+    getSearchedSoonReleasedMovieList(state) {
+      // 現在の日付
+      const nowDate = new Date();
+      // 公開日
+      let releaseDate = new Date();
+      // 公開中の映画
+      const releasedMovies = new Array<ApiMovie>();
+      for (const apiMovie of state.apiMovieList) {
+        // 公開日を表示映画ぶん取得する
+        releaseDate = new Date(apiMovie.release_date);
+        getYear(releaseDate);
+        // 公開中の映画を絞り込む
+        const releasedMovieYears = getYear(releaseDate) - getYear(nowDate);
 
+        const releasedMovieMonth = differenceInCalendarMonths(
+          nowDate,
+          releaseDate
+        );
+
+        // フィルターをする
+        if (
+          // 公開予定の映画
+          releasedMovieYears >= 0 &&
+          releasedMovieMonth >= 0 &&
+          releaseDate > nowDate
+        ) {
+          releasedMovies.push(apiMovie);
+        } else {
+          console.log("NOT RELEASED");
+        }
+      }
       return releasedMovies;
     },
     /**

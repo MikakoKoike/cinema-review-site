@@ -173,8 +173,8 @@
               </div>
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>
+                <p>公開日：{{ movie.formatDate }}</p>
                 <p>{{ movie.overview }}</p>
-                <p>{{ movie.release_date }}</p>
               </div>
             </div>
           </div>
@@ -234,18 +234,32 @@ export default class MovieList extends Vue {
       this.currentMovieList = this.$store.getters.getSearchedMovieList(
         this.searchMovieString
       );
+      if (this.releaseStatus === "released") {
+        console.log("公開中の映画を検索");
+        this.currentMovieList =
+          this.$store.getters.getSearchedReleasedMovieList;
+      } else if (this.releaseStatus === "soonReleased") {
+        this.currentMovieList =
+          this.$store.getters.getSearchedSoonReleasedMovieList;
+      } else {
+        console.log("中止");
+        return;
+      }
     } else if (this.searchWay === "keyword") {
       this.currentMovieList = this.$store.getters.getSearchedMovieListByKeyWord(
         this.searchMovieString
       );
-    }
-    // 公開中の映画を検索する
-    if (this.releaseStatus === "released") {
-      this.$store.getters.getSearchedReleasedMovieList;
-    } else if (this.releaseStatus === "soonReleased") {
-      console.log("called soonReleased");
-    } else {
-      return;
+      if (this.releaseStatus === "released") {
+        console.log("公開中の映画を検索");
+        this.currentMovieList =
+          this.$store.getters.getSearchedReleasedMovieList;
+      } else if (this.releaseStatus === "soonReleased") {
+        this.currentMovieList =
+          this.$store.getters.getSearchedSoonReleasedMovieList;
+      } else {
+        console.log("中止");
+        return;
+      }
     }
   }
 }
