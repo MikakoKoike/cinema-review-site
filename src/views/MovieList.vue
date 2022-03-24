@@ -174,7 +174,7 @@
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>
                 <p>{{ movie.overview }}</p>
-                <p>{{ movie.releaseDate }}</p>
+                <p>{{ movie.release_date }}</p>
               </div>
             </div>
           </div>

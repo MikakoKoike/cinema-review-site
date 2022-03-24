@@ -477,6 +477,8 @@ export default new Vuex.Store({
           continue;
         }
       }
+      console.log("フィルター完了");
+
       return releasedMovies;
     },
     /**
