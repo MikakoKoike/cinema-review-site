@@ -514,9 +514,89 @@ export default new Vuex.Store({
       return releasedMovies;
     },
     /**
-     * movieIdとReviewIdから該当するレビュー記事のいいねの数を取得する
+     * 2000年代初期の映画タイトルを検索する
+     * @param state
+     * @returns
      */
-    getCountLikeByMovieIdAndReviewId(state) {
+    get2000sMovieList(state) {
+      // 公開年
+      let releaseYear = 0;
+      // 2000年代の映画
+      const theYearMovieList = new Array<ApiMovie>();
+
+      for (const apiMovie of state.apiMovieList) {
+        // 公開日を表示映画ぶん取得する
+        releaseYear = getYear(new Date(apiMovie.release_date));
+        // フィルターをする
+        if (releaseYear >= 2000 && releaseYear < 2010) {
+          theYearMovieList.push(apiMovie);
+        } else {
+          console.log("NOT FOUND");
+        }
+      }
+      return theYearMovieList;
+    },
+    /**
+     * 2010年代初期の映画タイトルを検索する
+     * @param state
+     * @returns
+     */
+    get2010sMovieList(state) {
+      // 公開年
+      let releaseYear = 0;
+      // 2000年代の映画
+      const theYearMovieList = new Array<ApiMovie>();
+
+      for (const apiMovie of state.apiMovieList) {
+        // 公開日を表示映画ぶん取得する
+        releaseYear = getYear(new Date(apiMovie.release_date));
+        // フィルターをする
+        if (releaseYear >= 2010) {
+          theYearMovieList.push(apiMovie);
+        } else {
+          console.log("NOT FOUND");
+        }
+      }
+      return theYearMovieList;
+    },
+    /**
+     * ジャンルで映画を検索する
+     * @param state
+     * @returns
+     */
+    // getsearchedMovieListBygenre(state) {
+    //   return (idArray: Array<number>, movieList: Array<ApiMovie>) => {
+    //     console.log(idArray);
+
+    //     const movielistSortByGenreId = new Array<Array<ApiMovie>>();
+    //     const resultOfFilteredMovie = new Array<ApiMovie>();
+
+    //     for (const id of idArray) {
+    //       movielistSortByGenreId.push(
+    //         movieList.filter((movie) => {
+    //           for (const genreId of movie.genre_ids) {
+    //             let trueFlag = false;
+    //             if (genreId === Number(id)) {
+    //               trueFlag = true;
+    //               return trueFlag;
+    //             }
+    //           }
+    //           return false;
+    //         })
+    //       );
+    //       console.log(movielistSortByGenreId);
+    //     }
+    //     for (const movieList of movielistSortByGenreId) {
+    //       for (const movie of movieList) {
+    //         resultOfFilteredMovie.push(movie);
+    //       }
+    //     }
+    //     return resultOfFilteredMovie;
+    //   };
+    // },
+    /**
+     * movieIdとReviewIdから該当するレビュー記事のいいねの数を取得する
+     */ getCountLikeByMovieIdAndReviewId(state) {
       return (movieId: number, reviewId: number) => {
         let targetNum = 0;
         for (const movie of state.movieList) {

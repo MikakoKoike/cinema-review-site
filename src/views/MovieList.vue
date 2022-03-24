@@ -67,21 +67,40 @@
         <div class="searchByYears">
           <hr />
           <span>年代：</span><br />
-          <input type="radio" name="years" id="1900s" value="years" />
-          <span><label for="1900s">1900年代</label></span>
-          <input type="radio" name="years" id="2000s" value="years" />
-          <span><label for="2000s">2000年代</label></span>
+          <input
+            type="radio"
+            name="years"
+            id="2000s"
+            value="2000s"
+            v-model="releasedYear"
+          />
+          <span><label for="2000s">2000年～2010年</label></span>
+          <input
+            type="radio"
+            name="years"
+            id="2010s"
+            value="2010s"
+            v-model="releasedYear"
+          />
+          <span><label for="2010s">2010年以降</label></span>
         </div>
         <div class="searchBygenre">
           <hr />
           <span>ジャンル：</span>
-          <input type="checkbox" name="genre" value="action" id="action" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="28"
+            id="action"
+            v-model="genres"
+          />
           <span> <label for="action"> Action(アクション）</label> </span>
           <input
             type="checkbox"
             name="genre"
-            value="adventure"
+            value="12"
             id="adventure"
+            v-model="genres"
           />
           <span>
             <label for="adventure"> Adventure（アドベンチャー）</label>
@@ -89,57 +108,138 @@
           <input
             type="checkbox"
             name="genre"
-            value="animation"
+            value="16"
             id="animation"
+            v-model="genres"
           />
           <span> <label for="animation"> Animation （アニメ） </label></span>
-          <input type="checkbox" name="genre" value="comedy" id="comedy" />
-          <span> <label for="comedy"> Comedy（コメディ）</label> </span>
-          <input type="checkbox" name="genre" value="crime" id="crime" />
-          <span> <label for="crime"> （暴力） </label></span>
           <input
             type="checkbox"
             name="genre"
-            value="documentary"
-            id="documentary"
+            value="35"
+            id="comedy"
+            v-model="genres"
           />
+          <span> <label for="comedy"> Comedy（コメディ）</label> </span>
+          <input
+            type="checkbox"
+            name="genre"
+            value="80"
+            id="crime"
+            v-model="genres"
+          />
+          <span> <label for="crime"> （暴力） </label></span>
+          <input type="checkbox" name="genre" value="99" id="documentary" />
           <span>
             <label for="documentary"
               >Documentary （ドキュメンタリ）
             </label></span
           >
-          <input type="checkbox" name="genre" value="drama" id="drama" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="18"
+            id="drama"
+            v-model="genres"
+          />
           <span> <label for="drama">Drama （ドラマ） </label></span>
-          <input type="checkbox" name="genre" value="family" id="family" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="10751"
+            id="family"
+            v-model="genres"
+          />
           <span> <label for="family">Family（家族） </label></span>
-          <input type="checkbox" name="genre" value="fantasy" id="fantasy" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="14"
+            id="fantasy"
+            v-model="genres"
+          />
           <span> <label for="fantasy">Fantasy （ファンタジー） </label></span>
-          <input type="checkbox" name="genre" value="history" id="history" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="36"
+            id="history"
+            v-model="genres"
+          />
           <span> <label for="history">History （歴史） </label></span>
-          <input type="checkbox" name="genre" value="horror" id="horror" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="27"
+            id="horror"
+            v-model="genres"
+          />
           <span> <label for="horror">Horror （ホラー） </label></span>
-          <input type="checkbox" name="genre" value="music" id="music" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="10402"
+            id="music"
+            v-model="genres"
+          />
           <span> <label for="music">Music （ミュージカル） </label></span>
-          <input type="checkbox" name="genre" value="mystery" id="mystery" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="9648"
+            id="mystery"
+            v-model="genres"
+          />
           <span> <label for="mystery">Mystery （ミステリー） </label></span>
-          <input type="checkbox" name="genre" value="romance" id="romance" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="10479"
+            id="romance"
+            v-model="genres"
+          />
           <span> <label for="romance">Romance （恋愛・ロマンス） </label></span>
           <input
             type="checkbox"
             name="genre"
-            value="sciencefiction"
+            value="878"
             id="sciencefiction"
+            v-model="genres"
           />
           <span>
             <label for="sciencefiction">Science Fiction （SF) </label></span
           >
-          <input type="checkbox" name="genre" value="tvmovie" id="tvmovie" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="10770"
+            id="tvmovie"
+            v-model="genres"
+          />
           <span> <label for="tvmovie">TV Movie （TV映画） </label></span>
-          <input type="checkbox" name="genre" value="thriller" id="thriller" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="53"
+            id="thriller"
+            v-model="genres"
+          />
           <span> <label for="thriller">Thriller （スリラー） </label></span>
-          <input type="checkbox" name="genre" value="war" id="war" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="10752"
+            id="war"
+            v-model="genres"
+          />
           <span> <label for="war">War （戦争） </label></span>
-          <input type="checkbox" name="genre" value="western" id="western" />
+          <input
+            type="checkbox"
+            name="genre"
+            value="37"
+            id="western"
+            v-model="genres"
+          />
           <span> <label for="western">Western （ウェスターン） </label></span>
         </div>
         <hr />
@@ -175,6 +275,7 @@
                 <h5>{{ movie.title }}</h5>
                 <p>公開日：{{ movie.formatDate }}</p>
                 <p>{{ movie.overview }}</p>
+                <p>{{ movie.genre_ids }}</p>
               </div>
             </div>
           </div>
@@ -198,6 +299,10 @@ export default class MovieList extends Vue {
   private searchOptions = "";
   // 公開状況
   private releaseStatus = "";
+  // 公開年
+  private releasedYear = "";
+  // ジャンル
+  private genres = [];
   // エラーメッセージ
   private errorMsg = "映画が見つかりませんでした";
 
@@ -231,34 +336,97 @@ export default class MovieList extends Vue {
    * 検索機能
    */
   searchMovie(): void {
+    this.currentMovieList = this.$store.getters.getApiMovieList;
     if (this.searchWay === "movie") {
       // 入力された文字列で絞り込みを行う
       this.currentMovieList = this.$store.getters.getSearchedMovieList(
         this.searchMovieString
       );
-      if (this.releaseStatus === "released") {
-        this.currentMovieList =
-          this.$store.getters.getSearchedReleasedMovieList;
-      } else if (this.releaseStatus === "soonReleased") {
-        this.currentMovieList =
-          this.$store.getters.getSearchedSoonReleasedMovieList;
-      } else {
-        console.log("中止");
-        return;
-      }
+      // // 公開日でのフィルター
+      // if (this.releaseStatus !== "") {
+      //   if (this.releaseStatus === "released") {
+      //     this.currentMovieList =
+      //       this.$store.getters.getSearchedReleasedMovieList;
+      //   } else if (this.releaseStatus === "soonReleased") {
+      //     this.currentMovieList =
+      //       this.$store.getters.getSearchedSoonReleasedMovieList;
+      //   } else {
+      //     console.log("中止");
+      //     return;
+      //   }
+      // }
+      // // 年代でのフィルター
+      // if (this.releasedYear !== "") {
+      //   if (this.releasedYear === "2000s") {
+      //     this.currentMovieList = this.$store.getters.get2000sMovieList;
+      //   } else if (this.releasedYear === "2010s") {
+      //     this.currentMovieList = this.$store.getters.get2010sMovieList;
+      //   }
+      // }
+      // ジャンルでのフィルター
+      if (this.genres.length !== 0) {
+        let idArray = (idArray: Array<number>, movieList: Array<ApiMovie>) => {
+          const movielistSortByGenreId = new Array<Array<ApiMovie>>();
+          const resultOfFilteredMovie = new Array<ApiMovie>();
+
+          let countTrue = 0;
+          // ジャンルIDのチェック
+          movielistSortByGenreId.push(
+            movieList.filter((movie) => {
+              for (const id of idArray) {
+                for (const genreId of movie.genre_ids) {
+                  let trueFlag = false;
+                  if (genreId === Number(id)) {
+                    trueFlag = true;
+                    countTrue++;
+
+                    let allIdCheckCount =
+                      movie.genre_ids.length * this.genres.length;
+                    console.log("countTrue:" + countTrue);
+                    console.log("allChecks:" + allIdCheckCount);
+
+                    return trueFlag;
+                  } else {
+                    continue;
+                  }
+                }
+              }
+              return false;
+            })
+          ); // end of sort
+          for (const movieList of movielistSortByGenreId) {
+            for (const movie of movieList) {
+              resultOfFilteredMovie.push(movie);
+            }
+          }
+          return resultOfFilteredMovie;
+        }; // end of function
+        this.currentMovieList = idArray(this.genres, this.currentMovieList);
+      } // end of if
     } else if (this.searchWay === "keyword") {
       this.currentMovieList = this.$store.getters.getSearchedMovieListByKeyWord(
         this.searchMovieString
       );
-      if (this.releaseStatus === "released") {
-        this.currentMovieList =
-          this.$store.getters.getSearchedReleasedMovieList;
-      } else if (this.releaseStatus === "soonReleased") {
-        this.currentMovieList =
-          this.$store.getters.getSearchedSoonReleasedMovieList;
-      } else {
-        console.log("中止");
-        return;
+      // 公開日でのフィルター
+      if (this.releaseStatus !== "") {
+        if (this.releaseStatus === "released") {
+          this.currentMovieList =
+            this.$store.getters.getSearchedReleasedMovieList;
+        } else if (this.releaseStatus === "soonReleased") {
+          this.currentMovieList =
+            this.$store.getters.getSearchedSoonReleasedMovieList;
+        } else {
+          console.log("中止");
+          return;
+        }
+      }
+      // 年代でのフィルター
+      if (this.releasedYear !== "") {
+        if (this.releasedYear === "2000s") {
+          this.currentMovieList = this.$store.getters.get2000sMovieList;
+        } else if (this.releasedYear === "2010s") {
+          this.currentMovieList = this.$store.getters.get2010sMovieList;
+        }
       }
     }
   }
