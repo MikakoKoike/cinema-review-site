@@ -469,8 +469,6 @@ export default new Vuex.Store({
           releasedMovieMonth <= 3
         ) {
           releasedMovies.push(apiMovie);
-        } else {
-          console.log("NOT RELEASED");
         }
       }
       return releasedMovies;
@@ -507,57 +505,9 @@ export default new Vuex.Store({
           releaseDate > nowDate
         ) {
           releasedMovies.push(apiMovie);
-        } else {
-          console.log("NOT RELEASED");
         }
       }
       return releasedMovies;
-    },
-    /**
-     * 2000年代初期の映画タイトルを検索する
-     * @param state
-     * @returns
-     */
-    get2000sMovieList(state) {
-      // 公開年
-      let releaseYear = 0;
-      // 2000年代の映画
-      const theYearMovieList = new Array<ApiMovie>();
-
-      for (const apiMovie of state.apiMovieList) {
-        // 公開日を表示映画ぶん取得する
-        releaseYear = getYear(new Date(apiMovie.release_date));
-        // フィルターをする
-        if (releaseYear >= 2000 && releaseYear < 2010) {
-          theYearMovieList.push(apiMovie);
-        } else {
-          console.log("NOT FOUND");
-        }
-      }
-      return theYearMovieList;
-    },
-    /**
-     * 2010年代初期の映画タイトルを検索する
-     * @param state
-     * @returns
-     */
-    get2010sMovieList(state) {
-      // 公開年
-      let releaseYear = 0;
-      // 2000年代の映画
-      const theYearMovieList = new Array<ApiMovie>();
-
-      for (const apiMovie of state.apiMovieList) {
-        // 公開日を表示映画ぶん取得する
-        releaseYear = getYear(new Date(apiMovie.release_date));
-        // フィルターをする
-        if (releaseYear >= 2010) {
-          theYearMovieList.push(apiMovie);
-        } else {
-          console.log("NOT FOUND");
-        }
-      }
-      return theYearMovieList;
     },
     /**
      * ジャンルで映画を検索する

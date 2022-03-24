@@ -41,9 +41,13 @@
           <span>キーワード</span>
         </label>
       </span>
-      <div class="searchByDetail">
+      <div class="searchTitle">
         <br />
         <span>絞り込み機能 </span>
+        <span><button type="button" @click="showSearch">絞り込み</button></span>
+      </div>
+      <div class="searchByDetail" v-if="this.showFlag">
+        <span><button type="button" @click="resetAll">リセット</button></span>
         <div class="searchByReleaseDate">
           <hr />
           <span>公開日：</span><br />
@@ -63,26 +67,6 @@
             v-model="releaseStatus"
           />
           <span><label for="soonReleased">近日公開</label></span>
-        </div>
-        <div class="searchByYears">
-          <hr />
-          <span>年代：</span><br />
-          <input
-            type="radio"
-            name="years"
-            id="2000s"
-            value="2000s"
-            v-model="releasedYear"
-          />
-          <span><label for="2000s">2000年～2010年</label></span>
-          <input
-            type="radio"
-            name="years"
-            id="2010s"
-            value="2010s"
-            v-model="releasedYear"
-          />
-          <span><label for="2010s">2010年以降</label></span>
         </div>
         <div class="searchBygenre">
           <hr />
@@ -303,8 +287,8 @@ export default class MovieList extends Vue {
   private releasedYear = "";
   // ジャンル
   private genres = [];
-  // エラーメッセージ
-  private errorMsg = "映画が見つかりませんでした";
+  // メニューバーの表示
+  private showFlag = false;
 
   /**
    * movieListを表示する.
@@ -320,6 +304,7 @@ export default class MovieList extends Vue {
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getApiMovieList;
   }
+
   /**
    * ユーザーのmyMovieリストに保存するメソッド.
    * @param - 映画のid
@@ -342,27 +327,19 @@ export default class MovieList extends Vue {
       this.currentMovieList = this.$store.getters.getSearchedMovieList(
         this.searchMovieString
       );
-      // // 公開日でのフィルター
-      // if (this.releaseStatus !== "") {
-      //   if (this.releaseStatus === "released") {
-      //     this.currentMovieList =
-      //       this.$store.getters.getSearchedReleasedMovieList;
-      //   } else if (this.releaseStatus === "soonReleased") {
-      //     this.currentMovieList =
-      //       this.$store.getters.getSearchedSoonReleasedMovieList;
-      //   } else {
-      //     console.log("中止");
-      //     return;
-      //   }
-      // }
-      // // 年代でのフィルター
-      // if (this.releasedYear !== "") {
-      //   if (this.releasedYear === "2000s") {
-      //     this.currentMovieList = this.$store.getters.get2000sMovieList;
-      //   } else if (this.releasedYear === "2010s") {
-      //     this.currentMovieList = this.$store.getters.get2010sMovieList;
-      //   }
-      // }
+      // 公開日でのフィルター
+      if (this.releaseStatus !== "") {
+        if (this.releaseStatus === "released") {
+          this.currentMovieList =
+            this.$store.getters.getSearchedReleasedMovieList;
+        } else if (this.releaseStatus === "soonReleased") {
+          this.currentMovieList =
+            this.$store.getters.getSearchedSoonReleasedMovieList;
+        } else {
+          console.log("中止");
+          return;
+        }
+      }
       // ジャンルでのフィルター
       if (this.genres.length !== 0) {
         let idArray = (idArray: Array<number>, movieList: Array<ApiMovie>) => {
@@ -421,6 +398,59 @@ export default class MovieList extends Vue {
           this.currentMovieList = this.$store.getters.get2010sMovieList;
         }
       }
+      // ジャンルでのフィルター
+      if (this.genres.length !== 0) {
+        let idArray = (idArray: Array<number>, movieList: Array<ApiMovie>) => {
+          const movielistSortByGenreId = new Array<Array<ApiMovie>>();
+          const resultOfFilteredMovie = new Array<ApiMovie>();
+
+          // ジャンルIDのチェック
+          movielistSortByGenreId.push(
+            movieList.filter((movie) => {
+              let countTrue = 0;
+              for (const genreId of movie.genre_ids) {
+                for (const id of idArray) {
+                  if (genreId === Number(id)) {
+                    countTrue++;
+                  }
+                }
+              }
+              if (countTrue === this.genres.length) {
+                return true;
+              } else {
+                return false;
+              }
+            })
+          ); // end of sort
+          for (const movieList of movielistSortByGenreId) {
+            for (const movie of movieList) {
+              resultOfFilteredMovie.push(movie);
+            }
+          }
+          return resultOfFilteredMovie;
+        }; // end of function
+        this.currentMovieList = idArray(this.genres, this.currentMovieList);
+      }
+    }
+  }
+  /**
+   * 入力値のリセット
+   */
+  resetAll(): void {
+    this.searchMovieString = "";
+    // 公開状況
+    this.releaseStatus = "";
+    // 公開年
+    this.releasedYear = "";
+    // ジャンル
+    this.genres = [];
+  }
+
+  showSearch(): void {
+    if (this.showFlag == true) {
+      this.showFlag = false;
+    } else {
+      this.showFlag = true;
     }
   }
 }
