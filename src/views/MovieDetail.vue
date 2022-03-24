@@ -87,7 +87,6 @@
                   </span>
                 </div>
               </div>
-
               <p>ユーザーID：{{ review.userId }}</p>
               <p>レビューID：{{ review.id }}</p>
               <p>投稿日時：{{ review.formatDate }}</p>
@@ -324,7 +323,6 @@ export default class MovieDetail extends Vue {
     const MovieId = Number(this.$route.params.id);
 
     this.targetApiMovie = this.$store.getters.getcurrentMovie(MovieId);
-
     this.$store.commit("setMovieList", {
       movieId: MovieId,
       movie: new Movie(
@@ -352,7 +350,6 @@ export default class MovieDetail extends Vue {
     });
 
     this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
-
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
       this.currentMovie.id
     );
@@ -367,10 +364,14 @@ export default class MovieDetail extends Vue {
   get getcurrentMovieReview(): Array<Review> {
     return this.$store.getters.getReviewListByMovieId(this.targetApiMovie.id);
   }
-
-  
-
-  
+  /**
+   * コメント投稿
+   */
+  addComment(): void {
+    this.$store.commit("addComment", {
+      comment: new Comment(-1, 0, -1, new Date(), "megumi"),
+    });
+  }
 
   /**
    * いいね機能
