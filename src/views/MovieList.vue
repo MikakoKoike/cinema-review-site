@@ -119,10 +119,9 @@ export default class MovieList extends Vue {
     //     `https://api.themoviedb.org/3/discover/movie?api_key=b5408f6aa5f27ebad281342354c0e1f9&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${i}&with_original_language=en&with_watch_monetization_types=flatrate`
     //   );
     // }
-
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getApiMovieList;
-
+    
   }
   /**
    * ユーザーのmyMovieリストに保存するメソッド.

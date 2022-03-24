@@ -322,7 +322,23 @@ export default class MovieDetail extends Vue {
   async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
 
+    const exactOrNot = (): boolean => {
+      let frag = false;
+      let newArray = [];
+      for(let movie of this.$store.getters.getMovieList){
+        if(movie.id === MovieId){
+          newArray.push(movie);
+        }
+      }
+      if(newArray.length >= 1 ?? false){
+        frag = true
+      }
+      return frag
+    }
+
     this.targetApiMovie = this.$store.getters.getcurrentMovie(MovieId);
+
+    if(!exactOrNot()){
     this.$store.commit("setMovieList", {
       movieId: MovieId,
       movie: new Movie(
@@ -348,6 +364,9 @@ export default class MovieDetail extends Vue {
         this.$store.getters.getCountWatchByMovieId(MovieId) ?? 0
       ),
     });
+    }
+
+    
 
     this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
@@ -356,7 +375,8 @@ export default class MovieDetail extends Vue {
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
 
-    await this.$store.dispatch("asyncGetReviewList");
+    
+     await this.$store.dispatch("asyncGetReviewList");
   }
   /**
    * レビューリストを取得する
