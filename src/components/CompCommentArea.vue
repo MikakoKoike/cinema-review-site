@@ -58,7 +58,6 @@ export default class CompCommentArea extends Vue {
    */
   addComment(): void {
     // IDの採番
-    console.log(this.currentUser);
     let newId = 0;
 
     if (this.currentUser.myCommentList) {

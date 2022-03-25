@@ -384,17 +384,17 @@ export default class MovieDetail extends Vue {
     const exactReviewOrNot = (): boolean => {
       let frag = false;
       let newArray = [];
-      for(let review of this.$store.getters.getReviewList){
-        if(review.movieId == MovieId){
+      for (let review of this.$store.getters.getReviewList) {
+        if (review.movieId == MovieId) {
           newArray.push(review);
         }
       }
-      if(newArray.length >= 1 ?? false){
-        frag = true
+      if (newArray.length >= 1 ?? false) {
+        frag = true;
       }
-      return frag
-    }
-    if(!exactReviewOrNot()){
+      return frag;
+    };
+    if (!exactReviewOrNot()) {
       await this.$store.dispatch("asyncGetReviewList");
     }
   }
