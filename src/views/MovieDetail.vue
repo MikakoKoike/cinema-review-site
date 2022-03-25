@@ -97,14 +97,8 @@
           <div class="col s12">
             <p>レビュー内容：{{ review.content }}</p>
 
-            <button type="button" class="likeBtn" @click="addLike">
-              いいね！<span class="likeHeart">♡</span
-              ><span>{{ review.countLike }}</span> ><span>{{ likeCount }}</span>
-            </button>
             <CompLikeButton v-bind:review="review" />
-            <button type="button" class="commentBtn" @click="showComment">
-              コメントする
-            </button>
+
             <div class="commentBox" v-if="commentFlag">
               <textarea
                 name="comment"
@@ -116,7 +110,6 @@
               <button type="button" @click="addComment">投稿</button>
             </div>
 
-            <CompLikeButton v-bind:review="review" />
             <CompCommentArea v-bind:review="review" />
           </div>
         </div>
