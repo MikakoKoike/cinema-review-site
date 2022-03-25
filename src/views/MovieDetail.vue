@@ -375,8 +375,22 @@ export default class MovieDetail extends Vue {
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
 
-    
-     await this.$store.dispatch("asyncGetReviewList");
+    const exactReviewOrNot = (): boolean => {
+      let frag = false;
+      let newArray = [];
+      for(let review of this.$store.getters.getReviewList){
+        if(review.movieId == MovieId){
+          newArray.push(review);
+        }
+      }
+      if(newArray.length >= 1 ?? false){
+        frag = true
+      }
+      return frag
+    }
+    if(!exactReviewOrNot()){
+      await this.$store.dispatch("asyncGetReviewList");
+    }
   }
   /**
    * レビューリストを取得する

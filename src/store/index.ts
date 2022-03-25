@@ -228,6 +228,7 @@ export default new Vuex.Store({
           }
         }
       }
+      state.reviewList = [...payload.reviewList];
     },
     /**
      * apiMovieではなく、Movieリストを作る.
@@ -430,10 +431,6 @@ export default new Vuex.Store({
       return releasedMovies;
     },
     /**
-<<<<<<< HEAD
-     *
-     */
-=======
      * 公開予定の映画タイトルを検索する
      * @param state
      * @returns
@@ -473,7 +470,6 @@ export default new Vuex.Store({
     /**
      * movieIdとReviewIdから該当するレビュー記事のいいねの数を取得する
      */
->>>>>>> develop
     getCurrentMovieFromMovieList(state) {
       return (movieId: number) => {
         const newArray = [];
@@ -485,12 +481,12 @@ export default new Vuex.Store({
         return newArray[0];
       };
     },
-<<<<<<< HEAD
     getMovieList(state){
       return state.movieList;
+    },
+    getReviewList(state){
+      return state.reviewList
     }
-=======
->>>>>>> develop
   }, //end of getters
 
   plugins: [
