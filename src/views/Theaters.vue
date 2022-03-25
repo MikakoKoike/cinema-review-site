@@ -52,30 +52,31 @@ export default class XXXComponent extends Vue {
           },
         ],
       };
-      console.log("      1        ", this.timeListByPlace);
       if (this.timeListByPlace.length === 0) {
         newObject.theater = theaterData.place;
         newObject.timeList.push({
           startDate: theaterData.startDate,
           endDate: theaterData.startDate,
         });
-        console.log("      2        ", this.timeListByPlace);
+        this.timeListByPlace.push(newObject);
+      } else {
+        for (let i = 0; i < this.timeListByPlace.length; i++) {
+          if (this.timeListByPlace[i].theater === theaterData.place) {
+            this.timeListByPlace[i].timeList.push({
+              startDate: theaterData.startDate,
+              endDate: theaterData.startDate,
+            });
+          } else {
+            newObject.theater = theaterData.place;
+            newObject.timeList.push({
+              startDate: theaterData.startDate,
+              endDate: theaterData.startDate,
+            });
+            this.timeListByPlace.push(newObject);
+          }
+        }
       }
-      console.log(theaterData.place);
-      console.log(this.timeListByPlace[ this.timeListByPlace.length -1 ?? 0 ])
-      if (
-        theaterData.place ===
-        this.timeListByPlace[ this.timeListByPlace.length -1 ?? 1 ].theater
-      ) {
-        newObject.theater = theaterData.place;
-        newObject.timeList.push({
-          startDate: theaterData.startDate,
-          endDate: theaterData.startDate,
-        });
-        console.log("      3        ", newObject);
-      }
-      this.timeListByPlace.push(newObject);
-      console.log(this.timeListByPlace);
+      console.log("   3   ", this.timeListByPlace);
     }
   }
 }

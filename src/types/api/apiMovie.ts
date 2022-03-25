@@ -1,3 +1,6 @@
+import { format } from "date-fns";
+import ja from "date-fns/locale/ja";
+
 /**
  * APIから情報を取得する際に使用するドメインクラス.
  */
@@ -18,6 +21,16 @@ export class ApiMovie {
     private _vote_average: number,
     private _vote_count: number
   ) {}
+
+  /**
+   * 日付のフォーマット
+   */
+  get formatDate(): string {
+    const formatDate = format(new Date(this._release_date), "yyyy年MM月dd日 ", {
+      locale: ja,
+    });
+    return formatDate;
+  }
 
   public get adult(): boolean {
     return this._adult;

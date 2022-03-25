@@ -88,9 +88,9 @@
               </div>
               <div class="col s9">
                 <p>ユーザー名</p>
-                <h4>{{ loginUser.displayName }}</h4>
+                <h4>{{ currentUser.displayName }}</h4>
                 <p>紹介文</p>
-                <h5>{{ loginUser.introContent }}</h5>
+                <h5>{{ currentUser.introContent }}</h5>
               </div>
             </div>
           </div>
@@ -192,7 +192,7 @@ import { Comment } from "@/types/comment";
 export default class MyPage extends Vue {
   private iconImage = "https://joeschmoe.io/api/v1/random";
   private currentUserList = new Array<User>();
-  private loginUser = new User(
+  private currentUser = new User(
     0,
     "",
     "",
@@ -208,7 +208,7 @@ export default class MyPage extends Vue {
     this.currentUserList = this.$store.getters.getUserList;
     this.myMovieList = this.$store.getters.getCurrentUser.myMovieList;
     this.myReviewList = this.$store.getters.getCurrentUser.myReviewList;
-    this.loginUser = this.$store.getters.getCurrentUser;
+    this.currentUser = this.$store.getters.getCurrentUser;
   }
   mounted(): void {
     //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。

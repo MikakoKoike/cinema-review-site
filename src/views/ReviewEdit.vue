@@ -38,7 +38,7 @@
             name="review"
             v-bind:value="5"
             v-model="starCount"
-            v-on:change="onChange"
+            v-on:change="countStar"
           /><label for="review01">★</label>
           <input
             id="review02"
@@ -129,7 +129,6 @@ export default class XXXComponent extends Vue {
   private starCount = 0;
   // レビューID
   private reviewId = 0;
-
   /**
    * 渡されたIDをもとに情報を1件取得する
    *
@@ -137,40 +136,8 @@ export default class XXXComponent extends Vue {
    */
   async created(): Promise<void> {
     const MovieId = Number(this.$route.params.id);
-    const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${MovieId}?api_key=b5408f6aa5f27ebad281342354c0e1f9`
-    );
-
-    let responseMovie = response.data;
-    let initGenreIds = new Array<number>();
-    for (let obj of responseMovie.genres) {
-      initGenreIds.push(obj.id);
-    }
-
-    this.currentMovie = new Movie(
-      responseMovie.adult,
-      responseMovie.backdrop_path,
-      initGenreIds,
-      responseMovie.id,
-      responseMovie.original_language,
-      responseMovie.original_title,
-      responseMovie.overview,
-      responseMovie.popularity,
-      responseMovie.poster_path,
-      responseMovie.release_date,
-      responseMovie.title,
-      responseMovie.video,
-      responseMovie.vote_average,
-      responseMovie.vote_count,
-      new Array<string>(),
-      new Array<TimeList>(),
-      new Array<Review>(),
-      0,
-      0
-    );
-    this.currentMovie = this.$store.getters.getcurrentMovie(
-      this.currentMovie.id
-    );
+    this.currentMovie =
+      this.$store.getters.getCurrentMovieFromMovieList(MovieId);
   }
   /**
    * 星の数をカウントする
@@ -185,8 +152,8 @@ export default class XXXComponent extends Vue {
   addReview(): void {
     // IDの採番
     let newId = 0;
-    if (this.currentMovie.reviewList.length !== 0) {
-      newId = this.currentMovie.reviewList[0].id + 1;
+    if (this.currentMovie.reviewList) {
+      newId = Number(this.currentMovie.reviewList[0].id) + 1;
     }
     this.reviewId = newId;
     // レビューを追加する
@@ -203,6 +170,7 @@ export default class XXXComponent extends Vue {
         this.starCount
       ),
     });
+    console.log(this.currentMovie.reviewList);
     //レビューを自分のリストに追加する
     this.$store.commit("saveToReviewList", {
       review: new Review(
