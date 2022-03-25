@@ -220,7 +220,6 @@ export default new Vuex.Store({
      *
      */
     addReviewList(state, payload) {
-     
       for (const movie of state.movieList) {
         for (const review of payload.reviewList as Array<Review>) {
           if (Number(review.movieId) === movie.id) {
@@ -430,10 +429,6 @@ export default new Vuex.Store({
       return releasedMovies;
     },
     /**
-<<<<<<< HEAD
-     *
-     */
-=======
      * 公開予定の映画タイトルを検索する
      * @param state
      * @returns
@@ -473,7 +468,6 @@ export default new Vuex.Store({
     /**
      * movieIdとReviewIdから該当するレビュー記事のいいねの数を取得する
      */
->>>>>>> develop
     getCurrentMovieFromMovieList(state) {
       return (movieId: number) => {
         const newArray = [];
@@ -485,12 +479,9 @@ export default new Vuex.Store({
         return newArray[0];
       };
     },
-<<<<<<< HEAD
-    getMovieList(state){
+    getMovieList(state) {
       return state.movieList;
-    }
-=======
->>>>>>> develop
+    },
   }, //end of getters
 
   plugins: [
