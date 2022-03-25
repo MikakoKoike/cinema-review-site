@@ -15,7 +15,6 @@
           <h4>{{ targetApiMovie.title }}</h4>
           <p>{{ targetApiMovie.overview }}</p>
           <p class="star">{{ showRate }}{{ targetApiMovie.vote_average }}</p>
-
           <span class="btn-small" v-on:click="addCountWatch">
             <i class="material-icons left">favorite</i>見たい！
             {{ countWatch }}
@@ -53,7 +52,7 @@
           <div class="row">
             <div class="col s2 review-header">
               <img
-                src="https://joeschmoe.io/api/v1/random"
+                v-bind:src="getUserIconPath(review.userId)"
                 class="responsive-img profile-img"
               />
             </div>
@@ -198,6 +197,8 @@ import { TimeList } from "@/types/timeList";
 import { Component, Vue } from "vue-property-decorator";
 import CompLikeButton from "@/components/CompLikeButton.vue";
 import CompCommentArea from "@/components/CompCommentArea.vue";
+import { ApiMovie } from "@/types/api/apiMovie";
+import { User } from "@/types/user";
 
 @Component({
   components: {
@@ -455,6 +456,7 @@ export default class MovieDetail extends Vue {
     };
     if (!exactReviewOrNot()) {
       await this.$store.dispatch("asyncGetReviewList");
+      await this.$store.dispatch("asyncGetUserList");
     }
   }
   /**
@@ -486,7 +488,6 @@ export default class MovieDetail extends Vue {
       countLike: this.likeCount,
     });
   }
-
   /**
    * 見たいボタンの設定.
    */
@@ -504,6 +505,18 @@ export default class MovieDetail extends Vue {
    */
   moveTosimilarMovie(currentMovieId: number): void {
     this.$router.push(`/similarMovie/${currentMovieId}`);
+  }
+  // get getcurrentMovieReview(): Movie {
+  //   console.log(this.$store.getters.getcurrentMovie(this.currentMovie.id));
+  //   // ⇒undefined
+  //   return this.$store.getters.getcurrentMovie(this.currentMovie.id);
+  // }
+  /**
+   * アイコンのimgパスを取得する.
+   */
+  getUserIconPath(userId: number): string {
+    console.log(this.$store.getters.getUserIconPathByUserId(userId));
+    return this.$store.getters.getUserIconPathByUserId(userId);
   }
 }
 </script>
