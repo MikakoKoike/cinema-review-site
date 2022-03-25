@@ -39,11 +39,12 @@ export default class CompCommentArea extends Vue {
     new Array<Movie>(),
     new Array<Review>(),
     new Array<Comment>(),
+    "",
     ""
   );
+
   // コメントID
   private commentId = 0;
-
   created(): void {
     this.currentUser = this.$store.getters.getCurrentUser;
   }

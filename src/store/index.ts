@@ -34,7 +34,8 @@ export default new Vuex.Store({
       new Array<Movie>(),
       new Array<Review>(),
       new Array<Comment>(),
-      "このアプリを使い始めて3ヶ月目に突入!"
+      "このアプリを使い始めて3ヶ月目に突入!",
+      "https://joeschmoe.io/api/v1/random"
     ),
     reviewList: Array<Review>(),
   }, //end of state
@@ -52,7 +53,7 @@ export default new Vuex.Store({
     },
     async asyncGetUserList(context) {
       const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
+        "https://demo7166221.mockable.io/userList"
       );
       const payload = response.data;
       context.commit("setUserList", payload);
@@ -100,17 +101,18 @@ export default new Vuex.Store({
      */
     setUserList(state, payload) {
       state.userList = new Array<User>();
-      for (const user of payload) {
+      for (const user of payload.userList) {
         state.userList.push(
           new User(
             user.id,
             user.username,
             user.email,
-            "",
-            new Array<Movie>(),
-            new Array<Review>(),
-            new Array<Comment>(),
-            ""
+            user.password,
+            user.myMovieList,
+            user.myReviewList,
+            user.myCommentList,
+            user.introContent,
+            user.iconPath
           )
         );
       }
@@ -258,9 +260,18 @@ export default new Vuex.Store({
         new Array<Movie>(),
         new Array<Review>(),
         new Array<Comment>(),
+        "",
         ""
       );
       console.log(state.currentUser);
+    },
+    /**
+     * ログインしているユーザーのiconPathをstateにセットする。
+     * @param state - ステイト
+     * @param payload - アイコンのパスの文字列
+     */
+    setCurrentUserIconPath(state, payload) {
+      state.currentUser.iconPath = payload.iconPath
     },
   }, //end of mutations
 
@@ -523,6 +534,32 @@ export default new Vuex.Store({
       console.log(state.currentUser.displayName);
 
       return state.currentUser.displayName;
+    },
+    /**
+     * ユーザーのIconPathを取得する.
+     */
+    getCurrentUserIconPath(state) {
+      return state.currentUser.iconPath;
+    },
+    /**
+     * ユーザーのIdからIconPathを取得する.
+     */
+     getUserIconPathByUserId(state) {
+       let targetUrl = "";
+      return (userId: number) =>{
+        const newArray = [];
+        for(const user of state.userList){
+          if(user.id == userId){
+            newArray.push(user)
+          }
+        }
+        if(newArray.length === 0){
+          targetUrl = state.currentUser.iconPath
+        } else {
+          targetUrl = newArray[0].iconPath
+        }
+        return targetUrl;
+      }
     },
   }, //end of getters
 
