@@ -175,6 +175,7 @@ export default new Vuex.Store({
             console.log(review);
             if (review.id == payload.reviewId) {
               review.replyCommentList.unshift(payload.comment);
+              console.log(review.replyCommentList);
             }
           }
         }
@@ -209,6 +210,14 @@ export default new Vuex.Store({
      */
     saveToReviewList(state, payload) {
       state.currentUser.myReviewList.unshift(payload.review);
+    },
+    /**
+     * * ログインしているユーザーのコメントリストに保存するメソッド.
+     * @param state
+     * @param payload
+     */
+    saveToMyCommentList(state, payload) {
+      state.currentUser.myCommentList.unshift(payload.comment);
     },
     /**
      * * ログインしているユーザーのレビューリストから削除するメソッド.
@@ -503,11 +512,11 @@ export default new Vuex.Store({
         return newArray[0];
       };
     },
-    getMovieList(state){
+    getMovieList(state) {
       return state.movieList;
     },
-    getReviewList(state){
-      return state.reviewList
+    getReviewList(state) {
+      return state.reviewList;
     },
     getDisplayName(state) {
       // return state.currentUser.displayName
