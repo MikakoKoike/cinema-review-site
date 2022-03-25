@@ -408,6 +408,7 @@ export default new Vuex.Store({
         return newArray.length !== 0 ? newArray[0].countWatch : 0;
       };
     },
+
     /**
      * 映画を名前で部分一致検索をする.
      *
