@@ -31,10 +31,20 @@ export default class CompCommentArea extends Vue {
   // コメント
   private commentContent = "";
   //ログインしているユーザー
-  private currentUser = new User(0, "", "", "", new Array<Movie>(),new Array<Review>(),new Array<Comment>(), "");
+  private currentUser = new User(
+    0,
+    "",
+    "",
+    "",
+    new Array<Movie>(),
+    new Array<Review>(),
+    new Array<Comment>(),
+    ""
+  );
+  // コメントID
+  private commentId = 0;
 
-
-  created(): void{
+  created(): void {
     this.currentUser = this.$store.getters.getCurrentUser;
   }
   /**
@@ -47,12 +57,36 @@ export default class CompCommentArea extends Vue {
    * コメント投稿
    */
   addComment(): void {
-    alert("コメント投稿")
+    // IDの採番
+    let newId = 0;
+
+    if (this.currentUser.myCommentList) {
+      newId = Number(this.currentUser.myCommentList[0].id) + 1;
+    }
+
+    this.commentId = newId;
+
+    alert("コメント投稿");
     this.$store.commit("setComment", {
       movieId: this.review?.movieId,
       reviewId: this.review?.id,
       userId: this.currentUser.id,
-      comment: new Comment(-1, this.currentUser.id, this.review?.id as number, new Date(), this.commentContent),
+      comment: new Comment(
+        this.commentId,
+        this.currentUser.id,
+        this.review?.id as number,
+        new Date(),
+        this.commentContent
+      ),
+    });
+    this.$store.commit("saveToMyCommentList", {
+      comment: new Comment(
+        this.commentId,
+        this.currentUser.id,
+        this.review?.id as number,
+        new Date(),
+        this.commentContent
+      ),
     });
   }
 }
