@@ -2,28 +2,36 @@
   "theaters": [
     {
       "place": "TOHOシネマズ新宿",
-      "startDate": "09:40",
-      "endtDate": "12:50"
-    },
-    {
-      "place": "TOHOシネマズ新宿",
-      "startDate": "13:30",
+      "timeList": [
+        {
+           "startDate": "09:40",
+           "endtDate": "12:50"
+        },
+        {
+          "startDate": "13:30",
       "endtDate": "16:40"
-    },
-    {
-      "place": "TOHOシネマズ新宿",
-      "startDate": "17:10",
+        },
+        {
+          "startDate": "13:30",
+      "endtDate": "16:40"
+        },
+        {
+          "startDate": "17:10",
       "endtDate": "20:20"
-    },
-    {
-      "place": "TOHOシネマズ新宿",
-      "startDate": "20:45",
+        },
+        {
+           "startDate": "20:45",
       "endtDate": "23:55"
-    },
-    {
-      "place": "TOHOシネマズ新宿",
-      "startDate": "24:30",
+        },
+        {
+          "startDate": "24:30",
       "endtDate": "27:40"
+        },
+        {
+          "startDate": "09:40",
+      "endtDate": "12:50"
+        }
+      ]
     },
     {
       "place": "ヒューマントラストシネマ渋谷",
