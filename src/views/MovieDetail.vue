@@ -23,14 +23,14 @@
 
           <p></p>
         </div>
-        <div class="col s6 card-content">
+        <!-- <div class="col s6 card-content">
           <h4>Sub Title</h4>
           <p>{{ targetApiMovie.overview }}</p>
         </div>
         <div class="col s6 card-content">
           <h4>Sub Title</h4>
           <p>{{ targetApiMovie.overview }}</p>
-        </div>
+        </div> -->
         <!-- レビューボタン -->
         <!-- ここで次の画面にIDを渡す -->
         <router-link v-bind:to="'/reviewEdit/' + targetApiMovie.id">
