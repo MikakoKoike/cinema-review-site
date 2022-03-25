@@ -1,0 +1,119 @@
+@font-face {
+  font-family: "Neon Glow";
+  src: url(https://assets.codepen.io/230569/NeonGlow-8VLz.ttf);
+}
+
+* {
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: #101010;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+main {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  min-height: 100vh;
+}
+
+#gasses {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#gasses > * {
+  margin: 2rem;
+}
+
+.gas {
+  --blur: 1.75rem;
+  --box-blur: calc(0.5 * var(--blur));
+  --glow: var(--color);
+  --size: 12rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 12px;
+  border: 4px solid currentColor;
+  -webkit-box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(0, 0, 0, 0.15), inset 0 0 var(--box-blur) var(--glow), 0 0 var(--box-blur) var(--glow);
+          box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(0, 0, 0, 0.15), inset 0 0 var(--box-blur) var(--glow), 0 0 var(--box-blur) var(--glow);
+  color: var(--color, white);
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-family: system-ui, sans-serif;
+  height: var(--size);
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 1rem;
+  width: var(--size);
+}
+
+.gas > * {
+  margin: 0;
+  padding: 0;
+}
+
+.gas .number {
+  font-weight: 700;
+}
+
+.gas .symbol {
+  font-size: 4rem;
+  font-family: "Neon Glow";
+  text-shadow: 0 0 var(--blur) var(--glow);
+}
+
+.gas.he {
+  --color: #fceaac;
+  -webkit-filter: saturate(175%);
+          filter: saturate(175%);
+}
+
+.gas.ne {
+  --color: #fda802;
+  -webkit-filter: brightness(110%);
+          filter: brightness(110%);
+}
+
+.gas.ar {
+  --color: #e555c7;
+  -webkit-filter: brightness(125%);
+          filter: brightness(125%);
+}
+
+.gas.kr {
+  --color: #b7e7f7;
+  -webkit-filter: saturate(200%);
+          filter: saturate(200%);
+}
+
+.gas.xe {
+  --color: #c4c4c6;
+  -webkit-filter: brightness(105%);
+          filter: brightness(105%);
+}
+/*# sourceMappingURL=movieList.css.map */

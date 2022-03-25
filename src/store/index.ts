@@ -22,9 +22,9 @@ export default new Vuex.Store({
   state: {
     movieList: Array<Movie>(),
     apiMovieList: Array<ApiMovie>(),
+
     currentMovieId: 0,
-    count: 0,
-    watchCount: 0,
+    countWatch: 0,
     userList: new Array<User>(),
     currentUser: new User(
       0,
@@ -130,6 +130,9 @@ export default new Vuex.Store({
     // countUp(state) {
     //   state.count++;
     // },
+    /**
+     * 見たいボタンの設定.
+     */
     setCountWatch(state, payload) {
       for (const movie of state.movieList) {
         if (movie.id === payload.movieId) {
@@ -220,7 +223,6 @@ export default new Vuex.Store({
      *
      */
     addReviewList(state, payload) {
-     
       for (const movie of state.movieList) {
         for (const review of payload.reviewList as Array<Review>) {
           if (Number(review.movieId) === movie.id) {
@@ -235,6 +237,21 @@ export default new Vuex.Store({
      */
     setMovieList(state, payload) {
       state.movieList.push(payload.movie);
+
+      console.log(state.movieList);
+    },
+    setLoginUser(state, payload) {
+      state.currentUser = new User(
+        payload.id,
+        payload.name,
+        payload.email,
+        payload.password,
+        new Array<Movie>(),
+        new Array<Review>(),
+        new Array<Comment>(),
+        ""
+      );
+      console.log(state.currentUser);
     },
   }, //end of mutations
 
@@ -249,7 +266,7 @@ export default new Vuex.Store({
         const sameGenreGroup = [];
         for (const id of genre_ids) {
           sameGenreGroup.push(
-            state.movieList.filter((movie) => movie.genre_ids[0] === id)
+            state.apiMovieList.filter((movie) => movie.genre_ids[0] === id)
           );
         }
         return sameGenreGroup;
@@ -263,7 +280,12 @@ export default new Vuex.Store({
     getCurrentMovieId(state) {
       return state.currentMovieId;
     },
-    getCount(state) {
+    /**
+     * 見たいボタンを押した数を取得.
+     * @param state
+     * @returns 見たい数
+     */
+    getCount() {
       return (movie: Movie) => {
         return movie.countWatch;
       };
@@ -431,6 +453,10 @@ export default new Vuex.Store({
       return releasedMovies;
     },
     /**
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> develop
      * 公開予定の映画タイトルを検索する
      * @param state
      * @returns
@@ -470,6 +496,10 @@ export default new Vuex.Store({
     /**
      * movieIdとReviewIdから該当するレビュー記事のいいねの数を取得する
      */
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop
     getCurrentMovieFromMovieList(state) {
       return (movieId: number) => {
         const newArray = [];
@@ -481,12 +511,26 @@ export default new Vuex.Store({
         return newArray[0];
       };
     },
+<<<<<<< HEAD
     getMovieList(state){
       return state.movieList;
     },
     getReviewList(state){
       return state.reviewList
     }
+=======
+
+    getDisplayName(state) {
+      // return state.currentUser.displayName
+      console.log(state.currentUser.displayName);
+
+      return state.currentUser.displayName;
+    },
+
+    getMovieList(state) {
+      return state.movieList;
+    },
+>>>>>>> develop
   }, //end of getters
 
   plugins: [
