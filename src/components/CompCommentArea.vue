@@ -31,8 +31,7 @@ export default class CompCommentArea extends Vue {
   // コメント
   private commentContent = "";
   //ログインしているユーザー
-  private currentUser = new User(0, "", "", "", new Array<Movie>(),new Array<Review>(),new Array<Comment>(), "");
-
+  private currentUser = new User(0, "", "", "", new Array<Movie>(),new Array<Review>(),new Array<Comment>(), "","");
 
   created(): void{
     this.currentUser = this.$store.getters.getCurrentUser;
