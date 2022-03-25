@@ -231,6 +231,7 @@
     </form>
     <div class="container">
       <div class="row">
+        <!-- 一覧画面に表示させる個数 -->
         <div
           class="col s12 m6"
           v-for="movie of currentMovieList"
@@ -241,7 +242,7 @@
               <div class="col s4 thumbnail-area">
                 <router-link v-bind:to="'/movieDetail/' + movie.id">
                   <img
-                    class="responsive-img movie-img"
+                    class="movie-img"
                     v-bind:src="
                       'https://image.tmdb.org/t/p/w92' + movie.poster_path
                     "
@@ -272,6 +273,10 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { ApiMovie } from "@/types/api/apiMovie";
+
+import { Movie } from "@/types/movie";
+import { TimeList } from "@/types/timeList";
+
 @Component
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
@@ -488,8 +493,13 @@ export default class MovieList extends Vue {
 }
 .movie-img {
   margin-top: 10px;
+  /* width: 600px;
+  height: 1000px; */
 }
 .thumbnail-area {
   text-align: center;
+}
+.movie-list {
+  background-color: white;
 }
 </style>
