@@ -7,3 +7,36 @@
 .login-btn {
   text-align: center;
 }
+/* ボタン全体 */
+.twitter {
+  /* outline: none;
+  background-color: #1da1f2; */
+  font-family: "Verdana", sans-serif;
+  border-radius: 4px;
+  /* display: inline-block; */
+  width: 120px;
+  height: 30px;
+  font-size: 10px;
+  transition: 0.4s;
+  text-decoration: none;
+  vertical-align: middle;
+}
+/* ボタン内テキストマウスホバー時 */
+/* .twitter:hover {
+  color: #fff !important;
+  text-decoration: none;
+} */
+/* Twitter */
+/* .twitter.fl_tw2 {
+  border: #55acee;
+  color: #55acee; */
+/* } */
+/* Twitterマウスホバー時 */
+/* .twitter.fl_tw2:hover {
+  border: solid 1px #55acee;
+  background: #55acee; */
+/* } */
+.btn-twitter {
+  outline: none;
+  background-color: #1da1f2 !important;
+}

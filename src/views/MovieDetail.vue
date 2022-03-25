@@ -96,8 +96,21 @@
         <div class="row">
           <div class="col s12">
             <p>レビュー内容：{{ review.content }}</p>
+
             <CompLikeButton v-bind:review="review" />
-            <CompCommentArea v-bind:review="review"/>
+
+            <div class="commentBox" v-if="commentFlag">
+              <textarea
+                name="comment"
+                id="comment"
+                cols="30"
+                rows="10"
+                v-model="commentContent"
+              ></textarea>
+              <button type="button" @click="addComment">投稿</button>
+            </div>
+
+            <CompCommentArea v-bind:review="review" />
           </div>
         </div>
         <div class="row">
@@ -154,7 +167,8 @@ export default class MovieDetail extends Vue {
     0,
     0
   );
-  private isClicked = false;
+
+  //見たいボタン
 
   private stateCurrentMovie = new Movie(
     false,
@@ -189,9 +203,14 @@ export default class MovieDetail extends Vue {
   // get getCurrentMovie(): Movie{
   //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
   // }
+
+  // コメントボタン
+  private commentFlag = false;
+  // コメント
+  private commentContent = "";
+
   // private watchCount = 0;
-  
-  
+
   // storeの映画情報
   private storeMovie = new Movie(
     false,
@@ -218,16 +237,6 @@ export default class MovieDetail extends Vue {
   private likeCount = 0;
   // いいねしたレビューのID
   private currentReviewId = 0;
-
-  get Count(): number {
-    return this.$store.getters.getCount;
-  }
-
-  CountUp(): void {
-    this.$store.commit("countUp");
-    console.log("clickされた");
-    this.isClicked = !this.isClicked;
-  }
 
   /**
    * 映画の評価(vote_average)を★の数で表示する.
@@ -325,48 +334,46 @@ export default class MovieDetail extends Vue {
     const exactOrNot = (): boolean => {
       let frag = false;
       let newArray = [];
-      for(let movie of this.$store.getters.getMovieList){
-        if(movie.id === MovieId){
+      for (let movie of this.$store.getters.getMovieList) {
+        if (movie.id === MovieId) {
           newArray.push(movie);
         }
       }
-      if(newArray.length >= 1 ?? false){
-        frag = true
+      if (newArray.length >= 1 ?? false) {
+        frag = true;
       }
-      return frag
-    }
+      return frag;
+    };
 
     this.targetApiMovie = this.$store.getters.getcurrentMovie(MovieId);
 
-    if(!exactOrNot()){
-    this.$store.commit("setMovieList", {
-      movieId: MovieId,
-      movie: new Movie(
-        this.targetApiMovie.adult,
-        this.targetApiMovie.backdrop_path,
-        this.targetApiMovie.genre_ids,
-        this.targetApiMovie.id,
-        this.targetApiMovie.original_language,
-        this.targetApiMovie.original_title,
-        this.targetApiMovie.overview,
-        this.targetApiMovie.popularity,
-        this.targetApiMovie.poster_path,
-        this.targetApiMovie.release_date,
-        this.targetApiMovie.title,
-        this.targetApiMovie.video,
-        this.targetApiMovie.vote_average,
-        this.targetApiMovie.vote_count,
-        new Array<string>(),
-        new Array<TimeList>(),
-        this.$store.getters.getReviewListByMovieId(MovieId) ??
-          new Array<Review>(),
-        this.$store.getters.getCountLikeByMovieId(MovieId) ?? 0,
-        this.$store.getters.getCountWatchByMovieId(MovieId) ?? 0
-      ),
-    });
+    if (!exactOrNot()) {
+      this.$store.commit("setMovieList", {
+        movieId: MovieId,
+        movie: new Movie(
+          this.targetApiMovie.adult,
+          this.targetApiMovie.backdrop_path,
+          this.targetApiMovie.genre_ids,
+          this.targetApiMovie.id,
+          this.targetApiMovie.original_language,
+          this.targetApiMovie.original_title,
+          this.targetApiMovie.overview,
+          this.targetApiMovie.popularity,
+          this.targetApiMovie.poster_path,
+          this.targetApiMovie.release_date,
+          this.targetApiMovie.title,
+          this.targetApiMovie.video,
+          this.targetApiMovie.vote_average,
+          this.targetApiMovie.vote_count,
+          new Array<string>(),
+          new Array<TimeList>(),
+          this.$store.getters.getReviewListByMovieId(MovieId) ??
+            new Array<Review>(),
+          this.$store.getters.getCountLikeByMovieId(MovieId) ?? 0,
+          this.$store.getters.getCountWatchByMovieId(MovieId) ?? 0
+        ),
+      });
     }
-
-    
 
     this.countWatch = this.$store.getters.getCountWatchByMovieId(MovieId);
     this.stateCurrentMovie = this.$store.getters.getcurrentMovie(
@@ -375,8 +382,7 @@ export default class MovieDetail extends Vue {
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
 
-    
-     await this.$store.dispatch("asyncGetReviewList");
+    await this.$store.dispatch("asyncGetReviewList");
   }
   /**
    * レビューリストを取得する
@@ -428,9 +434,13 @@ export default class MovieDetail extends Vue {
       movieId: this.targetApiMovie.id,
     });
   }
+  /**
+   * 見たいボタンを押した数を返す.
+   */
   // get count(): number {
-  //   return this.$store.getters.getCount(this.targetApiMovie);
+  //   return this.$store.getters.getCount(this.targetMovie);
   // }
+
   /**
    * おすすめ作品ページへ遷移.
    */
