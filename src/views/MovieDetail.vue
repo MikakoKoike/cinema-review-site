@@ -379,23 +379,37 @@ export default class MovieDetail extends Vue {
     );
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
-    const exactReviewOrNot = (): boolean => {
+
+    
+    const exactObjOrNot = (): boolean => {
       let frag = false;
-      let newArray = [];
-      for (let review of this.$store.getters.getReviewList) {
-        if (review.movieId == MovieId) {
-          newArray.push(review);
+      let count = 0;
+      for(let obj of this.$store.getters.getArrayForCreatedCount){
+        if(obj.movieId == MovieId){
+          count++;
         }
       }
-      if (newArray.length >= 1 ?? false) {
+      if(count >= 3){
         frag = true;
       }
+      console.log(frag);
       return frag;
     };
-    if (!exactReviewOrNot()) {
-      await this.$store.dispatch("asyncGetReviewList");
-      await this.$store.dispatch("asyncGetUserList");
+    const isFromEditPage = this.$store.getters.getIsFromEditPageFrag;
+    if (!exactObjOrNot() && !isFromEditPage) {
+      console.log("ディスパッチ")
+      if(MovieId === 508947 || MovieId === 634649){
+        await this.$store.dispatch("asyncGetReviewList");
+        await this.$store.dispatch("asyncGetUserList");
+      }
     }
+
+    this.$store.commit("setArrayForCreatedCount",{
+      obj: {
+        movieId: MovieId,
+        count: 1
+      }
+    });
   }
   /**
    * レビューリストを取得する
@@ -440,7 +454,6 @@ export default class MovieDetail extends Vue {
    */
   addCountWatch(): void {
     this.countWatch++;
-    console.log(this.countWatch);
     this.$store.commit("setCountWatch", {
       countWatch: this.countWatch,
       movieId: this.targetApiMovie.id,
@@ -468,7 +481,6 @@ export default class MovieDetail extends Vue {
    * アイコンのimgパスを取得する.
    */
   getUserIconPath(userId: number): string {
-    console.log(this.$store.getters.getUserIconPathByUserId(userId))
     return this.$store.getters.getUserIconPathByUserId(userId);
   }
 }
