@@ -419,13 +419,16 @@
                   class="btn indigo lighten-1"
                   v-on:click="saveMovie(movie.id)"
                 >
-                  保存
+                  Save
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="errorMsg" v-if="currentMovieList.length === 0">
+      該当する映画が見つかりませんでした。
     </div>
   </div>
 </template>
@@ -619,6 +622,11 @@ export default class XXXComponent extends Vue {
 </script>
 
 <style scoped>
+.errorMsg {
+  color: white;
+}
+
+/* ジャンルのアイコン */
 .detail.western {
   background-color: #d99d68;
   color: white;
@@ -736,12 +744,13 @@ export default class XXXComponent extends Vue {
   border-radius: 15%;
 }
 
+/* アイコン並び替え */
 #detail {
   width: auto;
   font-size: 14px;
   /* 横並びにする */
   float: left;
-  margin: auto;
+  margin: 0px 1px;
 }
 
 .searchByDetail {
@@ -781,11 +790,13 @@ export default class XXXComponent extends Vue {
 
 .card-content {
   font-size: 18px;
-  height: 100px;
+  height: 200px;
   padding: 10px;
 }
 .card-action {
-  height: 50px;
+  height: 100%;
+  display: center;
+  align-items: center;
 }
 .movie-list {
   text-align: center;
