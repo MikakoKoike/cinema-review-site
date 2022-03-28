@@ -34,9 +34,12 @@ export default new Vuex.Store({
       new Array<Movie>(),
       new Array<Review>(),
       new Array<Comment>(),
-      "このアプリを使い始めて3ヶ月目に突入!"
+      "このアプリを使い始めて3ヶ月目に突入!",
+      "https://joeschmoe.io/api/v1/random"
     ),
     reviewList: Array<Review>(),
+    arrayForCreatedCount: [{ movieId: 0, createdCount: 0 }],
+    isFromEditPage: false,
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -52,7 +55,7 @@ export default new Vuex.Store({
     },
     async asyncGetUserList(context) {
       const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
+        "https://demo7166221.mockable.io/userList"
       );
       const payload = response.data;
       context.commit("setUserList", payload);
@@ -100,17 +103,18 @@ export default new Vuex.Store({
      */
     setUserList(state, payload) {
       state.userList = new Array<User>();
-      for (const user of payload) {
+      for (const user of payload.userList) {
         state.userList.push(
           new User(
             user.id,
             user.username,
             user.email,
-            "",
-            new Array<Movie>(),
-            new Array<Review>(),
-            new Array<Comment>(),
-            ""
+            user.password,
+            user.myMovieList,
+            user.myReviewList,
+            user.myCommentList,
+            user.introContent,
+            user.iconPath
           )
         );
       }
@@ -146,22 +150,33 @@ export default new Vuex.Store({
      * @param payload -payload
      */
     addReview(state, payload) {
-      const currentMovie = state.movieList.filter(
-        (movie) => movie.id === payload.movieId
-      )[0];
-      const newReview = {
-        review: new Review(
-          payload.review.id,
-          payload.review.userId,
-          payload.review.movieId,
-          payload.review.countLike,
-          payload.review.postDate,
-          payload.review.content,
-          [],
-          payload.review.countStar
-        ),
-      };
-      currentMovie.reviewList.unshift(newReview.review);
+      for (const movie of state.movieList) {
+        if (movie.id == payload.movieId) {
+          movie.reviewList.unshift(payload.review);
+        }
+      }
+      console.log(state.movieList);
+      // const currentMovie = state.movieList.filter(
+      //   (movie) => movie.id === payload.movieId
+      // )[0];
+      // const newReview = {
+      //   review: new Review(
+      //     payload.review.id,
+      //     payload.review.userId,
+      //     payload.review.movieId,
+      //     payload.review.countLike,
+      //     payload.review.postDate,
+      //     payload.review.content,
+      //     [],
+      //     payload.review.countStar
+      //   ),
+      // };
+      // currentMovie.reviewList.unshift(newReview.review);
+      state.arrayForCreatedCount.forEach((obj, index) => {
+        if (obj.movieId == payload.movieId) {
+          state.arrayForCreatedCount.splice(index, 1);
+        }
+      });
     },
     /**
      * コメントの追加
@@ -175,6 +190,7 @@ export default new Vuex.Store({
             console.log(review);
             if (review.id == payload.reviewId) {
               review.replyCommentList.unshift(payload.comment);
+              console.log(review.replyCommentList);
             }
           }
         }
@@ -211,6 +227,14 @@ export default new Vuex.Store({
       state.currentUser.myReviewList.unshift(payload.review);
     },
     /**
+     * * ログインしているユーザーのコメントリストに保存するメソッド.
+     * @param state
+     * @param payload
+     */
+    saveToMyCommentList(state, payload) {
+      state.currentUser.myCommentList.unshift(payload.comment);
+    },
+    /**
      * * ログインしているユーザーのレビューリストから削除するメソッド.
      * @param state - ステイト
      * @param payload - 削除するmovieのindex番号
@@ -231,6 +255,11 @@ export default new Vuex.Store({
         }
       }
       state.reviewList = [...payload.reviewList];
+      // state.reviewList.forEach((review, index) => {
+      //   if( review.movieId !== movieId ){
+      //     state.reviewList.splice(index, 1);
+      //   }
+      // });
     },
     /**
      * apiMovieではなく、Movieリストを作る.
@@ -249,9 +278,31 @@ export default new Vuex.Store({
         new Array<Movie>(),
         new Array<Review>(),
         new Array<Comment>(),
+        "",
         ""
       );
       console.log(state.currentUser);
+    },
+    /**
+     * ログインしているユーザーのiconPathをstateにセットする。
+     * @param state - ステイト
+     * @param payload - アイコンのパスの文字列
+     */
+    setCurrentUserIconPath(state, payload) {
+      state.currentUser.iconPath = payload.iconPath;
+    },
+    /**
+     *
+     */
+    setArrayForCreatedCount(state, payload) {
+      state.arrayForCreatedCount.push(payload.obj);
+      console.log(state.arrayForCreatedCount);
+    },
+    /**
+     * レビュー投稿ページかどうかを判定する時に使うメソッド.
+     */
+    switchIsFromEditPageFrag(state, payload) {
+      state.isFromEditPage = !payload.isFromEditPage;
     },
   }, //end of mutations
 
@@ -388,6 +439,7 @@ export default new Vuex.Store({
         return newArray.length !== 0 ? newArray[0].countWatch : 0;
       };
     },
+
     /**
      * 映画を名前で部分一致検索をする.
      *
@@ -503,17 +555,55 @@ export default new Vuex.Store({
         return newArray[0];
       };
     },
-    getMovieList(state){
+    getMovieList(state) {
       return state.movieList;
     },
-    getReviewList(state){
-      return state.reviewList
+    getReviewList(state) {
+      return state.reviewList;
     },
     getDisplayName(state) {
       // return state.currentUser.displayName
       console.log(state.currentUser.displayName);
 
       return state.currentUser.displayName;
+    },
+    /**
+     * ユーザーのIconPathを取得する.
+     */
+    getCurrentUserIconPath(state) {
+      return state.currentUser.iconPath;
+    },
+    /**
+     * ユーザーのIdからIconPathを取得する.
+     */
+    getUserIconPathByUserId(state) {
+      let targetUrl = "";
+      return (userId: number) => {
+        const newArray = [];
+        for (const user of state.userList) {
+          if (user.id == userId) {
+            newArray.push(user);
+          }
+        }
+        if (newArray.length === 0) {
+          targetUrl = state.currentUser.iconPath;
+        } else {
+          targetUrl = newArray[0].iconPath;
+        }
+        return targetUrl;
+      };
+    },
+    /**
+     *
+     */
+    getArrayForCreatedCount(state) {
+      return state.arrayForCreatedCount;
+    },
+    /**
+     *
+     */
+    getIsFromEditPageFrag(state) {
+      return state.isFromEditPage;
     },
   }, //end of getters
 

@@ -46,6 +46,8 @@
             </div>
           </div>
           <!-- <span class="btn-small" v-on:click="addCountWatch">
+          <span class="btn-small" v-on:click="addCountWatch">
+
             <i class="material-icons left">favorite</i>見たい！
             {{ countWatch }}
           </span> -->
@@ -66,7 +68,7 @@
           <div class="row">
             <div class="col s2 review-header">
               <img
-                src="https://joeschmoe.io/api/v1/random"
+                v-bind:src="getUserIconPath(review.userId)"
                 class="responsive-img profile-img"
               />
             </div>
@@ -75,26 +77,88 @@
               <!-- ↓にレビューを表示させたい -->
               <div class="review">
                 <p>レビュー</p>
+                <span>評価★：{{ review.countStar }}</span>
                 <div class="stars">
                   <span>
-                    <input id="review01" type="radio" name="review" /><label
+                    <input
+                      id="review01"
+                      type="radio"
+                      name="review"
+                      value="1"
+                      v-model="starCounts01"
+                    /><label
                       for="review01"
+                      class="rateStar"
+                      :class="[
+                        review.countStar >= 1 && review.countStar >= 5
+                          ? { active: isActive }
+                          : ``,
+                      ]"
                       >★</label
                     >
-                    <input id="review02" type="radio" name="review" /><label
+                    <input
+                      id="review02"
+                      type="radio"
+                      name="review"
+                      value="2"
+                      v-model="starCounts02"
+                    />
+                    <label
                       for="review02"
+                      class="rateStar"
+                      :class="[
+                        review.countStar >= 4 && review.countStar <= 5
+                          ? { active: isActive }
+                          : ``,
+                      ]"
                       >★</label
                     >
-                    <input id="review03" type="radio" name="review" /><label
+                    <input
+                      id="review03"
+                      type="radio"
+                      name="review"
+                      value="3"
+                      v-model="starCounts03"
+                    /><label
                       for="review03"
+                      class="rateStar"
+                      :class="[
+                        review.countStar >= 3 && review.countStar <= 5
+                          ? { active: isActive }
+                          : ``,
+                      ]"
                       >★</label
                     >
-                    <input id="review04" type="radio" name="review" /><label
+                    <input
+                      id="review04"
+                      type="radio"
+                      name="review"
+                      value="4"
+                      v-model="starCounts04"
+                    /><label
                       for="review04"
+                      class="rateStar"
+                      :class="[
+                        review.countStar >= 2 && review.countStar <= 5
+                          ? { active: isActive }
+                          : ``,
+                      ]"
                       >★</label
                     >
-                    <input id="review05" type="radio" name="review" /><label
+                    <input
+                      id="review05"
+                      type="radio"
+                      name="review"
+                      value="5"
+                      v-model="starCounts05"
+                    /><label
                       for="review05"
+                      class="rateStar"
+                      :class="[
+                        review.countStar >= 1 && review.countStar <= 5
+                          ? { active: isActive }
+                          : ``,
+                      ]"
                       >★</label
                     >
                   </span>
@@ -105,13 +169,13 @@
               <p>投稿日時：{{ review.formatDate }}</p>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <p>レビュー内容：{{ review.content }}</p>
+          <div class="row">
+            <div class="col s12">
+              <p>レビュー内容：{{ review.content }}</p>
+              <br />
 
-            <CompLikeButton v-bind:review="review" />
-
+              <CompLikeButton v-bind:review="review" />
+            </div>
             <div class="commentBox" v-if="commentFlag">
               <textarea
                 name="comment"
@@ -146,11 +210,11 @@ import { Comment } from "@/types/comment";
 import { Movie } from "@/types/movie";
 import { Review } from "@/types/review";
 import { TimeList } from "@/types/timeList";
-import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
 import CompLikeButton from "@/components/CompLikeButton.vue";
 import CompCommentArea from "@/components/CompCommentArea.vue";
 import { ApiMovie } from "@/types/api/apiMovie";
+import { User } from "@/types/user";
 
 @Component({
   components: {
@@ -209,20 +273,17 @@ export default class MovieDetail extends Vue {
   private watchId = this.$route.params.id;
   private countWatch = 0;
 
-  // get currentReviewList(): Array<Review> {
-  //   return this.stateCurrentMovie.reviewList;
-  // }
-
-  // get getCurrentMovie(): Movie{
-  //   return this.$store.getters.getcurrentMovie(this.currentMovie.id)
-  // }
-
   // コメントボタン
   private commentFlag = false;
   // コメント
   private commentContent = "";
 
-  // private watchCount = 0;
+  // スターの値
+  private starCounts01 = 0;
+  private starCounts02 = 0;
+  private starCounts03 = 0;
+  private starCounts04 = 0;
+  private starCounts05 = 0;
 
   // storeの映画情報
   private storeMovie = new Movie(
@@ -250,6 +311,8 @@ export default class MovieDetail extends Vue {
   private likeCount = 0;
   // いいねしたレビューのID
   private currentReviewId = 0;
+  // CSSの切り替え
+  isActive = true;
 
   /**
    * 映画の評価(vote_average)を★の数で表示する.
@@ -394,8 +457,10 @@ export default class MovieDetail extends Vue {
     );
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
-    const exactReviewOrNot = (): boolean => {
+
+    const exactObjOrNot = (): boolean => {
       let frag = false;
+
       let newArray = [];
       for (let review of this.$store.getters.getReviewList) {
         if (review.movieId == MovieId) {
@@ -407,9 +472,22 @@ export default class MovieDetail extends Vue {
       }
       return frag;
     };
-    if (!exactReviewOrNot()) {
-      await this.$store.dispatch("asyncGetReviewList");
+
+    const isFromEditPage = this.$store.getters.getIsFromEditPageFrag;
+    if (!exactObjOrNot() && !isFromEditPage) {
+      console.log("ディスパッチ");
+      if (MovieId === 508947 || MovieId === 634649) {
+        await this.$store.dispatch("asyncGetReviewList");
+        await this.$store.dispatch("asyncGetUserList");
+      }
     }
+
+    this.$store.commit("setArrayForCreatedCount", {
+      obj: {
+        movieId: MovieId,
+        count: 1,
+      },
+    });
   }
   /**
    * レビューリストを取得する
@@ -429,9 +507,6 @@ export default class MovieDetail extends Vue {
   /**
    * いいね機能
    */
-  // getCurrentReviewId(reviewIndex: number): void {
-  //   this.currentReviewId = this.currentReviewList[reviewIndex].id;
-  // }
 
   addLike(reviewId: number): void {
     // いいね数のカウントアップ
@@ -442,31 +517,17 @@ export default class MovieDetail extends Vue {
       reviewId: reviewId,
       countLike: this.likeCount,
     });
-
-    // 最初のいいね
-    // let likeCounts = this.likeCount++;
-    // for (let storeReview of this.storeMovie.reviewList) {
-    //   storeReview.countLike = likeCounts;
-    // }
   }
-
   /**
    * 見たいボタンの設定.
    */
   addCountWatch(): void {
     this.countWatch++;
-    console.log(this.countWatch);
     this.$store.commit("setCountWatch", {
       countWatch: this.countWatch,
       movieId: this.targetApiMovie.id,
     });
   }
-  /**
-   * 見たいボタンを押した数を返す.
-   */
-  // get count(): number {
-  //   return this.$store.getters.getCount(this.targetMovie);
-  // }
 
   /**
    * おすすめ作品ページへ遷移.
@@ -479,10 +540,29 @@ export default class MovieDetail extends Vue {
   //   // ⇒undefined
   //   return this.$store.getters.getcurrentMovie(this.currentMovie.id);
   // }
+  /**
+   * アイコンのimgパスを取得する.
+   */
+  getUserIconPath(userId: number): string {
+    return this.$store.getters.getUserIconPathByUserId(userId);
+  }
 }
 </script>
 
 <style scoped>
+.rateStar {
+  color: gray; /* 未選択の星をグレー色に指定 */
+  font-size: 30px; /* 星の大きさを30pxに指定 */
+  padding: 0 5px; /* 左右の余白を5pxに指定 */
+  cursor: pointer; /* カーソルが上に乗ったときに指の形にする */
+}
+.active {
+  color: #f8c601;
+  font-size: 30px;
+  padding: 0 5px;
+  cursor: pointer;
+}
+
 .stars span {
   display: flex; /* 要素をフレックスボックスにする */
   flex-direction: row-reverse; /* 星を逆順に並べる */
@@ -493,18 +573,11 @@ export default class MovieDetail extends Vue {
   display: none; /* デフォルトのラジオボタンを非表示にする */
 }
 
-.stars label {
-  color: #d2d2d2; /* 未選択の星をグレー色に指定 */
-  font-size: 30px; /* 星の大きさを30pxに指定 */
-  padding: 0 5px; /* 左右の余白を5pxに指定 */
-  cursor: pointer; /* カーソルが上に乗ったときに指の形にする */
-}
-
-.stars label:hover,
+/* .stars label:hover,
 .stars label:hover ~ label,
 .stars input[type="radio"]:checked ~ label {
   color: #f8c601; /* 選択された星以降をすべて黄色にする */
-}
+/* } */
 
 .movie-card {
   background-color: white;

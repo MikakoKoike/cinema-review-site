@@ -12,6 +12,7 @@ export class User {
     private _myReviewList: Array<Review>,
     private _myCommentList: Array<Comment>,
     private _introContent: string,
+    private _iconPath: string,
   ) {}
 
   public get id(): number {
@@ -75,5 +76,12 @@ export class User {
 
   public get introContent(): string {
     return this._introContent;
+  }
+  public set iconPath(iconPath: string) {
+    this._iconPath = iconPath;
+  }
+
+  public get iconPath(): string {
+    return this._iconPath;
   }
 }

@@ -307,6 +307,10 @@ export default class MovieList extends Vue {
     // }
     await this.$store.dispatch("asyncGetMovieList");
     this.currentMovieList = this.$store.getters.getApiMovieList;
+    this.$store.commit("switchIsFromEditPageFrag", {
+      //裏側でfalseにするため.
+      isFromEditPage: true
+    })
   }
 
   /**
@@ -502,4 +506,9 @@ export default class MovieList extends Vue {
 .movie-list {
   background-color: white;
 }
+/* 本当は良くないやつ */
+  input:focus {
+   border-bottom: 1px solid red !important;
+   box-shadow: 0 1px 0 0 red !important
+ }
 </style>

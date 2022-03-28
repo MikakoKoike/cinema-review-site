@@ -1,0 +1,81 @@
+{
+  "userList": [
+    {
+      "id": "10",
+      "displayName": "Alphabet",
+      "email": "ex@gmail.com",
+      "password": "password",
+      "myMovieList": [],
+      "myReviewList": [],
+      "myCommentList": [],
+      "introContent": "よろしく!",
+      "iconPath": "/img/turningRed.jpg"
+    },
+    {
+      "id": "11",
+      "displayName": "鈴木",
+      "email": "ex@gmail.com",
+      "password": "password",
+      "myMovieList": [],
+      "myReviewList": [],
+      "myCommentList": [],
+      "introContent": "よろしく!",
+      "iconPath": "/img/scream.jpg"
+    },
+    {
+      "id": "12",
+      "displayName": "Mac",
+      "email": "ex@gmail.com",
+      "password": "password",
+      "myMovieList": [],
+      "myReviewList": [],
+      "myCommentList": [],
+      "introContent": "よろしく!",
+      "iconPath": "/img/dombledore.jpg"
+    },
+    {
+      "id": "13",
+      "displayName": "Blue",
+      "email": "ex@gmail.com",
+      "password": "password",
+      "myMovieList": [],
+      "myReviewList": [],
+      "myCommentList": [],
+      "introContent": "よろしく!",
+      "iconPath": "/img/avatar.png"
+    },
+    {
+      "id": "14",
+      "displayName": "ichiro",
+      "email": "ex@gmail.com",
+      "password": "password",
+      "myMovieList": [],
+      "myReviewList": [],
+      "myCommentList": [],
+      "introContent": "よろしく!",
+      "iconPath": "/img/turningRed.jpg"
+    },
+    {
+      "id": "15",
+      "displayName": "Max佐藤",
+      "email": "ex@gmail.com",
+      "password": "password",
+      "myMovieList": [],
+      "myReviewList": [],
+      "myCommentList": [],
+      "introContent": "よろしく!",
+      "iconPath": "/img/kimi.jpg"
+    },
+    {
+      "id": "16",
+      "displayName": "サンシャイン池崎",
+      "email": "ex@gmail.com",
+      "password": "password",
+      "myMovieList": [],
+      "myReviewList": [],
+      "myCommentList": [],
+      "introContent": "よろしく!",
+      "iconPath": "/img/spiderman.jpg"
+    },
+  ]
+}

@@ -190,7 +190,7 @@ import { Comment } from "@/types/comment";
 
 @Component
 export default class MyPage extends Vue {
-  private iconImage = "https://joeschmoe.io/api/v1/random";
+  private iconImage = this.$store.getters.getCurrentUserIconPath;
   private currentUserList = new Array<User>();
   private currentUser = new User(
     0,
@@ -200,6 +200,7 @@ export default class MyPage extends Vue {
     new Array<Movie>(),
     new Array<Review>(),
     new Array<Comment>(),
+    "",
     ""
   );
   private myMovieList = new Array<Movie>();
@@ -230,39 +231,75 @@ export default class MyPage extends Vue {
 
   option1(): void {
     this.iconImage = "/img/turningRed.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option2(): void {
     this.iconImage = "/img/batman.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option3(): void {
     this.iconImage = "/img/doctorstrange.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option4(): void {
     this.iconImage = "/img/rednotice.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option5(): void {
     this.iconImage = "/img/scream.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option6(): void {
     this.iconImage = "/img/spiderman.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option7(): void {
     this.iconImage = "/img/sing2.jpeg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option8(): void {
     this.iconImage = "/img/encanto.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option9(): void {
     this.iconImage = "/img/blacklight.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option10(): void {
     this.iconImage = "/img/kimi.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option11(): void {
     this.iconImage = "/img/dombledore.jpg";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
   option12(): void {
     this.iconImage = "/img/avatar.png";
+    this.$store.commit("setCurrentUserIconPath", {
+      iconPath: this.iconImage,
+    });
   }
 }
 </script>
