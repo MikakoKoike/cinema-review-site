@@ -112,7 +112,7 @@
             id="crime"
             v-model="genres"
           />
-          <span> <label for="crime"> （暴力） </label></span>
+          <span> <label for="crime"> Crime（暴力） </label></span>
           <input type="checkbox" name="genre" value="99" id="documentary" />
           <span>
             <label for="documentary"
@@ -259,8 +259,9 @@
               <div class="col s7">
                 <h5>{{ movie.title }}</h5>
                 <p>公開日：{{ movie.formatDate }}</p>
-                <p>{{ movie.overview }}</p>
                 <p>{{ movie.genre_ids }}</p>
+                <p v-if="movie.genre_ids.includes(28)">アクション</p>
+                <p>{{ movie.overview }}</p>
               </div>
             </div>
           </div>
@@ -310,8 +311,8 @@ export default class MovieList extends Vue {
     this.currentMovieList = this.$store.getters.getApiMovieList;
     this.$store.commit("switchIsFromEditPageFrag", {
       //裏側でfalseにするため.
-      isFromEditPage: true
-    })
+      isFromEditPage: true,
+    });
   }
 
   /**
@@ -508,8 +509,8 @@ export default class MovieList extends Vue {
   background-color: white;
 }
 /* 本当は良くないやつ */
-  input:focus {
-   border-bottom: 1px solid red !important;
-   box-shadow: 0 1px 0 0 red !important
- }
+input:focus {
+  border-bottom: 1px solid red !important;
+  box-shadow: 0 1px 0 0 red !important;
+}
 </style>
