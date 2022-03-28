@@ -1,7 +1,7 @@
 <template>
   <div class="comment-area">
     <button type="button" class="commentBtn" @click="showComment">
-      コメントする
+      Comment🗣️
     </button>
     <div class="commentBox" v-if="commentFlag">
       <textarea
@@ -11,7 +11,7 @@
         rows="10"
         v-model="commentContent"
       ></textarea>
-      <button type="button" @click="addComment">投稿</button>
+      <button type="button" @click="addComment" class="commentBtn">Send</button>
     </div>
   </div>
 </template>
@@ -52,7 +52,11 @@ export default class CompCommentArea extends Vue {
    * コメント入力欄を表示する
    */
   showComment(): void {
-    this.commentFlag = true;
+    if (this.commentFlag === false) {
+      this.commentFlag = true;
+    } else if (this.commentFlag === true) {
+      this.commentFlag = false;
+    }
   }
   /**
    * コメント投稿
@@ -93,4 +97,25 @@ export default class CompCommentArea extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+textarea {
+  border-radius: 10px;
+}
+
+/* コメントボタン */
+.commentBtn {
+  padding: 10px 40px;
+  margin: 20px;
+  background-color: white;
+  border: solid 1px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.commentBtn:hover {
+  background-color: rgba(0, 0, 0, 0.822);
+  color: white;
+  text-shadow: 0 0 20px #00afec, 0 0 5px #00afec;
+  font-family: "Lucida Sans", Geneva, Verdana, sans-serif;
+}
+</style>
