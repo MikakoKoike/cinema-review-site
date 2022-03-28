@@ -113,6 +113,7 @@
               <p class="flow-text indigo-text text-darken4" id="eatin">
                 My Movie List
               </p>
+              <p class="message">{{ messageMovie }}</p>
               <div
                 class="my-movie-cred"
                 v-for="(movie, index) of myMovieList"
@@ -147,6 +148,7 @@
               >
                 My Leview List
               </p>
+              <p class="message">{{ messageReview }}</p>
               <div
                 class="my-review-card"
                 v-for="review of myReviewList"
@@ -205,11 +207,19 @@ export default class MyPage extends Vue {
   );
   private myMovieList = new Array<Movie>();
   private myReviewList = new Array<Review>();
+  private messageReview = "";
+  private messageMovie = "";
   created(): void {
     this.currentUserList = this.$store.getters.getUserList;
     this.myMovieList = this.$store.getters.getCurrentUser.myMovieList;
     this.myReviewList = this.$store.getters.getCurrentUser.myReviewList;
     this.currentUser = this.$store.getters.getCurrentUser;
+    if(this.myMovieList.length === 0){
+      this.messageMovie = "保存されたMovieがありません。"
+    }
+    if( this.myReviewList.length === 0 ){
+      this.messageReview = "保存されたレビューがありません。"
+    }
   }
   mounted(): void {
     //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。
@@ -315,6 +325,7 @@ export default class MyPage extends Vue {
   margin: 10px;
   padding: 0 5px;
   color: black;
+  margin-top: 12vh;
 }
 .card-content {
   height: 250px;
@@ -389,6 +400,9 @@ export default class MyPage extends Vue {
 .icon-img {
   border-radius: 50%;
   width: 150px;
-  border: 2px solid gray;
+  /* border: 2px solid gray; */
+}
+.message {
+  text-align: center;
 }
 </style>

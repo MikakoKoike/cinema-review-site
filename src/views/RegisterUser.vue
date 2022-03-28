@@ -8,7 +8,7 @@
             <i class="material-icons prefix">person</i>
             <div class="error">{{ userNameError }}</div>
             <input type="text" id="userName" v-model="userName" />
-            <label for="userName" data-error="wrong" data-success="right"
+            <label for="userName" data-error="wrong" data-success="right" v-bind:class="{ active: isActive }"
               >ユーザーネーム</label
             >
           </div>
@@ -34,7 +34,11 @@
           </div>
         </div>
       </form>
-      <a class="waves-light btn register-btn" v-on:click="registerUser">登録</a>
+      <a
+        class="waves-light btn register-btn purple lighten-3"
+        v-on:click="registerUser"
+        >登録</a
+      >
       <!-- Page Content goes here -->
     </div>
   </div>
@@ -57,7 +61,11 @@ export default class Register extends Vue {
   private password = "";
   //パスワードエラーメッセージ
   private passwordError = "";
-
+  //activeフラグ
+  private isActive = false;
+  created(): void{
+    this.isActive = true;
+  }
   /**
    * ユーザー登録をする.
    */
@@ -91,5 +99,7 @@ h3 {
 }
 .btn {
   text-align: center;
+  margin-left: 50%;
+  margin-bottom: 20px;
 }
 </style>

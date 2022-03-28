@@ -27,7 +27,7 @@
       </div> -->
       <div class="footer-copyright grey darken-4">
         <div class="container center-align">
-          &copy; 2021 ここにテキストが入ります。
+          &copy; 2022 RakusFilm CORPORATION. ALL RIGHTS RESERVED
         </div>
       </div>
     </footer>
@@ -43,5 +43,6 @@ export default class CompFooter extends Vue {}
 <style scoped>
 footer {
   padding-top: 0;
+  margin-top: 30vh;
 }
 </style>

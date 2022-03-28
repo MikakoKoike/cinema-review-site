@@ -32,45 +32,41 @@
                 </div>
               </div>
               <div class="row login-btn">
-                <button
-                  class="btn purple lighten-3"
-                  type="button"
-                  v-on:click="signIn"
-                >
-                  <span>ログイン</span>
-                </button>
-
-                <!-- twitterでログイン -->
-                <!-- <button
-                  v-on:click="twitterSignIn"
-                  class="btn-twitter"
-                  type="button"
-                >
-                  <i class="fa-brands fa-twitter"></i>twitterでログイン
-                </button> -->
-                <div class="snsbtniti2">
-                  <a class="flowbtn11 fl_tw1" v-on:click="twitterSignIn"
-                    ><i class="fab fa-twitter"></i
-                    ><span>Twitterでログイン</span></a
+                <div class="col s3">
+                  <button
+                    class="btn purple lighten-3"
+                    type="button"
+                    v-on:click="signIn"
                   >
+                    <span>ログイン</span>
+                  </button>
                 </div>
 
+                <!-- twitterでログイン -->
+                <div class="col s3">
+                  <div class="snsbtniti2">
+                    <a class="flowbtn11 fl_tw1" v-on:click="twitterSignIn"
+                      ><i class="fab fa-twitter"></i
+                      ><span>Twitterでログイン</span></a
+                    >
+                  </div>
+                </div>
                 <!-- facebookでログイン -->
-                <!-- <div
+                <div
                   class="fb-login-button"
                   data-width=""
                   data-size="large"
-                  data-button-type="continue_with"
+                  data-button-type="login_with"
                   data-layout="default"
                   data-auto-logout-link="false"
                   data-use-continue-as="false"
-                ></div> -->
+                ></div>
               </div>
               <div class="row">
                 <div class="input-field col s6 m6 l6">
                   <p class="margin medium-small">
                     <router-link to="/registerUser/"
-                      >管理者登録はこちら</router-link
+                      >会員登録はこちら</router-link
                     >
                   </p>
                 </div>
@@ -202,8 +198,6 @@ export default class Login extends Vue {
     try {
       await signInWithPopup(auth, provider).then((result) => {
         const credential = TwitterAuthProvider.credentialFromResult(result);
-        console.log(result);
-        console.log(credential);
         this.$store.commit("setLoginUser", {
           id: 5,
           name: result.user.displayName,
@@ -211,7 +205,6 @@ export default class Login extends Vue {
           password: "",
         });
         this.$router.push("/registerUser");
-        alert("ログイン成功!!");
         // signInWithRedirect(auth, provider).then((user) => {
         //   console.log(user);
         // })
@@ -225,4 +218,7 @@ export default class Login extends Vue {
 
 <style scoped>
 @import url("/css/login.css");
+.card-panel{
+  margin-top: 15vh;
+}
 </style>

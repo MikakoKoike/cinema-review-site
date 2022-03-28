@@ -33,14 +33,18 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+
 @Component
 export default class CompHeader extends Vue {}
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 .header {
   background-size: cover;
-  text-shadow: 0 0 20px #00afec, 0 0 5px #00afec;
+  /* text-shadow: 0 0 20px #00afec, 0 0 5px #00afec; */
+  text-shadow: 0 0 20px #ff21f4, 0 0 5px #ff21f4;
+  font-family: "Pacifico", cursive;
 }
 .logo {
   width: 100px;

@@ -26,7 +26,7 @@
             <div class="col s3">
               <router-link
                 v-bind:to="'/reviewEdit/' + targetApiMovie.id"
-                class="btn-small review-btn"
+                class="btn-small review-btn amber darken-3"
               >
                 <i class="material-icons left">rate_review</i>
                 レビューする
@@ -181,15 +181,12 @@
 </template>
 
 <script lang="ts">
-import { Comment } from "@/types/comment";
 import { Movie } from "@/types/movie";
 import { Review } from "@/types/review";
 import { TimeList } from "@/types/timeList";
 import { Component, Vue } from "vue-property-decorator";
 import CompLikeButton from "@/components/CompLikeButton.vue";
 import CompCommentArea from "@/components/CompCommentArea.vue";
-import { ApiMovie } from "@/types/api/apiMovie";
-import { User } from "@/types/user";
 
 @Component({
   components: {
