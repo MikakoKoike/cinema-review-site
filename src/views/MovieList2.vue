@@ -429,6 +429,19 @@
     </div>
     <div class="errorMsg" v-if="currentMovieList.length === 0">
       該当する映画が見つかりませんでした。
+      <br />
+      <br />
+      <br />
+
+      <img src="img\cryneko.jpg" />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </template>
