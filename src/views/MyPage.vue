@@ -1,6 +1,7 @@
 <template>
   <div class="mypage">
-    <div class="container">
+    <!-- <img src="/img/popcorn2.jpg" class="responsive-img image" /> -->
+    <div class="container child">
       <div class="movie-card row z-depth-3">
         <div class="row">
           <div class="col s12 card-content">
@@ -214,11 +215,11 @@ export default class MyPage extends Vue {
     this.myMovieList = this.$store.getters.getCurrentUser.myMovieList;
     this.myReviewList = this.$store.getters.getCurrentUser.myReviewList;
     this.currentUser = this.$store.getters.getCurrentUser;
-    if(this.myMovieList.length === 0){
-      this.messageMovie = "保存されたMovieがありません。"
+    if (this.myMovieList.length === 0) {
+      this.messageMovie = "保存されたMovieがありません。";
     }
-    if( this.myReviewList.length === 0 ){
-      this.messageReview = "保存されたレビューがありません。"
+    if (this.myReviewList.length === 0) {
+      this.messageReview = "保存されたレビューがありません。";
     }
   }
   mounted(): void {
@@ -405,4 +406,17 @@ export default class MyPage extends Vue {
 .message {
   text-align: center;
 }
+/* .mypage {
+  display: flex;
+  position: relative;
+}
+.image {
+  display: flex;
+  position: relative;
+  opacity: 0.9;
+}
+.child {
+  position: absolute;
+  margin-left: 50%;
+} */
 </style>
