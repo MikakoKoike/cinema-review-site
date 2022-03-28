@@ -176,16 +176,6 @@
 
               <CompLikeButton v-bind:review="review" />
             </div>
-            <div class="commentBox" v-if="commentFlag">
-              <textarea
-                name="comment"
-                id="comment"
-                cols="30"
-                rows="10"
-                v-model="commentContent"
-              ></textarea>
-              <button type="button" @click="addComment">投稿</button>
-            </div>
 
             <CompCommentArea v-bind:review="review" />
           </div>
@@ -493,14 +483,6 @@ export default class MovieDetail extends Vue {
    */
   get getcurrentMovieReview(): Array<Review> {
     return this.$store.getters.getReviewListByMovieId(this.targetApiMovie.id);
-  }
-  /**
-   * コメント投稿
-   */
-  addComment(): void {
-    this.$store.commit("addComment", {
-      comment: new Comment(-1, 0, -1, new Date(), "megumi"),
-    });
   }
 
   /**
