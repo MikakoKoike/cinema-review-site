@@ -56,7 +56,7 @@
                 </div>
 
                 <!-- facebookでログイン -->
-                <div
+                <!-- <div
                   class="fb-login-button"
                   data-width=""
                   data-size="large"
@@ -64,7 +64,7 @@
                   data-layout="default"
                   data-auto-logout-link="false"
                   data-use-continue-as="false"
-                ></div>
+                ></div> -->
               </div>
               <div class="row">
                 <div class="input-field col s6 m6 l6">
