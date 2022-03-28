@@ -8,7 +8,7 @@
             <i class="material-icons prefix">person</i>
             <div class="error">{{ userNameError }}</div>
             <input type="text" id="userName" v-model="userName" />
-            <label for="userName" data-error="wrong" data-success="right"
+            <label for="userName" data-error="wrong" data-success="right" v-bind:class="{ active: isActive }"
               >ユーザーネーム</label
             >
           </div>
@@ -61,7 +61,11 @@ export default class Register extends Vue {
   private password = "";
   //パスワードエラーメッセージ
   private passwordError = "";
-
+  //activeフラグ
+  private isActive = false;
+  created(): void{
+    this.isActive = true;
+  }
   /**
    * ユーザー登録をする.
    */
