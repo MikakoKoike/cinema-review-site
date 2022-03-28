@@ -17,75 +17,78 @@
         <div class="col s9 card-content">
           <h4>{{ currentMovie.title }}</h4>
           <p>{{ currentMovie.overview }}</p>
-        </div>
-        <div class="col s6 card-content">
+          <!-- </div> -->
+          <!-- <div class="col s6 card-content">
           <h4>Sub Title</h4>
           <p>{{ currentMovie.overview }}</p>
-        </div>
-        <div class="col s6 card-content">
-          <h4>Sub Title</h4>
-          <p>{{ currentMovie.overview }}</p>
+        </div> -->
+          <!-- <div class="col s6 card-content"> -->
+          <div class="reviewBox">
+            <pre>ユーザー名：</pre>
+            <div class="stars">
+              <span>
+                <input
+                  id="review01"
+                  type="radio"
+                  name="review"
+                  v-bind:value="5"
+                  v-model="starCount"
+                  v-on:change="countStar"
+                /><label for="review01">★</label>
+                <input
+                  id="review02"
+                  type="radio"
+                  name="review"
+                  value="4"
+                  v-model="starCount"
+                  @change="countStar"
+                /><label for="review02">★</label>
+                <input
+                  id="review03"
+                  type="radio"
+                  name="review"
+                  value="3"
+                  v-model="starCount"
+                  @change="countStar"
+                /><label for="review03">★</label>
+                <input
+                  id="review04"
+                  type="radio"
+                  name="review"
+                  value="2"
+                  v-model="starCount"
+                  @change="countStar"
+                /><label for="review04">★</label>
+                <input
+                  id="review05"
+                  type="radio"
+                  name="review"
+                  value="1"
+                  v-model="starCount"
+                  @change="countStar"
+                /><label for="review05">★</label>
+              </span>
+            </div>
+            <!-- <h4>Sub Title</h4>
+          <p>{{ currentMovie.overview }}</p> -->
+          </div>
+
+          <!-- レビュー入力欄 -->
+          <textarea
+            name="review"
+            id="review"
+            cols="30"
+            rows="10"
+            v-model="reviewContent"
+          ></textarea>
+          <router-link v-bind:to="'/movieDetail/' + currentMovie.id">
+            <button type="button" @click="addReview">投稿</button>
+          </router-link>
+          <!-- </div> -->
         </div>
       </div>
     </div>
-    <div class="reviewBox">
-      <pre>ユーザー名：</pre>
-      <div class="stars">
-        <span>
-          <input
-            id="review01"
-            type="radio"
-            name="review"
-            v-bind:value="5"
-            v-model="starCount"
-            v-on:change="countStar"
-          /><label for="review01">★</label>
-          <input
-            id="review02"
-            type="radio"
-            name="review"
-            value="4"
-            v-model="starCount"
-            @change="countStar"
-          /><label for="review02">★</label>
-          <input
-            id="review03"
-            type="radio"
-            name="review"
-            value="3"
-            v-model="starCount"
-            @change="countStar"
-          /><label for="review03">★</label>
-          <input
-            id="review04"
-            type="radio"
-            name="review"
-            value="2"
-            v-model="starCount"
-            @change="countStar"
-          /><label for="review04">★</label>
-          <input
-            id="review05"
-            type="radio"
-            name="review"
-            value="1"
-            v-model="starCount"
-            @change="countStar"
-          /><label for="review05">★</label>
-        </span>
-      </div>
-      <!-- レビュー入力欄 -->
-      <textarea
-        name="review"
-        id="review"
-        cols="30"
-        rows="10"
-        v-model="reviewContent"
-      ></textarea>
-      <router-link v-bind:to="'/movieDetail/' + currentMovie.id">
-        <button type="button" @click="addReview">投稿</button>
-      </router-link>
-    </div>
+
     <!-- end of remplate -->
   </div>
 </template>
@@ -204,6 +207,7 @@ export default class XXXComponent extends Vue {
 }
 
 .stars span {
+  text-align: center;
   display: flex; /* 要素をフレックスボックスにする */
   flex-direction: row-reverse; /*星を逆順に並べる*/
   justify-content: flex-end; /* 逆順なので、左寄せにする */
@@ -243,5 +247,8 @@ export default class XXXComponent extends Vue {
 .movie-img {
   margin-top: 5px;
   text-align: center;
+}
+.row .col.s9 {
+  height: auto;
 }
 </style>

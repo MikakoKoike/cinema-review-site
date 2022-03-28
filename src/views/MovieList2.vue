@@ -8,12 +8,12 @@
         <a class="carousel-item" href="#three!"
           ><img src="/img/hollywoodSign.jpg"
         /></a>
+        <a class="carousel-item" href="#six!"
+          ><img src="/img/lalaland.jpg"
+        /></a>
         <a class="carousel-item" href="#four!"><img src="/img/thater.jpg" /></a>
         <a class="carousel-item" href="#five!"
           ><img src="/img/titanic.jpg"
-        /></a>
-        <a class="carousel-item" href="#six!"
-          ><img src="/img/lalaland.jpg"
         /></a>
       </div>
 

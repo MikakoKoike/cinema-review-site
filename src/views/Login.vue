@@ -33,20 +33,28 @@
               </div>
               <div class="row login-btn">
                 <button
-                  class="btn indigo lighten-4"
+                  class="btn purple lighten-3"
                   type="button"
                   v-on:click="signIn"
                 >
                   <span>ログイン</span>
                 </button>
+
                 <!-- twitterでログイン -->
-                <button
+                <!-- <button
                   v-on:click="twitterSignIn"
                   class="btn-twitter"
                   type="button"
                 >
                   <i class="fa-brands fa-twitter"></i>twitterでログイン
-                </button>
+                </button> -->
+                <div class="snsbtniti2">
+                  <a class="flowbtn11 fl_tw1" v-on:click="twitterSignIn"
+                    ><i class="fab fa-twitter"></i
+                    ><span>Twitterでログイン</span></a
+                  >
+                </div>
+
                 <!-- facebookでログイン -->
                 <div
                   class="fb-login-button"

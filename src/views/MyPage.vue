@@ -270,11 +270,14 @@ export default class MyPage extends Vue {
 <style scoped>
 .movie-card {
   background-color: white;
+  /* background-color: rgba(0, 0, 0, 0.822); */
+  /* background-color: #2f303a; */
   width: 100%;
   height: auto;
   border-radius: 10px;
   margin: 10px;
   padding: 0 5px;
+  color: black;
 }
 .card-content {
   height: 250px;
