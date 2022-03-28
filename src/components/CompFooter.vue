@@ -1,7 +1,7 @@
 <template>
   <div class="footer-area">
     <footer class="page-footer indigo lighten-4">
-      <div class="container">
+      <!-- <div class="container">
         <div class="row">
           <div class="col s12 l6">
             <h5>タイトル</h5>
@@ -24,7 +24,7 @@
             </ul>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="footer-copyright grey darken-4">
         <div class="container center-align">
           &copy; 2021 ここにテキストが入ります。
@@ -40,4 +40,8 @@ import { Component, Vue } from "vue-property-decorator";
 export default class CompFooter extends Vue {}
 </script>
 
-<style scoped></style>
+<style scoped>
+footer {
+  padding-top: 0;
+}
+</style>

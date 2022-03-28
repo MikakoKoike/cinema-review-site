@@ -1,0 +1,44 @@
+@charset "UTF-8";
+.topimage {
+  position: relative;
+  background-image: url(../img/topimage1.jpg);
+  /* 背景画像設定 */
+}
+.topimage span {
+  position: absolute;
+  color: white;
+}
+div {
+  position: relative;
+}
+a {
+  position: absolute;
+}
+.btn {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+  background: #000;
+}
+
+.btn a {
+  /* position: absolute; */
+  margin: 0 15px;
+  padding: 10px 30px;
+  color: #ff21f4bd;
+  text-decoration: none;
+  font-size: 20px;
+  letter-spacing: 3px;
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+}
+
+.btn a:hover {
+  background: #ff21f4;
+  color: #000;
+  box-shadow: 0 0 50px #ff21f4;
+  transition-delay: 0.5s;
+}

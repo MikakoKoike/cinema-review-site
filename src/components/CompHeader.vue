@@ -3,7 +3,8 @@
     <!-- この部分はヘッダー -->
     <nav>
       <div class="nav-wrapper blue-grey darken-4">
-        <router-link class="brand-logo" to="/movieList">
+        <img class="logo" src="/img/logo.png" />
+        <router-link class="brand-logo" to="/topPage">
           Rakus Films
         </router-link>
         <!-- この部分がハンバーガーメニュー -->
@@ -40,5 +41,9 @@ export default class CompHeader extends Vue {}
 .header {
   background-size: cover;
   text-shadow: 0 0 20px #00afec, 0 0 5px #00afec;
+}
+.logo {
+  width: 100px;
+  height: 62px;
 }
 </style>
