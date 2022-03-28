@@ -1,10 +1,9 @@
 <template>
   <div>
-    <span class="btn" v-on:click="countUp">
-      いいね！<span>♡</span><span>{{ count }}</span>
+    <span class="likeBtn" v-on:click="countUp">
+      Like👌<span>💗</span><span>{{ count }}</span>
     </span>
-    <div>
-    </div>
+    <div></div>
   </div>
 </template>
 
@@ -20,7 +19,6 @@ export default class CompLikeButton extends Vue {
   created(): void {
     this.count = this.review?.countLike as number;
     console.log(this.count);
-
   }
   countUp(): void {
     if (this.review !== undefined) {
@@ -35,4 +33,20 @@ export default class CompLikeButton extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.likeBtn {
+  padding: 10px 40px;
+  margin: 20px;
+  background-color: white;
+  border: solid 1px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.likeBtn:hover {
+  background-color: rgba(0, 0, 0, 0.822);
+  color: white;
+  text-shadow: 0 0 20px #00afec, 0 0 5px #00afec;
+  font-family: "Lucida Sans", Geneva, Verdana, sans-serif;
+}
+</style>

@@ -218,7 +218,7 @@ export default class Login extends Vue {
 
 <style scoped>
 @import url("/css/login.css");
-.card-panel{
+.card-panel {
   margin-top: 15vh;
   margin-bottom: 30vh;
 }
