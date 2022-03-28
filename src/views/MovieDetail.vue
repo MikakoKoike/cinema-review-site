@@ -700,6 +700,6 @@ h5 {
 }
 .review-btn {
   width: 160px;
-  margin-left: -15px;
+  /* margin-left: -15px;
 }
 </style>

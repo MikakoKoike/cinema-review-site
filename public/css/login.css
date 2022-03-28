@@ -18,7 +18,7 @@ form {
   border-radius: 4px;
   position: relative;
   display: inline-block;
-  width: 180px;
+  width: 200px;
   height: 40px;
   font-size: 20px;
   color: #fff !important;
@@ -31,33 +31,31 @@ form {
   background: #55acee;
 }
 /* アイコンボタンホバー時 */
-.flowbtn11:hover span {
+/* .flowbtn11:hover span {
   -webkit-transform: rotateX(360deg);
   -ms-transform: rotateX(360deg);
   transform: rotateX(360deg);
   text-decoration: none;
-}
-/* ボタン内テキスト調整 */
+} */
+/* ボタン内テキスト */
 .flowbtn11 span {
   font-size: 14px;
   position: relative;
-  left: 8px;
-  top: 2px;
+  left: 0;
+  top: -30px;
   bottom: 2px;
   transition: 0.6s;
   display: inline-block;
+  margin-left: 20px;
+  width: 200px;
 }
-/* ulタグの内側余白を０にする */
-ul.snsbtniti2 {
-  padding: 0 !important;
-}
+
 /* アイコンボタンの位置調整 */
-.snsbtniti2 {
+/* .snsbtniti2 {
   display: flex;
   flex-flow: row wrap;
-}
-/* アイコンボタン同士の余白調整 */
-.snsbtniti2 li {
-  flex: 0 0 48%;
-  text-align: center !important;
+  left: 20px;
+} */
+.fa-twitter:before {
+  margin-right: 140px;
 }

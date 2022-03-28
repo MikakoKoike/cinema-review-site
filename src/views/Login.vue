@@ -32,13 +32,15 @@
                 </div>
               </div>
               <div class="row login-btn">
-                <button
-                  class="btn purple lighten-3"
-                  type="button"
-                  v-on:click="signIn"
-                >
-                  <span>ログイン</span>
-                </button>
+                <div class="col s3">
+                  <button
+                    class="btn purple lighten-3"
+                    type="button"
+                    v-on:click="signIn"
+                  >
+                    <span>ログイン</span>
+                  </button>
+                </div>
 
                 <!-- twitterでログイン -->
                 <!-- <button
@@ -48,11 +50,13 @@
                 >
                   <i class="fa-brands fa-twitter"></i>twitterでログイン
                 </button> -->
-                <div class="snsbtniti2">
-                  <a class="flowbtn11 fl_tw1" v-on:click="twitterSignIn"
-                    ><i class="fab fa-twitter"></i
-                    ><span>Twitterでログイン</span></a
-                  >
+                <div class="col s3">
+                  <div class="snsbtniti2">
+                    <a class="flowbtn11 fl_tw1" v-on:click="twitterSignIn"
+                      ><i class="fab fa-twitter"></i
+                      ><span>Twitterでログイン</span></a
+                    >
+                  </div>
                 </div>
 
                 <!-- facebookでログイン -->
