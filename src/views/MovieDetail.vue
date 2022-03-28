@@ -11,41 +11,57 @@
             alt=""
           />
         </div>
+
         <div class="col s9 card-content">
           <h4>{{ targetApiMovie.title }}</h4>
           <p>{{ targetApiMovie.overview }}</p>
           <p class="star">{{ showRate }}{{ targetApiMovie.vote_average }}</p>
+          <div class="row">
+            <div class="col s3">
+              <span class="btn-small btn" v-on:click="addCountWatch">
+                <i class="material-icons left">favorite</i>見たい！
+                {{ countWatch }}
+              </span>
+            </div>
+            <div class="col s3">
+              <router-link
+                v-bind:to="'/reviewEdit/' + targetApiMovie.id"
+                class="btn-small review-btn"
+              >
+                <i class="material-icons left">rate_review</i>
+                レビューする
+              </router-link>
+            </div>
+            <div class="col s3">
+              <div class="recommendation">
+                <button
+                  class="btn-small recommendation-btn"
+                  type="button"
+                  v-on:click="moveTosimilarMovie(currentMovieId)"
+                >
+                  <i class="material-icons left">visibility</i>
+                  あなたにおすすめの作品はこちら
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- <span class="btn-small" v-on:click="addCountWatch">
           <span class="btn-small" v-on:click="addCountWatch">
+
             <i class="material-icons left">favorite</i>見たい！
             {{ countWatch }}
-          </span>
-
-          <p></p>
+          </span> -->
         </div>
-        <div class="col s6 card-content">
+        <!-- <div class="col s6 card-content">
           <h4>Sub Title</h4>
           <p>{{ targetApiMovie.overview }}</p>
         </div>
         <div class="col s6 card-content">
           <h4>Sub Title</h4>
           <p>{{ targetApiMovie.overview }}</p>
-        </div>
+        </div> -->
         <!-- レビューボタン -->
         <!-- ここで次の画面にIDを渡す -->
-        <router-link v-bind:to="'/reviewEdit/' + targetApiMovie.id">
-          <button type="button" class="reviewButton">レビューする</button>
-        </router-link>
-
-        <div class="recommendation">
-          <button
-            class="btn-small"
-            type="button"
-            v-on:click="moveTosimilarMovie(currentMovieId)"
-          >
-            <i class="material-icons left"></i>
-            あなたにおすすめの作品はこちら
-          </button>
-        </div>
       </div>
       <div v-for="review of getcurrentMovieReview" v-bind:key="review.id">
         <div class="review-card z-depth-3">
@@ -156,19 +172,19 @@
           <div class="row">
             <div class="col s12">
               <p>レビュー内容：{{ review.content }}</p>
+              <br />
 
               <CompLikeButton v-bind:review="review" />
-
-              <div class="commentBox" v-if="commentFlag">
-                <textarea
-                  name="comment"
-                  id="comment"
-                  cols="30"
-                  rows="10"
-                  v-model="commentContent"
-                ></textarea>
-                <button type="button" @click="addComment">投稿</button>
-              </div>
+            </div>
+            <div class="commentBox" v-if="commentFlag">
+              <textarea
+                name="comment"
+                id="comment"
+                cols="30"
+                rows="10"
+                v-model="commentContent"
+              ></textarea>
+              <button type="button" @click="addComment">投稿</button>
             </div>
 
             <CompCommentArea v-bind:review="review" />
@@ -635,7 +651,7 @@ h5 {
 }
 
 /* レビューボタンのデザイン */
-.reviewButton {
+/* .reviewButton {
   padding: 10px 40px;
   margin: 20px;
   background-color: white;
@@ -647,7 +663,7 @@ h5 {
   color: white;
   font-weight: bold;
   background-color: #c5cae9;
-}
+} */
 
 /* いいねボタン */
 .likeBtn {
@@ -674,5 +690,15 @@ h5 {
 }
 .recommendation button {
   background-color: rgb(30, 190, 116);
+}
+.recommendation-btn {
+  width: 270px;
+}
+.a {
+  color: white;
+}
+.review-btn {
+  width: 160px;
+  margin-left: -15px;
 }
 </style>

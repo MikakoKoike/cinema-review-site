@@ -282,7 +282,7 @@ import { TimeList } from "@/types/timeList";
 export default class MovieList extends Vue {
   private currentMovieList = Array<ApiMovie>();
   // 検索バー
-  private searchMovieString = "Let's find your favourite movie!";
+  private searchMovieString = "Let's find your favorite movie!";
   // 検索方法
   private searchWay = "";
   // 検索オプション
