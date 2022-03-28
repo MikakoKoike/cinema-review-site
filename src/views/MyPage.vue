@@ -1,6 +1,5 @@
 <template>
   <div class="mypage">
-    <!-- <img src="/img/popcorn2.jpg" class="responsive-img image" /> -->
     <div class="container child">
       <div class="movie-card row z-depth-3">
         <div class="row">
@@ -406,17 +405,4 @@ export default class MyPage extends Vue {
 .message {
   text-align: center;
 }
-/* .mypage {
-  display: flex;
-  position: relative;
-}
-.image {
-  display: flex;
-  position: relative;
-  opacity: 0.9;
-}
-.child {
-  position: absolute;
-  margin-left: 50%;
-} */
 </style>

@@ -459,9 +459,9 @@ export default class XXXComponent extends Vue {
 
   mounted(): void {
     //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。
-    setTimeout(() => {
-      M.AutoInit();
-    }, 200);
+    // setTimeout(() => {
+    M.AutoInit();
+    // }, 200);
   }
   /**
    * movieListを表示する.
