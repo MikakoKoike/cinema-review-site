@@ -38,8 +38,8 @@ export default new Vuex.Store({
       "https://joeschmoe.io/api/v1/random"
     ),
     reviewList: Array<Review>(),
-    arrayForCreatedCount: [{movieId: 0,createdCount: 0 }],
-    isFromEditPage: false
+    arrayForCreatedCount: [{ movieId: 0, createdCount: 0 }],
+    isFromEditPage: false,
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -150,9 +150,9 @@ export default new Vuex.Store({
      * @param payload -payload
      */
     addReview(state, payload) {
-      for(const movie of state.movieList){
-        if(movie.id == payload.movieId){
-          movie.reviewList.unshift(payload.review)
+      for (const movie of state.movieList) {
+        if (movie.id == payload.movieId) {
+          movie.reviewList.unshift(payload.review);
         }
       }
       console.log(state.movieList);
@@ -173,7 +173,7 @@ export default new Vuex.Store({
       // };
       // currentMovie.reviewList.unshift(newReview.review);
       state.arrayForCreatedCount.forEach((obj, index) => {
-        if( obj.movieId == payload.movieId ){
+        if (obj.movieId == payload.movieId) {
           state.arrayForCreatedCount.splice(index, 1);
         }
       });
@@ -289,21 +289,21 @@ export default new Vuex.Store({
      * @param payload - アイコンのパスの文字列
      */
     setCurrentUserIconPath(state, payload) {
-      state.currentUser.iconPath = payload.iconPath
+      state.currentUser.iconPath = payload.iconPath;
     },
     /**
-     * 
+     *
      */
-    setArrayForCreatedCount(state, payload){
+    setArrayForCreatedCount(state, payload) {
       state.arrayForCreatedCount.push(payload.obj);
       console.log(state.arrayForCreatedCount);
     },
     /**
      * レビュー投稿ページかどうかを判定する時に使うメソッド.
      */
-    switchIsFromEditPageFrag(state, payload){
+    switchIsFromEditPageFrag(state, payload) {
       state.isFromEditPage = !payload.isFromEditPage;
-    }
+    },
   }, //end of mutations
 
   modules: {},
@@ -576,35 +576,35 @@ export default new Vuex.Store({
     /**
      * ユーザーのIdからIconPathを取得する.
      */
-     getUserIconPathByUserId(state) {
-       let targetUrl = "";
-      return (userId: number) =>{
+    getUserIconPathByUserId(state) {
+      let targetUrl = "";
+      return (userId: number) => {
         const newArray = [];
-        for(const user of state.userList){
-          if(user.id == userId){
-            newArray.push(user)
+        for (const user of state.userList) {
+          if (user.id == userId) {
+            newArray.push(user);
           }
         }
-        if(newArray.length === 0){
-          targetUrl = state.currentUser.iconPath
+        if (newArray.length === 0) {
+          targetUrl = state.currentUser.iconPath;
         } else {
-          targetUrl = newArray[0].iconPath
+          targetUrl = newArray[0].iconPath;
         }
         return targetUrl;
-      }
+      };
     },
     /**
-     * 
+     *
      */
-    getArrayForCreatedCount(state){
+    getArrayForCreatedCount(state) {
       return state.arrayForCreatedCount;
     },
     /**
-     * 
+     *
      */
-    getIsFromEditPageFrag(state){
+    getIsFromEditPageFrag(state) {
       return state.isFromEditPage;
-    }
+    },
   }, //end of getters
 
   plugins: [

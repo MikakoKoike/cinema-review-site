@@ -160,6 +160,7 @@ export default class XXXComponent extends Vue {
     // レビューを追加する
     this.$store.commit("addReview", {
       movieId: this.currentMovie.id,
+
       review: new Review(
         this.reviewId,
         0,
