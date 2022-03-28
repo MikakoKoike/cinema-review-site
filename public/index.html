@@ -37,16 +37,7 @@
       .tabs .indicator {
         background-color: #1a237e;
       }
-      /* inputタグの色を変更 */
-      /* label color */
-      /* .input-field label {
-        color: #bc13fe;
-      }
-      /* label focus color */
-      /* .input-field input[type="text"]:focus + label {
-        background-color: #bc13fe;
-      }
-      /* label underline focus color */
+
       .input-field input[type="text"]:focus {
         border-bottom: 1px solid #bc13fe;
         box-shadow: 0 1px 0 0 #bc13fe;
@@ -60,9 +51,14 @@
       src="https://kit.fontawesome.com/8c7248f0c2.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    /*
     <noscript>
       <strong
         >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
@@ -70,8 +66,10 @@
         continue.</strong
       >
     </noscript>
+
     <div id="app"></div>
     <!-- built files will be auto injected -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <div id="fb-root"></div>
     <script
@@ -81,7 +79,9 @@
       src="https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v13.0&appId=1418258848605824&autoLogAppEvents=1"
       nonce="CE9miqKa"
     ></script>
+
     <!-- facebookログイン -->
+
     <script>
       function statusChangeCallback(response) {
         // Called with the results from FB.getLoginStatus().
@@ -130,11 +130,11 @@
         });
       }
     </script>
-    */ /*
+
     <!-- The JS SDK Login Button -->
 
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-    </fb:login-button>
+    <!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button> -->
 
     <div id="status"></div>
 
@@ -145,6 +145,5 @@
       crossorigin="anonymous"
       src="https://connect.facebook.net/en_US/sdk.js"
     ></script>
-    */
   </body>
 </html>
