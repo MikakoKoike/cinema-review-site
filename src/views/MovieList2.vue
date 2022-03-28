@@ -278,6 +278,59 @@
               </div>
               <div class="card-content">
                 <h5>{{ movie.title }}</h5>
+                <div class="genreIds">
+                  <p class="detail" v-if="movie.genre_ids.includes(28)">
+                    アクション
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(12)">
+                    アドベンチャー
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(16)">
+                    アニメーション
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(35)">
+                    コメディ
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(80)">暴力</p>
+                  <p class="detail" v-if="movie.genre_ids.includes(99)">
+                    ドキュメンタリー
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(18)">
+                    ドラマ
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(10751)">
+                    家族
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(14)">
+                    ファンタジー
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(36)">歴史</p>
+                  <p class="detail" v-if="movie.genre_ids.includes(27)">
+                    ホラー
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(10402)">
+                    音楽
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(9648)">
+                    ミステリー
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(10749)">
+                    恋愛
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(878)">SF</p>
+                  <p class="detail" v-if="movie.genre_ids.includes(10770)">
+                    TV映画
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(53)">
+                    スリラー
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(10752)">
+                    戦争
+                  </p>
+                  <p class="detail" v-if="movie.genre_ids.includes(37)">
+                    ウェスターン
+                  </p>
+                </div>
               </div>
               <div class="card-action">
                 <p
@@ -484,6 +537,13 @@ export default class XXXComponent extends Vue {
 </script>
 
 <style scoped>
+.detail {
+  width: auto;
+  font-size: 10%;
+  border: solid 1px blue;
+  float: left;
+}
+
 .searchByDetail {
   width: 500px;
   margin: 10px auto;
