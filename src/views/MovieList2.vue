@@ -279,55 +279,137 @@
               <div class="card-content">
                 <h5>{{ movie.title }}</h5>
                 <div class="genreIds">
-                  <p class="detail" v-if="movie.genre_ids.includes(28)">
+                  <p
+                    id="detail"
+                    class="detail action"
+                    v-if="movie.genre_ids.includes(28)"
+                  >
                     アクション
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(12)">
+                  <p
+                    id="detail"
+                    class="detail adventure"
+                    v-if="movie.genre_ids.includes(12)"
+                  >
                     アドベンチャー
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(16)">
+                  <p
+                    id="detail"
+                    class="detail animation"
+                    v-if="movie.genre_ids.includes(16)"
+                  >
                     アニメーション
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(35)">
+                  <p
+                    id="detail"
+                    class="detail comedy"
+                    v-if="movie.genre_ids.includes(35)"
+                  >
                     コメディ
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(80)">暴力</p>
-                  <p class="detail" v-if="movie.genre_ids.includes(99)">
+                  <p
+                    id="detail"
+                    class="detail crime"
+                    v-if="movie.genre_ids.includes(80)"
+                  >
+                    暴力
+                  </p>
+                  <p
+                    id="detail"
+                    class="detail documentary"
+                    v-if="movie.genre_ids.includes(99)"
+                  >
                     ドキュメンタリー
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(18)">
+                  <p
+                    id="detail"
+                    class="detail drama"
+                    v-if="movie.genre_ids.includes(18)"
+                  >
                     ドラマ
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(10751)">
+                  <p
+                    id="detail"
+                    class="detail family"
+                    v-if="movie.genre_ids.includes(10751)"
+                  >
                     家族
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(14)">
+                  <p
+                    id="detail"
+                    class="detail fantasy"
+                    v-if="movie.genre_ids.includes(14)"
+                  >
                     ファンタジー
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(36)">歴史</p>
-                  <p class="detail" v-if="movie.genre_ids.includes(27)">
+                  <p
+                    id="detail"
+                    class="detail history"
+                    v-if="movie.genre_ids.includes(36)"
+                  >
+                    歴史
+                  </p>
+                  <p
+                    id="detail"
+                    class="detail horror"
+                    v-if="movie.genre_ids.includes(27)"
+                  >
                     ホラー
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(10402)">
+                  <p
+                    id="detail"
+                    class="detail music"
+                    v-if="movie.genre_ids.includes(10402)"
+                  >
                     音楽
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(9648)">
+                  <p
+                    id="detail"
+                    class="detail mystery"
+                    v-if="movie.genre_ids.includes(9648)"
+                  >
                     ミステリー
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(10749)">
+                  <p
+                    id="detail"
+                    class="detail romance"
+                    v-if="movie.genre_ids.includes(10749)"
+                  >
                     恋愛
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(878)">SF</p>
-                  <p class="detail" v-if="movie.genre_ids.includes(10770)">
+                  <p
+                    id="detail"
+                    class="detail SF"
+                    v-if="movie.genre_ids.includes(878)"
+                  >
+                    SF
+                  </p>
+                  <p
+                    id="detail"
+                    class="detail TV"
+                    v-if="movie.genre_ids.includes(10770)"
+                  >
                     TV映画
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(53)">
+                  <p
+                    id="detail"
+                    class="detail thriller"
+                    v-if="movie.genre_ids.includes(53)"
+                  >
                     スリラー
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(10752)">
+                  <p
+                    id="detail"
+                    class="detail war"
+                    v-if="movie.genre_ids.includes(10752)"
+                  >
                     戦争
                   </p>
-                  <p class="detail" v-if="movie.genre_ids.includes(37)">
+                  <p
+                    id="detail"
+                    class="detail western"
+                    v-if="movie.genre_ids.includes(37)"
+                  >
                     ウェスターン
                   </p>
                 </div>
@@ -337,13 +419,16 @@
                   class="btn indigo lighten-1"
                   v-on:click="saveMovie(movie.id)"
                 >
-                  保存
+                  Save
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="errorMsg" v-if="currentMovieList.length === 0">
+      該当する映画が見つかりませんでした。
     </div>
   </div>
 </template>
@@ -537,11 +622,135 @@ export default class XXXComponent extends Vue {
 </script>
 
 <style scoped>
-.detail {
+.errorMsg {
+  color: white;
+}
+
+/* ジャンルのアイコン */
+.detail.western {
+  background-color: #d99d68;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.war {
+  background-color: #992529;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.thriller {
+  background-color: #9d68d9;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.TV {
+  background-color: #a4d968;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.SF {
+  background-color: #adc5d9;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.romance {
+  background-color: #e62f8b;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.mystery {
+  background-color: #000ea3;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.music {
+  background-color: #00a497;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.horror {
+  background-color: #47266e;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.history {
+  background-color: #d48244;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.fantasy {
+  background-color: #f0cefd;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+
+.detail.family {
+  background-color: #d44495;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.drama {
+  background-color: #95d444;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.documentary {
+  background-color: #52b4ff;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.crime {
+  background-color: #e8383d;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.comedy {
+  background-color: #e8df35;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.animation {
+  background-color: #35e8bb;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+.detail.action {
+  background-color: #e73562;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+
+.detail.adventure {
+  background-color: #e8bb35;
+  color: white;
+  text-shadow: none;
+  border-radius: 15%;
+}
+
+/* アイコン並び替え */
+#detail {
   width: auto;
-  font-size: 10%;
-  border: solid 1px blue;
+  font-size: 14px;
+  /* 横並びにする */
   float: left;
+  margin: 0px 1px;
 }
 
 .searchByDetail {
@@ -580,11 +789,14 @@ export default class XXXComponent extends Vue {
 } */
 
 .card-content {
-  height: 80px;
+  font-size: 18px;
+  height: 200px;
   padding: 10px;
 }
 .card-action {
-  height: 50px;
+  height: 100%;
+  display: center;
+  align-items: center;
 }
 .movie-list {
   text-align: center;
