@@ -202,8 +202,6 @@ export default class Login extends Vue {
     try {
       await signInWithPopup(auth, provider).then((result) => {
         const credential = TwitterAuthProvider.credentialFromResult(result);
-        console.log(result);
-        console.log(credential);
         this.$store.commit("setLoginUser", {
           id: 5,
           name: result.user.displayName,
@@ -211,7 +209,6 @@ export default class Login extends Vue {
           password: "",
         });
         this.$router.push("/registerUser");
-        alert("ログイン成功!!");
         // signInWithRedirect(auth, provider).then((user) => {
         //   console.log(user);
         // })

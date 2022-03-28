@@ -278,10 +278,9 @@ export default new Vuex.Store({
         new Array<Movie>(),
         new Array<Review>(),
         new Array<Comment>(),
-        "",
-        ""
+        "このアプリを使い始めて3ヶ月目に突入!",
+        "https://joeschmoe.io/api/v1/random"
       );
-      console.log(state.currentUser);
     },
     /**
      * ログインしているユーザーのiconPathをstateにセットする。
