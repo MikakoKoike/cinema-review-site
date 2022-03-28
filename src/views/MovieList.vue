@@ -253,7 +253,7 @@
                   class="btn-small indigo lighten-1"
                   v-on:click="saveMovie(movie.id)"
                 >
-                  保存
+                  save
                 </p>
               </div>
               <div class="col s7">
@@ -273,6 +273,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { ApiMovie } from "@/types/api/apiMovie";
+import M from "materialize-css";
 
 import { Movie } from "@/types/movie";
 import { TimeList } from "@/types/timeList";
@@ -322,7 +323,7 @@ export default class MovieList extends Vue {
     this.$store.commit("saveToMovieList", {
       movie: targetMovie,
     });
-    alert("ムービーリストに保存されました！");
+    M.toast({html: 'マイムービーリストに保存されました！', classes: 'rounded'});
   }
 
   /**
