@@ -824,7 +824,7 @@ export default class XXXComponent extends Vue {
 }
 .poster {
   width: 200px;
-  height: 420px;
+  height: 500px;
   /* padding-top: 20px; */
 }
 
