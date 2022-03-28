@@ -153,22 +153,22 @@
               <p>投稿日時：{{ review.formatDate }}</p>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <p>レビュー内容：{{ review.content }}</p>
+          <div class="row">
+            <div class="col s12">
+              <p>レビュー内容：{{ review.content }}</p>
 
-            <CompLikeButton v-bind:review="review" />
+              <CompLikeButton v-bind:review="review" />
 
-            <div class="commentBox" v-if="commentFlag">
-              <textarea
-                name="comment"
-                id="comment"
-                cols="30"
-                rows="10"
-                v-model="commentContent"
-              ></textarea>
-              <button type="button" @click="addComment">投稿</button>
+              <div class="commentBox" v-if="commentFlag">
+                <textarea
+                  name="comment"
+                  id="comment"
+                  cols="30"
+                  rows="10"
+                  v-model="commentContent"
+                ></textarea>
+                <button type="button" @click="addComment">投稿</button>
+              </div>
             </div>
 
             <CompCommentArea v-bind:review="review" />
@@ -442,16 +442,15 @@ export default class MovieDetail extends Vue {
     this.currentMovieId = MovieId;
     this.storeMovie = this.$store.getters.getcurrentMovie(this.currentMovieId);
 
-    
     const exactObjOrNot = (): boolean => {
       let frag = false;
       let count = 0;
-      for(let obj of this.$store.getters.getArrayForCreatedCount){
-        if(obj.movieId == MovieId){
+      for (let obj of this.$store.getters.getArrayForCreatedCount) {
+        if (obj.movieId == MovieId) {
           count++;
         }
       }
-      if(count >= 3){
+      if (count >= 3) {
         frag = true;
       }
       console.log(frag);
@@ -459,18 +458,18 @@ export default class MovieDetail extends Vue {
     };
     const isFromEditPage = this.$store.getters.getIsFromEditPageFrag;
     if (!exactObjOrNot() && !isFromEditPage) {
-      console.log("ディスパッチ")
-      if(MovieId === 508947 || MovieId === 634649){
+      console.log("ディスパッチ");
+      if (MovieId === 508947 || MovieId === 634649) {
         await this.$store.dispatch("asyncGetReviewList");
         await this.$store.dispatch("asyncGetUserList");
       }
     }
 
-    this.$store.commit("setArrayForCreatedCount",{
+    this.$store.commit("setArrayForCreatedCount", {
       obj: {
         movieId: MovieId,
-        count: 1
-      }
+        count: 1,
+      },
     });
   }
   /**
