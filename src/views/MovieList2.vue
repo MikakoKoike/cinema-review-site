@@ -1,5 +1,20 @@
 <template>
   <div class="movie-list">
+    <div v-bind:class="{ preloader: isLoading }" v-show="isLoading">
+          <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-red-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div>
+              <div class="gap-patch">
+                <div class="circle"></div>
+              </div>
+              <div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
     <!-- カルーセル -->
     <div>
       <div class="carousel">
@@ -456,18 +471,21 @@ export default class XXXComponent extends Vue {
   private genres = [];
   // メニューバーの表示
   private showFlag = false;
+  //loadingフラグ
+  private isLoading = true;
 
   mounted(): void {
     //cdnのインストールが必要。mountedだとタイミングが合わないので、時間をずらした。
-    setTimeout(() => {
+    // setTimeout(() => {
       M.AutoInit();
-    }, 200);
+    // }, 200);
   }
   /**
    * movieListを表示する.
    */
   async created(): Promise<void> {
     await this.$store.dispatch("asyncGetMovieList");
+    this.isLoading = false;
     this.currentMovieList = this.$store.getters.getApiMovieList;
   }
 
@@ -947,5 +965,11 @@ h1 {
 .movie-list p[data-v-0354c1be] {
   margin-top: -10px;
   font-size: 18px;
+}
+.preloader {
+  width: 100%;
+  /* height: 100vh; */
+  margin: 20vh 0;
+  background-color: white;
 }
 </style>
