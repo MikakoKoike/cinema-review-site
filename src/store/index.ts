@@ -151,6 +151,7 @@ export default new Vuex.Store({
       const currentMovie = state.movieList.filter(
         (movie) => movie.id === payload.movieId
       )[0];
+
       const newReview = {
         review: new Review(
           payload.review.id,
@@ -163,6 +164,8 @@ export default new Vuex.Store({
           payload.review.countStar
         ),
       };
+      console.log(currentMovie.reviewList);
+
       currentMovie.reviewList.unshift(newReview.review);
     },
     /**
@@ -271,7 +274,7 @@ export default new Vuex.Store({
      * @param payload - アイコンのパスの文字列
      */
     setCurrentUserIconPath(state, payload) {
-      state.currentUser.iconPath = payload.iconPath
+      state.currentUser.iconPath = payload.iconPath;
     },
   }, //end of mutations
 
@@ -545,22 +548,22 @@ export default new Vuex.Store({
     /**
      * ユーザーのIdからIconPathを取得する.
      */
-     getUserIconPathByUserId(state) {
-       let targetUrl = "";
-      return (userId: number) =>{
+    getUserIconPathByUserId(state) {
+      let targetUrl = "";
+      return (userId: number) => {
         const newArray = [];
-        for(const user of state.userList){
-          if(user.id == userId){
-            newArray.push(user)
+        for (const user of state.userList) {
+          if (user.id == userId) {
+            newArray.push(user);
           }
         }
-        if(newArray.length === 0){
-          targetUrl = state.currentUser.iconPath
+        if (newArray.length === 0) {
+          targetUrl = state.currentUser.iconPath;
         } else {
-          targetUrl = newArray[0].iconPath
+          targetUrl = newArray[0].iconPath;
         }
         return targetUrl;
-      }
+      };
     },
   }, //end of getters
 

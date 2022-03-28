@@ -153,13 +153,13 @@
               <p>投稿日時：{{ review.formatDate }}</p>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <p>レビュー内容：{{ review.content }}</p>
+          <div class="row">
+            <div class="col s12">
+              <p>レビュー内容：{{ review.content }}</p>
+              <br />
 
-            <CompLikeButton v-bind:review="review" />
-
+              <CompLikeButton v-bind:review="review" />
+            </div>
             <div class="commentBox" v-if="commentFlag">
               <textarea
                 name="comment"
