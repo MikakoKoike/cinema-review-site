@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+import ja from "date-fns/locale/ja";
 
 /**
  * レビュー記事に対するコメントを表すドメインクラス.
@@ -15,6 +17,16 @@ export class Comment {
     //内容
     private _content: string
   ) {}
+
+  /**
+   * 日付のフォーマット
+   */
+  get formatDate(): string {
+    const formatDate = format(this.postDate, "yyyy年MM月dd日 （EEE）", {
+      locale: ja,
+    });
+    return formatDate;
+  }
 
   public get id(): number {
     return this._id;
