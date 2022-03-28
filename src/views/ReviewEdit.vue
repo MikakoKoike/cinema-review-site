@@ -152,11 +152,11 @@ export default class XXXComponent extends Vue {
   addReview(): void {
     // IDの採番
     let newId = 0;
-
-    if (this.currentMovie.reviewList) {
+    if (this.currentMovie.reviewList.length !== 0) {
       newId = Number(this.currentMovie.reviewList[0].id) + 1;
     }
     this.reviewId = newId;
+    console.log("アドレビュー");
     // レビューを追加する
     this.$store.commit("addReview", {
       movieId: this.currentMovie.id,
@@ -185,6 +185,11 @@ export default class XXXComponent extends Vue {
         this.starCount
       ),
     });
+    //stateのフラグをtrueにする.
+    this.$store.commit("switchIsFromEditPageFrag", {
+      isFromEditPage: this.$store.getters.getIsFromEditPageFrag,
+    });
+    this.$router.push(`/movieDetail/${this.currentMovie.id}`);
   }
 }
 </script>
