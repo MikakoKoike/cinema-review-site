@@ -34,7 +34,11 @@
           </div>
         </div>
       </form>
-      <a class="waves-light btn register-btn" v-on:click="registerUser">登録</a>
+      <a
+        class="waves-light btn register-btn purple lighten-3"
+        v-on:click="registerUser"
+        >登録</a
+      >
       <!-- Page Content goes here -->
     </div>
   </div>
@@ -91,5 +95,7 @@ h3 {
 }
 .btn {
   text-align: center;
+  margin-left: 50%;
+  margin-bottom: 20px;
 }
 </style>
