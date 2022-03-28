@@ -38,8 +38,8 @@ export default new Vuex.Store({
       "https://joeschmoe.io/api/v1/random"
     ),
     reviewList: Array<Review>(),
-    arrayForCreatedCount: [{movieId: 0,createdCount: 0 }],
-    isFromEditPage: false
+    arrayForCreatedCount: [{ movieId: 0, createdCount: 0 }],
+    isFromEditPage: false,
   }, //end of state
   actions: {
     async asyncGetMovieList(context) {
@@ -150,30 +150,9 @@ export default new Vuex.Store({
      * @param payload -payload
      */
     addReview(state, payload) {
-<<<<<<< HEAD
-      const currentMovie = state.movieList.filter(
-        (movie) => movie.id === payload.movieId
-      )[0];
-
-      const newReview = {
-        review: new Review(
-          payload.review.id,
-          payload.review.userId,
-          payload.review.movieId,
-          payload.review.countLike,
-          payload.review.postDate,
-          payload.review.content,
-          [],
-          payload.review.countStar
-        ),
-      };
-      console.log(currentMovie.reviewList);
-
-      currentMovie.reviewList.unshift(newReview.review);
-=======
-      for(const movie of state.movieList){
-        if(movie.id == payload.movieId){
-          movie.reviewList.unshift(payload.review)
+      for (const movie of state.movieList) {
+        if (movie.id == payload.movieId) {
+          movie.reviewList.unshift(payload.review);
         }
       }
       console.log(state.movieList);
@@ -194,11 +173,10 @@ export default new Vuex.Store({
       // };
       // currentMovie.reviewList.unshift(newReview.review);
       state.arrayForCreatedCount.forEach((obj, index) => {
-        if( obj.movieId == payload.movieId ){
+        if (obj.movieId == payload.movieId) {
           state.arrayForCreatedCount.splice(index, 1);
         }
       });
->>>>>>> develop
     },
     /**
      * コメントの追加
@@ -314,18 +292,18 @@ export default new Vuex.Store({
       state.currentUser.iconPath = payload.iconPath;
     },
     /**
-     * 
+     *
      */
-    setArrayForCreatedCount(state, payload){
+    setArrayForCreatedCount(state, payload) {
       state.arrayForCreatedCount.push(payload.obj);
       console.log(state.arrayForCreatedCount);
     },
     /**
      * レビュー投稿ページかどうかを判定する時に使うメソッド.
      */
-    switchIsFromEditPageFrag(state, payload){
+    switchIsFromEditPageFrag(state, payload) {
       state.isFromEditPage = !payload.isFromEditPage;
-    }
+    },
   }, //end of mutations
 
   modules: {},
@@ -616,17 +594,17 @@ export default new Vuex.Store({
       };
     },
     /**
-     * 
+     *
      */
-    getArrayForCreatedCount(state){
+    getArrayForCreatedCount(state) {
       return state.arrayForCreatedCount;
     },
     /**
-     * 
+     *
      */
-    getIsFromEditPageFrag(state){
+    getIsFromEditPageFrag(state) {
       return state.isFromEditPage;
-    }
+    },
   }, //end of getters
 
   plugins: [
