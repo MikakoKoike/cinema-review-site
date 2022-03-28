@@ -43,13 +43,6 @@
                 </div>
 
                 <!-- twitterでログイン -->
-                <!-- <button
-                  v-on:click="twitterSignIn"
-                  class="btn-twitter"
-                  type="button"
-                >
-                  <i class="fa-brands fa-twitter"></i>twitterでログイン
-                </button> -->
                 <div class="col s3">
                   <div class="snsbtniti2">
                     <a class="flowbtn11 fl_tw1" v-on:click="twitterSignIn"
@@ -58,23 +51,22 @@
                     >
                   </div>
                 </div>
-
                 <!-- facebookでログイン -->
-                <!-- <div
+                <div
                   class="fb-login-button"
                   data-width=""
                   data-size="large"
-                  data-button-type="continue_with"
+                  data-button-type="login_with"
                   data-layout="default"
                   data-auto-logout-link="false"
                   data-use-continue-as="false"
-                ></div> -->
+                ></div>
               </div>
               <div class="row">
                 <div class="input-field col s6 m6 l6">
                   <p class="margin medium-small">
                     <router-link to="/registerUser/"
-                      >管理者登録はこちら</router-link
+                      >会員登録はこちら</router-link
                     >
                   </p>
                 </div>

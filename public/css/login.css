@@ -24,19 +24,21 @@ form {
   color: #fff !important;
   text-decoration: none;
   margin-bottom: 5px;
+  margin-left: -30px;
   cursor: pointer;
+  height: 38px;
 }
 /* Twitter */
 .fl_tw1 {
   background: #55acee;
 }
 /* アイコンボタンホバー時 */
-/* .flowbtn11:hover span {
+.flowbtn11:hover span {
   -webkit-transform: rotateX(360deg);
   -ms-transform: rotateX(360deg);
   transform: rotateX(360deg);
   text-decoration: none;
-} */
+}
 /* ボタン内テキスト */
 .flowbtn11 span {
   font-size: 14px;
@@ -58,4 +60,38 @@ form {
 } */
 .fa-twitter:before {
   margin-right: 140px;
+  vertical-align: -6px;
+}
+/* 入力欄の色変更 */
+input:focus {
+  border-bottom: 1px solid #bc13fe !important;
+  box-shadow: 0 1px 0 0 #bc13fe !important;
+}
+/* label color */
+.input-field label {
+  color: rgb(15, 15, 15) !important;
+}
+/* label focus color */
+.input-field input[type="text"]:focus + label {
+  color: #000;
+}
+/* label underline focus color */
+.input-field input[type="text"]:focus {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
+}
+/* valid color */
+.input-field input[type="text"].valid {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
+}
+/* invalid color */
+.input-field input[type="text"].invalid {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: #ce93d8 !important;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
 }

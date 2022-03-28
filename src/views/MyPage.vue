@@ -389,6 +389,6 @@ export default class MyPage extends Vue {
 .icon-img {
   border-radius: 50%;
   width: 150px;
-  border: 2px solid gray;
+  /* border: 2px solid gray; */
 }
 </style>
