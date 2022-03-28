@@ -43,6 +43,5 @@ export default class CompFooter extends Vue {}
 <style scoped>
 footer {
   padding-top: 0;
-  margin-top: 30vh;
 }
 </style>

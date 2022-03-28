@@ -326,6 +326,7 @@ export default class MyPage extends Vue {
   padding: 0 5px;
   color: black;
   margin-top: 12vh;
+  margin-bottom: 30vh;
 }
 .card-content {
   height: 250px;
