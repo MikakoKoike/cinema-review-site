@@ -45,23 +45,7 @@
               </div>
             </div>
           </div>
-          <!-- <span class="btn-small" v-on:click="addCountWatch">
-          <span class="btn-small" v-on:click="addCountWatch">
-
-            <i class="material-icons left">favorite</i>見たい！
-            {{ countWatch }}
-          </span> -->
         </div>
-        <!-- <div class="col s6 card-content">
-          <h4>Sub Title</h4>
-          <p>{{ targetApiMovie.overview }}</p>
-        </div>
-        <div class="col s6 card-content">
-          <h4>Sub Title</h4>
-          <p>{{ targetApiMovie.overview }}</p>
-        </div> -->
-        <!-- レビューボタン -->
-        <!-- ここで次の画面にIDを渡す -->
       </div>
       <div v-for="review of getcurrentMovieReview" v-bind:key="review.id">
         <div class="review-card z-depth-3">
@@ -173,10 +157,10 @@
             <div class="col s12">
               <p>レビュー内容：{{ review.content }}</p>
               <br />
-
-              <CompLikeButton v-bind:review="review" />
             </div>
-
+          </div>
+          <div class="buttons">
+            <CompLikeButton v-bind:review="review" />
             <CompCommentArea v-bind:review="review" />
           </div>
         </div>
@@ -187,6 +171,7 @@
             v-bind:key="comment.id"
           >
             <p>ユーザーID:{{ comment.userId }}</p>
+            <p>投稿日時:{{ comment.formatDate }}</p>
             <h5>{{ comment.content }}</h5>
           </div>
         </div>
@@ -196,15 +181,12 @@
 </template>
 
 <script lang="ts">
-import { Comment } from "@/types/comment";
 import { Movie } from "@/types/movie";
 import { Review } from "@/types/review";
 import { TimeList } from "@/types/timeList";
 import { Component, Vue } from "vue-property-decorator";
 import CompLikeButton from "@/components/CompLikeButton.vue";
 import CompCommentArea from "@/components/CompCommentArea.vue";
-import { ApiMovie } from "@/types/api/apiMovie";
-import { User } from "@/types/user";
 
 @Component({
   components: {
@@ -599,7 +581,7 @@ export default class MovieDetail extends Vue {
 .comment-card {
   background-color: white;
   width: 100%;
-  height: 100px;
+  height: auto;
   border-radius: 10px;
   border: 5px solid #f5f6fa;
   margin: 5px;
@@ -655,21 +637,6 @@ h5 {
   margin: 20px;
 }
 
-/* コメントボタン */
-.commentBtn {
-  padding: 10px 40px;
-  margin: 20px;
-  background-color: white;
-  border: solid 1px;
-  transition: all 0.3s;
-  cursor: pointer;
-}
-
-.commentBtn:hover {
-  color: white;
-  font-weight: bold;
-  background-color: #c5cae9;
-}
 .recommendation button {
   background-color: rgb(30, 190, 116);
 }
