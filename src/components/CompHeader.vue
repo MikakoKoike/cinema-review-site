@@ -16,8 +16,7 @@
           <i class="material-icons" data-target="mobile-menu">menu</i>
         </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><router-link to="/movieList">Movie List</router-link></li>
-          <li><router-link to="/movieList2">Movie List2</router-link></li>
+          <li><router-link to="/movieList2">Movie List</router-link></li>
           <li><router-link to="/myPage">My Page</router-link></li>
           <li><router-link to="/login">Sign In</router-link></li>
         </ul>

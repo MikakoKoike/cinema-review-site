@@ -1,14 +1,8 @@
 <template>
   <div class="comment-area">
-    <div class="col s3">
-      <button
-        type="button"
-        class="commentBtn waves-light btn purple lighten-3"
-        @click="showComment"
-      >
-        コメントする
-      </button>
-    </div>
+    <button type="button" class="commentBtn" @click="showComment">
+      Comment🗣️
+    </button>
     <div class="commentBox" v-if="commentFlag">
       <textarea
         name="comment"
@@ -17,15 +11,7 @@
         rows="10"
         v-model="commentContent"
       ></textarea>
-      <div class="col s3">
-        <button
-          type="button"
-          class="waves-light btn purple lighten-2"
-          @click="addComment"
-        >
-          投稿
-        </button>
-      </div>
+      <button type="button" @click="addComment" class="commentBtn">Send</button>
     </div>
   </div>
 </template>
@@ -66,7 +52,11 @@ export default class CompCommentArea extends Vue {
    * コメント入力欄を表示する
    */
   showComment(): void {
-    this.commentFlag = true;
+    if (this.commentFlag === false) {
+      this.commentFlag = true;
+    } else if (this.commentFlag === true) {
+      this.commentFlag = false;
+    }
   }
   /**
    * コメント投稿
@@ -108,8 +98,24 @@ export default class CompCommentArea extends Vue {
 </script>
 
 <style scoped>
-.row .col.s3 {
-  margin-top: 15px;
-  margin-bottom: 15px;
+textarea {
+  border-radius: 10px;
+}
+
+/* コメントボタン */
+.commentBtn {
+  padding: 10px 40px;
+  margin: 20px;
+  background-color: white;
+  border: solid 1px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.commentBtn:hover {
+  background-color: rgba(0, 0, 0, 0.822);
+  color: white;
+  text-shadow: 0 0 20px #00afec, 0 0 5px #00afec;
+  font-family: "Lucida Sans", Geneva, Verdana, sans-serif;
 }
 </style>

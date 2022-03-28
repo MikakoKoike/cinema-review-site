@@ -8,7 +8,11 @@
             <i class="material-icons prefix">person</i>
             <div class="error">{{ userNameError }}</div>
             <input type="text" id="userName" v-model="userName" />
-            <label for="userName" data-error="wrong" data-success="right" v-bind:class="{ active: isActive }"
+            <label
+              for="userName"
+              data-error="wrong"
+              data-success="right"
+              v-bind:class="{ active: isActive }"
               >ユーザーネーム</label
             >
           </div>
@@ -63,7 +67,7 @@ export default class Register extends Vue {
   private passwordError = "";
   //activeフラグ
   private isActive = false;
-  created(): void{
+  created(): void {
     this.isActive = true;
   }
   /**
@@ -85,7 +89,7 @@ export default class Register extends Vue {
       this.passwordError = "パスワードは6文字以上12文字以下で入力してください";
     }
     //映画一覧へ遷移
-    this.$router.push("/movieList");
+    this.$router.push("/movieList2");
   }
 }
 </script>

@@ -444,6 +444,19 @@
     </div>
     <div class="errorMsg" v-if="currentMovieList.length === 0">
       該当する映画が見つかりませんでした。
+      <br />
+      <br />
+      <br />
+
+      <img src="img\cryneko.jpg" />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </template>
@@ -487,6 +500,10 @@ export default class XXXComponent extends Vue {
     await this.$store.dispatch("asyncGetMovieList");
     this.isLoading = false;
     this.currentMovieList = this.$store.getters.getApiMovieList;
+    this.$store.commit("switchIsFromEditPageFrag", {
+      //裏側でfalseにするため.
+      isFromEditPage: true,
+    });
   }
 
   /**
@@ -498,7 +515,10 @@ export default class XXXComponent extends Vue {
     this.$store.commit("saveToMovieList", {
       movie: targetMovie,
     });
-    alert("ムービーリストに保存されました！");
+    M.toast({
+      html: "マイムービーリストに保存されました！",
+      classes: "rounded",
+    });
   }
   /**
    * 検索機能
@@ -971,5 +991,10 @@ h1 {
   /* height: 100vh; */
   margin: 20vh 0;
   background-color: white;
+}
+
+.movie-list p[data-v-0354c1be][data-v-0354c1be] {
+  margin-top: 17px;
+  font-size: 18px;
 }
 </style>
