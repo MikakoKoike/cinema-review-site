@@ -18,13 +18,15 @@ form {
   border-radius: 4px;
   position: relative;
   display: inline-block;
-  width: 180px;
+  width: 200px;
   height: 40px;
   font-size: 20px;
   color: #fff !important;
   text-decoration: none;
   margin-bottom: 5px;
+  margin-left: -30px;
   cursor: pointer;
+  height: 38px;
 }
 /* Twitter */
 .fl_tw1 {
@@ -37,27 +39,59 @@ form {
   transform: rotateX(360deg);
   text-decoration: none;
 }
-/* ボタン内テキスト調整 */
+/* ボタン内テキスト */
 .flowbtn11 span {
   font-size: 14px;
   position: relative;
-  left: 8px;
-  top: 2px;
+  left: 0;
+  top: -30px;
   bottom: 2px;
   transition: 0.6s;
   display: inline-block;
+  margin-left: 20px;
+  width: 200px;
 }
-/* ulタグの内側余白を０にする */
-ul.snsbtniti2 {
-  padding: 0 !important;
-}
+
 /* アイコンボタンの位置調整 */
-.snsbtniti2 {
+/* .snsbtniti2 {
   display: flex;
   flex-flow: row wrap;
+  left: 20px;
+} */
+.fa-twitter:before {
+  margin-right: 140px;
+  vertical-align: -6px;
 }
-/* アイコンボタン同士の余白調整 */
-.snsbtniti2 li {
-  flex: 0 0 48%;
-  text-align: center !important;
+/* 入力欄の色変更 */
+input:focus {
+  border-bottom: 1px solid #bc13fe !important;
+  box-shadow: 0 1px 0 0 #bc13fe !important;
+}
+/* label color */
+.input-field label {
+  color: rgb(15, 15, 15) !important;
+}
+/* label focus color */
+.input-field input[type="text"]:focus + label {
+  color: #000;
+}
+/* label underline focus color */
+.input-field input[type="text"]:focus {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
+}
+/* valid color */
+.input-field input[type="text"].valid {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
+}
+/* invalid color */
+.input-field input[type="text"].invalid {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
+}
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: #ce93d8 !important;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
 }

@@ -26,7 +26,7 @@
             <div class="col s3">
               <router-link
                 v-bind:to="'/reviewEdit/' + targetApiMovie.id"
-                class="btn-small review-btn"
+                class="btn-small review-btn amber darken-3"
               >
                 <i class="material-icons left">rate_review</i>
                 レビューする

@@ -1,8 +1,14 @@
 <template>
   <div class="comment-area">
-    <button type="button" class="commentBtn" @click="showComment">
-      コメントする
-    </button>
+    <div class="col s3">
+      <button
+        type="button"
+        class="commentBtn waves-light btn purple lighten-3"
+        @click="showComment"
+      >
+        コメントする
+      </button>
+    </div>
     <div class="commentBox" v-if="commentFlag">
       <textarea
         name="comment"
@@ -11,7 +17,15 @@
         rows="10"
         v-model="commentContent"
       ></textarea>
-      <button type="button" @click="addComment">投稿</button>
+      <div class="col s3">
+        <button
+          type="button"
+          class="waves-light btn purple lighten-2"
+          @click="addComment"
+        >
+          投稿
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -93,4 +107,9 @@ export default class CompCommentArea extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.row .col.s3 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+</style>

@@ -835,7 +835,8 @@ export default class XXXComponent extends Vue {
   letter-spacing: 0.05em;
 
   font-size: 60px;
-  text-shadow: 0 1px 30px #fb1684, 0 0 12px #fff, 2px 5px 60px #990a52;
+  /* text-shadow: 0 1px 30px #fb1684, 0 0 12px #fff, 2px 5px 60px #990a52; */
+  text-shadow: 0 1px 30px #ff21f4, 0 0 12px #fff, 2px 5px 60px #990a52;
 }
 .neon > span {
   /**点滅の速度 */
